@@ -2,13 +2,13 @@
 // change the network to Mumbai Testnet
 // if wallet is not connected, display wallet connect button
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import ProfileScreen from "./ProfileScreen";
 
-const WalletConnect = ({chain, wallet, setChain, setWallet}) => {
+const WalletConnect = ({ currentAccount, setCurrentAccount, Profile, setProfile, ENS, setENS  }) => {
   // manage state of the wallet
-  const [currentAccount, setCurrentAccount] = useState(null);
-  const [Profile, setProfile] = useState(null);
+  // const [currentAccount, setCurrentAccount] = useState(null);
+  // const [Profile, setProfile] = useState(null);
 
   // confirm that the user has MetaMask installed
   const checkIfWalletIsConnected = async () => {
@@ -46,7 +46,11 @@ const WalletConnect = ({chain, wallet, setChain, setWallet}) => {
         </div>  
       );
     }else if(currentAccount && !Profile) {
-      return <ProfileScreen setProfile={setProfile} />
+      return <ProfileScreen 
+        setProfile={setProfile} 
+        ENS={ENS}
+        setENS={setENS}  
+        />
     }
   };
 
@@ -69,8 +73,6 @@ const WalletConnect = ({chain, wallet, setChain, setWallet}) => {
     console.log(error);
   }
 };
-
-
 
   // ページがロードされたときに useEffect()内の関数が呼び出されます。
   useEffect(() => {
