@@ -2,18 +2,18 @@
 
 import './App.css';
 import React, { useState } from 'react';
-import Square from './components/Square';
 import WalletConnect from './components/WalletConnect'; 
+import ProfileScreen from "./components/ProfileScreen";
+import Square from "./components/Square";
 
 
 
 const App = () => {
-  
-  // const [wallet, setWallet] = useState("");
-  // const [chain, setChain] = useState("0x1");
   const [currentAccount, setCurrentAccount] = useState(null);
+  const [chain, setChain] = useState("0x1");
   const [profile, setProfile] = useState(null);
   const [ENS, setENS] = useState(null);
+  const [nfts, setNFTs] = useState(null);
 
   const squares = [];
 
@@ -27,17 +27,26 @@ const App = () => {
     <div className="background">
       <div className="scrollable-wrapper">
         <div className="square-zone">
-          {squares.map((square, index) => (
+        {squares.map((square, index) => (
             <Square key={index} x={square.x} y={square.y} />
           ))}
+        {currentAccount ? (
+          <ProfileScreen
+            ENS={ENS}
+            setENS={setENS}
+            currentAccount={currentAccount}
+            chain={chain}
+            nfts={nfts}
+            setNFTs={setNFTs}
+          />
+        ) : (
           <WalletConnect
             currentAccount={currentAccount}
             setCurrentAccount={setCurrentAccount}
             profile={profile}
             setProfile={setProfile}
-            ENS={ENS}
-            setENS={setENS}
           />
+        )}
         </div>
       </div>
     </div>

@@ -3,12 +3,9 @@
 // if wallet is not connected, display wallet connect button
 
 import React, { useEffect } from "react";
-import ProfileScreen from "./ProfileScreen";
 
-const WalletConnect = ({ currentAccount, setCurrentAccount, Profile, setProfile, ENS, setENS  }) => {
+const WalletConnect = ({ currentAccount, setCurrentAccount }) => {
   // manage state of the wallet
-  // const [currentAccount, setCurrentAccount] = useState(null);
-  // const [Profile, setProfile] = useState(null);
 
   // confirm that the user has MetaMask installed
   const checkIfWalletIsConnected = async () => {
@@ -36,26 +33,7 @@ const WalletConnect = ({ currentAccount, setCurrentAccount, Profile, setProfile,
     }
   };
 
-  // if wallet is connected, display user's profile
-  
-  const renderProfile = () => {
-    if(!currentAccount) {
-      return (
-        <div className="wallet-container">
-          <button className="wallet-button" onClick={connectWalletActionn}>WalletConnect</button>
-        </div>  
-      );
-    }else if(currentAccount && !Profile) {
-      return <ProfileScreen 
-        setProfile={setProfile} 
-        ENS={ENS}
-        setENS={setENS}  
-        />
-    }
-  };
-
-
-  const connectWalletActionn = async () => {
+  const connectWalletAction = async () => {
     try {
       const { ethereum } = window;
       if (!ethereum) {
@@ -74,15 +52,16 @@ const WalletConnect = ({ currentAccount, setCurrentAccount, Profile, setProfile,
   }
 };
 
-  // ページがロードされたときに useEffect()内の関数が呼び出されます。
-  useEffect(() => {
-    checkIfWalletIsConnected();
-  }, []);
+useEffect(() => {
+  console.log('checkIfWalletIsConnected called');
+  checkIfWalletIsConnected();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [currentAccount]);
 
  
   return (
     <div className="wallet-container">
-      {renderProfile()}
+      <button onClick={connectWalletAction}>Connect Wallet</button>
     </div>  
   );
 };
