@@ -9,7 +9,7 @@ import { useEffect } from "react";
 // import { Reload } from "@web3uikit/icons";
 // import { Input } from "@web3uikit/core"
 
-function Nfts({ nfts, setNFTs, currentAccount }) {
+function Nfts({ _nfts, _setNFTs, _NFTList, _setNFTList, _showNFT, _setShowNFT }) {
 
     async function getNFTs() {
 
@@ -39,31 +39,53 @@ function Nfts({ nfts, setNFTs, currentAccount }) {
                 }
               }
             }
-            setNFTs(t);
+            _setNFTs(t);
             console.log(t);
           }
         }
 
     useEffect(() => {
+        if(! _showNFT)
         getNFTs();
-    }, []);
+    }, [_showNFT, _setShowNFT]);
+
+      // NFTをクリックしたときの処理
+     const selectNFT = (nft) => {
+        _setNFTList(nft);
+        _setShowNFT(true);
+    };
+
+    // 「戻る」ボタンをクリックしたときの処理
+    const changeNFT = () => {
+        _setShowNFT(false);
+    };
     
     return (
         <>
-            <h1>NFTs</h1>
+          <h1>NFTs</h1>
+          {! _showNFT && (
             <div className="nft-zone">
-                {nfts &&
-                    nfts.map((e) => {
-                        return (
-                            <>
-                                {e.image && <img src={e.image} width={200} />}
-                                <br />
-                            </>
-                        );
-                    })}
+              {_nfts &&
+                _nfts.map((nft, index) => (
+                  <div key={index} onClick={() => selectNFT(nft)}>
+                    <img src={nft.image} width={200} />
+                  </div>
+                ))}
             </div>
+          )}
+          { _showNFT && (
+            <div className="nft-zone">
+                {_NFTList && ( // _NFTList の値が存在する場合にのみ表示する
+                    <>
+                        <img src={_NFTList.image} width={200} /> {/* 選択された NFT のみを表示 */}
+                        <br />
+                        <button onClick={changeNFT}>戻る</button>
+                    </>
+                )}
+            </div>
+          )}
         </>
-    );
+      );
 }
 
 export default Nfts;

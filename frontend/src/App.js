@@ -13,7 +13,9 @@ const App = () => {
   const [currentAccount, setCurrentAccount] = useState(null);
   // const [profile, setProfile] = useState(null);
   const [ENS, setENS] = useState(null);
-  const [nfts, setNFTs] = useState(null);
+  const [_nfts, _setNFTs] = useState(null);
+  const [_showNFT, _setShowNFT] = useState(null);
+  const [_NFTList, _setNFTList] = useState(false);
 
   const squares = [];
 
@@ -38,9 +40,13 @@ const App = () => {
               currentAccount={currentAccount}
             />
              <Nfts
-              nfts={nfts}
-              setNFTs={setNFTs}
               currentAccount={currentAccount}
+              _nfts={_nfts}
+              _setNFTs={_setNFTs}
+              _showNFT={_showNFT}
+              _setShowNFT={_setShowNFT}
+              _NFTList={_NFTList}
+              _setNFTList={_setNFTList}
             />
           </div>
         ) : (
