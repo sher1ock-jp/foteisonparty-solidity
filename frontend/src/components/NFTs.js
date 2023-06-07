@@ -51,18 +51,16 @@ function Nfts({ nfts, setNFTs, currentAccount }) {
     return (
         <>
             <h1>NFTs</h1>
-            <div className="tempo">gwakghwaighwapihgwaiophgwapohgapw
-                <div>
-                    {nfts &&
-                        nfts.map((e) => {
-                            return (
-                                <>
-                                    {e.image && <img src={e.image} width={200} />}
-                                    <br />
-                                </>
-                            );
-                        })}
-                </div>
+            <div className="nft-zone">
+                {nfts &&
+                    nfts.map((e) => {
+                        return (
+                            <>
+                                {e.image && <img src={e.image} width={200} />}
+                                <br />
+                            </>
+                        );
+                    })}
             </div>
         </>
     );

@@ -34,20 +34,6 @@
   right: 10px;
 }
 
-/* .wallet-button {
-  background-color: #F4F5F7;
-  color: black;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-size: 16px;
-  transition: transform 0.2s;
-}
-
-.wallet-button:hover {
-  transform: scale(1.05);
-} */
-
 .profile{
   color: white;
   position: absolute;
@@ -56,23 +42,14 @@
 }
 
 .nft-zone {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  text-align: center;
-  color: white;
-}
-
-.profile-zone {
-  margin-top: 20px;
-}
-
-.tempo {
   color: white;
   font-size: 12px;
   color: white;
   position: absolute;
   top: 20px;
   right: 10px;
+}
+
+.profile-zone {
+  margin-top: 20px;
 }
