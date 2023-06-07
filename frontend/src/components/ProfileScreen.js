@@ -4,19 +4,19 @@
 
 import axios from "axios";
 
-const ProfileScreen = ({ ENS, setENS, currentAccount }) => {
+const ProfileScreen = ({ _ENS, _setENS, _currentAccount }) => {
     const getUserENS = async () => {
       console.log("getUserENS called");
       try {
         const response = await axios.get("http://localhost:8080/UserENS", {
           params: {
-            address: currentAccount,
+            address: _currentAccount,
           },
         });
   
         console.log("success");
         if (response.data.name) {
-          setENS(response.data.name);
+          _setENS(response.data.name);
           console.log(response.data.name);
         }
       } catch (e) {
@@ -24,14 +24,15 @@ const ProfileScreen = ({ ENS, setENS, currentAccount }) => {
       }
     };
   
-    if (!ENS) {
+    if (! _ENS) {
+      console.log("getUserENS called");
       getUserENS();
     }
   
     return (
       <>
         <div className="profile">
-          <h2>{ENS}</h2>
+          {_ENS}
         </div>
       </>
     );

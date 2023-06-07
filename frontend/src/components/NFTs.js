@@ -6,8 +6,6 @@
 import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
-// import { Reload } from "@web3uikit/icons";
-// import { Input } from "@web3uikit/core"
 
 function Nfts({ _nfts, _setNFTs, _NFTList, _setNFTList, _showNFT, _setShowNFT }) {
 
@@ -28,7 +26,6 @@ function Nfts({ _nfts, _setNFTs, _NFTList, _setNFTList, _showNFT, _setShowNFT })
         }
 
         function nftProcessing(t) {
-            console.log(t.length);
             for (let i = 0; i < t.length; i++) {
               let meta = JSON.parse(t[i].metadata);
               if (meta && meta.image) {
@@ -40,46 +37,45 @@ function Nfts({ _nfts, _setNFTs, _NFTList, _setNFTList, _showNFT, _setShowNFT })
               }
             }
             _setNFTs(t);
-            console.log(t);
           }
         }
 
     useEffect(() => {
+        console.log("getNFTs called");
         if(! _showNFT)
         getNFTs();
-    }, [_showNFT, _setShowNFT]);
+    }, [ /* _showNFT, _setShowNFT */ ]);
 
-      // NFTをクリックしたときの処理
+      // when user click the NFT, display the NFT
      const selectNFT = (nft) => {
         _setNFTList(nft);
         _setShowNFT(true);
     };
 
-    // 「戻る」ボタンをクリックしたときの処理
+    // when user click the button of changeNFT, display the NFTs again
     const changeNFT = () => {
         _setShowNFT(false);
     };
     
     return (
         <>
-          <h1>NFTs</h1>
           {! _showNFT && (
             <div className="nft-zone">
               {_nfts &&
                 _nfts.map((nft, index) => (
-                  <div key={index} onClick={() => selectNFT(nft)}>
-                    <img src={nft.image} width={200} />
+                  <div className="nft-item" key={index} onClick={() => selectNFT(nft)}>
+                    <img className="nft-image" src={nft.image} width={50} alt="" />
                   </div>
                 ))}
             </div>
           )}
           { _showNFT && (
             <div className="nft-zone">
-                {_NFTList && ( // _NFTList の値が存在する場合にのみ表示する
+                {_NFTList && (
                     <>
-                        <img src={_NFTList.image} width={200} /> {/* 選択された NFT のみを表示 */}
+                        <img src={_NFTList.image} width={70} alt="" /> 
                         <br />
-                        <button onClick={changeNFT}>戻る</button>
+                        <button onClick={changeNFT}　className="nft-button">再設定</button>
                     </>
                 )}
             </div>

@@ -4,7 +4,7 @@
 
 import React, { useEffect } from "react";
 
-const WalletConnect = ({ currentAccount, setCurrentAccount }) => {
+const WalletConnect = ({ _currentAccount, _setCurrentAccount }) => {
   // manage state of the wallet
 
   // confirm that the user has MetaMask installed
@@ -23,7 +23,7 @@ const WalletConnect = ({ currentAccount, setCurrentAccount }) => {
         if (accounts.length !== 0) {
           const account = accounts[0];
           console.log("Found an authorized account:", account);
-          setCurrentAccount(account);
+          _setCurrentAccount(account);
         } else {
           console.log("No authorized account found");
         }
@@ -47,7 +47,7 @@ const WalletConnect = ({ currentAccount, setCurrentAccount }) => {
     });
 
     console.log("Connected", accounts[0]);
-    setCurrentAccount(accounts[0]);
+    _setCurrentAccount(accounts[0]);
 
     if (ethereum.networkVersion === "80001") {
       console.log("Connected to Mumbai testnet");
@@ -68,10 +68,10 @@ const WalletConnect = ({ currentAccount, setCurrentAccount }) => {
 };
 
 useEffect(() => {
-  console.log('UseEffect called');
+  console.log('checkIfWalletIsConnected called');
   checkIfWalletIsConnected();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [currentAccount]);
+}, [_currentAccount]);
 
  
   return (

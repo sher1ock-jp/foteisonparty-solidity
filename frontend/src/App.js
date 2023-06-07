@@ -13,9 +13,9 @@ const App = () => {
   const [currentAccount, setCurrentAccount] = useState(null);
   // const [profile, setProfile] = useState(null);
   const [ENS, setENS] = useState(null);
-  const [_nfts, _setNFTs] = useState(null);
-  const [_showNFT, _setShowNFT] = useState(null);
-  const [_NFTList, _setNFTList] = useState(false);
+  const [nfts, setNFTs] = useState(null);
+  const [showNFT, setShowNFT] = useState(false);
+  const [NFTList, setNFTList] = useState(null);
 
   const squares = [];
 
@@ -34,25 +34,25 @@ const App = () => {
           ))}
         {currentAccount ? (
           <div className="profile-zone">
-            <ProfileScreen
-              ENS={ENS}
-              setENS={setENS}
-              currentAccount={currentAccount}
+            <Nfts
+              cur_rentAccount={currentAccount}
+              _nfts={nfts}
+              _setNFTs={setNFTs}
+              _showNFT={showNFT}
+              _setShowNFT={setShowNFT}
+              _NFTList={NFTList}
+              _setNFTList={setNFTList}
             />
-             <Nfts
-              currentAccount={currentAccount}
-              _nfts={_nfts}
-              _setNFTs={_setNFTs}
-              _showNFT={_showNFT}
-              _setShowNFT={_setShowNFT}
-              _NFTList={_NFTList}
-              _setNFTList={_setNFTList}
+            <ProfileScreen
+              _ENS={ENS}
+              _setENS={setENS}
+              _currentAccount={currentAccount}
             />
           </div>
         ) : (
             <WalletConnect
-              currentAccount={currentAccount}
-              setCurrentAccount={setCurrentAccount}
+              _currentAccount={currentAccount}
+              _setCurrentAccount={setCurrentAccount}
             />
         )}
         </div>
