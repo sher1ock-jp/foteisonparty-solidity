@@ -17,7 +17,7 @@ const WalletConnect = ({ currentAccount, setCurrentAccount }) => {
         return;
       } else {
         console.log("We have the ethereum object", ethereum);
-        // store the user's address if they have MetaMask
+        
         const accounts = await ethereum.request({ method: "eth_accounts" });
       
         if (accounts.length !== 0) {
@@ -33,6 +33,7 @@ const WalletConnect = ({ currentAccount, setCurrentAccount }) => {
     }
   };
 
+  // connect the user's wallet
   const connectWalletAction = async () => {
     try {
       const { ethereum } = window;

@@ -10,10 +10,10 @@ import Square from "./components/Square";
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState(null);
-  const [chain, setChain] = useState("0x1");
-  const [profile, setProfile] = useState(null);
+  // const [chain, setChain] = useState("0x1");
+  // const [profile, setProfile] = useState(null);
   const [ENS, setENS] = useState(null);
-  const [nfts, setNFTs] = useState(null);
+  // const [nfts, setNFTs] = useState(null);
 
   const squares = [];
 
@@ -35,16 +35,11 @@ const App = () => {
             ENS={ENS}
             setENS={setENS}
             currentAccount={currentAccount}
-            chain={chain}
-            nfts={nfts}
-            setNFTs={setNFTs}
           />
         ) : (
           <WalletConnect
             currentAccount={currentAccount}
             setCurrentAccount={setCurrentAccount}
-            profile={profile}
-            setProfile={setProfile}
           />
         )}
         </div>
