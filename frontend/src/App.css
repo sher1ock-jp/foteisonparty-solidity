@@ -1,3 +1,4 @@
+/* App.js */
 .background {
   overflow: scroll;
   height: 100vh;
@@ -11,6 +12,7 @@
   gap: 8px;
 }
 
+/* Square.js */
 .square {
   background-color: #554C4C;
   border-radius: 4px;
@@ -25,13 +27,14 @@
   font-size: 10px;
 }
 
+/* WalletConnect.js */
 .wallet-container {
   position: absolute;
   top: 20px;
   right: 10px;
 }
 
-.wallet-button {
+/* .wallet-button {
   background-color: #F4F5F7;
   color: black;
   border: none;
@@ -43,7 +46,7 @@
 
 .wallet-button:hover {
   transform: scale(1.05);
-}
+} */
 
 .profile{
   color: white;

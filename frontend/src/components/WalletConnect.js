@@ -17,7 +17,7 @@ const WalletConnect = ({ currentAccount, setCurrentAccount }) => {
         return;
       } else {
         console.log("We have the ethereum object", ethereum);
-        
+
         const accounts = await ethereum.request({ method: "eth_accounts" });
       
         if (accounts.length !== 0) {
@@ -48,13 +48,27 @@ const WalletConnect = ({ currentAccount, setCurrentAccount }) => {
 
     console.log("Connected", accounts[0]);
     setCurrentAccount(accounts[0]);
+
+    if (ethereum.networkVersion === "80001") {
+      console.log("Connected to Mumbai testnet");
+    } else {
+      try {
+        await ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x13881" }],
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
   }catch (error) {
     console.log(error);
   }
 };
 
 useEffect(() => {
-  console.log('checkIfWalletIsConnected called');
+  console.log('UseEffect called');
   checkIfWalletIsConnected();
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [currentAccount]);

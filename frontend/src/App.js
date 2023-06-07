@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import WalletConnect from './components/WalletConnect'; 
 import ProfileScreen from "./components/ProfileScreen";
 import Square from "./components/Square";
+import NFTs from "./components/NFTs";
 
 
 
@@ -37,10 +38,14 @@ const App = () => {
             currentAccount={currentAccount}
           />
         ) : (
-          <WalletConnect
-            currentAccount={currentAccount}
-            setCurrentAccount={setCurrentAccount}
-          />
+          <div className="profile-zone">
+            {/* <NFTs
+            /> */}
+            <WalletConnect
+              currentAccount={currentAccount}
+              setCurrentAccount={setCurrentAccount}
+            />
+          </div>
         )}
         </div>
       </div>
