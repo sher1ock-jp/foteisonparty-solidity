@@ -5,16 +5,15 @@ import React, { useState } from 'react';
 import WalletConnect from './components/WalletConnect'; 
 import ProfileScreen from "./components/ProfileScreen";
 import Square from "./components/Square";
-import NFTs from "./components/NFTs";
+import Nfts from "./components/NFTs";
 
 
 
 const App = () => {
   const [currentAccount, setCurrentAccount] = useState(null);
-  // const [chain, setChain] = useState("0x1");
   // const [profile, setProfile] = useState(null);
   const [ENS, setENS] = useState(null);
-  // const [nfts, setNFTs] = useState(null);
+  const [nfts, setNFTs] = useState(null);
 
   const squares = [];
 
@@ -32,20 +31,23 @@ const App = () => {
             <Square key={index} x={square.x} y={square.y} />
           ))}
         {currentAccount ? (
-          <ProfileScreen
-            ENS={ENS}
-            setENS={setENS}
-            currentAccount={currentAccount}
-          />
-        ) : (
           <div className="profile-zone">
-            {/* <NFTs
-            /> */}
+            <ProfileScreen
+              ENS={ENS}
+              setENS={setENS}
+              currentAccount={currentAccount}
+            />
+             <Nfts
+              nfts={nfts}
+              setNFTs={setNFTs}
+              currentAccount={currentAccount}
+            />
+          </div>
+        ) : (
             <WalletConnect
               currentAccount={currentAccount}
               setCurrentAccount={setCurrentAccount}
             />
-          </div>
         )}
         </div>
       </div>

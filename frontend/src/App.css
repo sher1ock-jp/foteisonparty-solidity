@@ -54,3 +54,25 @@
   top: 20px;
   right: 10px;
 }
+
+.nft-zone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  color: white;
+}
+
+.profile-zone {
+  margin-top: 20px;
+}
+
+.tempo {
+  color: white;
+  font-size: 12px;
+  color: white;
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}

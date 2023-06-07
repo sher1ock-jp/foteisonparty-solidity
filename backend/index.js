@@ -24,7 +24,6 @@ app.listen(port, () => {
 });
 
 app.get('/UserENS', async (req, res) => {
-    // await Moralis.start({ apiKey : process.env.MORALIS_API_KEY });
 
     try{
 
@@ -42,20 +41,27 @@ app.get('/UserENS', async (req, res) => {
     } 
 });
 
+// get NFTs from ethereum and polygon
 app.get("/nftBalance", async (req, res) => {
-
     try {
       const { address, chain } = req.query;
-  
+    
       const response = await Moralis.EvmApi.nft.getWalletNFTs({
-        address: "0x1CA2E50Ba6E3E62f7b108BD32A6BD9e71a82cD77",
-        chain:  "0x89",
+        address: address,
+        chain: chain,
       });
-  
+    
       const userNFTs = response.toJSON();
-  
+    
       res.send(userNFTs.result);
     } catch (e) {
       res.send(e);
     }
   });
+  
+  
+  
+  
+  
+  
+  
