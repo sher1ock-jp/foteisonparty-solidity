@@ -50,6 +50,7 @@
 /* ProfileScreen.js */
 .profile{
   color: black;
+  font-size: 30px;
   position: absolute;
   top: 100px;
   right: 70px;
