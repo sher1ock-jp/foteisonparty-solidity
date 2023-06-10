@@ -1,32 +1,46 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
-const hre = require("hardhat");
+// npx hardhat test
+// run.js
+const main = async () => {
+  const gameContractFactory = await hre.ethers.getContractFactory("FoteisonGame");
+  const gameContract = await gameContractFactory.deploy(
 
-async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
-
-  const lockedAmount = hre.ethers.utils.parseEther("0.001");
-
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
-
-  console.log(
-    `Lock with ${ethers.utils.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
   );
-}
+  const foteisonGame = await gameContract.deployed();
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+  console.log("Contract deployed to:", foteisonGame.address);
+    
+  let txn;
+
+  const squareId = 1;
+  const createrIcon = "KABAPULL";
+  const description = "BUSAIKU DESU";
+  const nftURL = "nft-url";
+  const questDescription = "buy BitCoin";
+  const questContractAddress = "0x1CA2E50Ba6E3E62f7b108BD32A6BD9e71a82cD77";
+  const userBalanceChange = 100;
+
+  txn = await foteisonGame.createSquare(
+      squareId,
+      createrIcon,
+      description,
+      nftURL,
+      questDescription,
+      questContractAddress,
+      userBalanceChange
+  );
+  await txn.wait();
+  
+  const square = await foteisonGame.squareIdToSquare(squareId);
+  console.log(square.description);
+};
+
+const runMain = async () => {
+  try {
+    await main();
+    process.exit(0);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+};
+runMain();
