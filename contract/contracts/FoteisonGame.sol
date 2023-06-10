@@ -38,25 +38,38 @@ contract FoteisonGame {
   // array of squares
   Square[] public squares;
 
+  // initial square
+  constructor() {
+    createSquare(
+      0,
+      "NEKOPULU",
+      "NEMUI",
+      0,
+      "nftURL",
+      "questDescription",
+      address(0x01d48ea6a728f91b74B0E2F36D9AE40128383569),
+      0
+    );
+  }
+
   function createSquare(
     // use with array
-    uint squareId,
+    uint _squareId,
     // struct
     string memory _createrIcon,
     string memory _description,
-    // uint _backendSquareId,
+    // give _backendSquareId to the function of updateAdjacentSquareIds
+    uint _backendSquareId,
     // uint _targetSquareId,
     string memory _nftURL,
     string memory _questDescription,
     address _questContractAddress,
     uint _userBalanceChange
-  ) external {
+  ) public {
     Square memory newSquare = Square(
       msg.sender,
       _createrIcon,
       _description,
-      // _backendSquareId,
-      // _targetSquareId,
       new uint[](0),
       _nftURL,
       _questDescription,
@@ -66,9 +79,20 @@ contract FoteisonGame {
     );
 
     // make the struct to the array
-    squareIdToSquare[squareId] = newSquare;
+    squareIdToSquare[_squareId] = newSquare;
     squares.push(newSquare);
+    updateAdjacentSquareIds( _backendSquareId, _squareId);
 
     // return newSquareId;
+  }
+
+  // update the adjacentSquareIds of the square
+  function updateAdjacentSquareIds(uint _backendSquareId, uint _squareId ) public {
+    squareIdToSquare[_backendSquareId].adjacentSquareIds.push(_squareId);
+  }
+
+  // confirm the square data
+  function getSquare(uint squareId) public view returns (Square memory) {
+    return squareIdToSquare[squareId];
   }
 }
