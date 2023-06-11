@@ -23,7 +23,7 @@ contract FoteisonGame {
     string nftURL;
     string questDescription;
     address questContractAddress;
-    uint userBalanceChange;
+    uint squareBalance;
   }
   struct User{
     uint squareId;
@@ -35,10 +35,8 @@ contract FoteisonGame {
   // retrive the user data from the userAddress from the front-end
   mapping(address => User) public users;
 
-  // array of squares
   Square[] public squares;
 
-  // initial square
   constructor() {
     createSquare(
       0,
@@ -53,44 +51,110 @@ contract FoteisonGame {
   }
 
   function createSquare(
-    // use with array
     uint _squareId,
-    // struct
     string memory _createrIcon,
     string memory _description,
     // give _backendSquareId to the function of updateAdjacentSquareIds
     uint _backendSquareId,
-    // uint _targetSquareId,
     string memory _nftURL,
     string memory _questDescription,
     address _questContractAddress,
-    uint _userBalanceChange
+    uint _squareBalance
   ) public {
     Square memory newSquare = Square(
       msg.sender,
       _createrIcon,
       _description,
       new uint[](0),
-      _nftURL,
-      _questDescription,
-      _questContractAddress,
-      _userBalanceChange
-      // address(0),
+      bytes(_nftURL).length > 0 ? _nftURL : "DEFAULT_NFT_URL",
+      bytes(_questDescription).length > 0 ? _questDescription : "DEFAULT_QUEST_DESCRIPTION",
+      _questContractAddress != address(0) ? _questContractAddress : address(0),
+      _squareBalance
     );
 
     // make the struct to the array
     squareIdToSquare[_squareId] = newSquare;
     squares.push(newSquare);
     updateAdjacentSquareIds( _backendSquareId, _squareId);
-
-    // return newSquareId;
   }
 
-  // update the adjacentSquareIds of the square
+  // when user login, return the user data to the front-end 
+  function createUser() public returns (uint squareId, uint userBalance, bool userQuestStatus){
+    if (users[msg.sender].squareId != 0){
+      return(
+        users[msg.sender].squareId,
+        users[msg.sender].userBalance,
+        users[msg.sender].userQuestStatus
+      );
+      }else{
+        User memory newUser = User(
+          0,
+          0,
+          true
+        );
+        users[msg.sender] = newUser;
+    }
+  }
+
+  // update the adjacentSquareIds of the square when a square is created
   function updateAdjacentSquareIds(uint _backendSquareId, uint _squareId ) public {
     squareIdToSquare[_backendSquareId].adjacentSquareIds.push(_squareId);
   }
 
+  event NoConnectedSquares();
+  event SquareSelected(uint[] selectedSquareIds);
+  event UserBalanceChanged(uint newUserBalance);
+  event InsufficientBalance();
+
+  // when user roll a dice, fetch the current squareId of the user and fetch all the connected squareIds from the squareId
+  // if connected squareIds has plural squareIds, randomly choose one of them and cotinue this process until the number of dice
+  // return the squareId that the user move to
+  function moveUser(uint _squareId, uint _diceNumber) public {
+    // fetch the current squareId of the user
+    uint currentSquareId = users[msg.sender]._squareId;
+    // fetch all the connected squareIds from the squareId
+    uint[] memory connectedSquareIds = squareIdToSquare[currentSquareId].adjacentSquareIds;
+    // Create an array to store the selected squareIds
+    uint[] memory selectedSquareIds = new uint[](_diceNumber);
+    
+    // if connected squareIds has plural squareIds, randomly choose one of them and cotinue this process until the number of dice
+    if (connectedSquareIds.length == 0){
+      emit NoConnectedSquares();
+    }else{
+      for(uint i = 0; i < _diceNumber; i++){
+        if (connectedSquareIds.length == 0){
+          emit SquareSelected(selectedSquareIds);
+        }else{
+        uint randomSquareIndex = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, i))) % connectedSquareIds.length;
+        uint randomSquareId = connectedSquareIds[randomSquareIndex];
+        selectedSquareIds[i] = randomSquareId;
+        connectedSquareIds = squareIdToSquare[randomSquareId].adjacentSquareIds;
+        }
+      }
+      emit SquareSelected(selectedSquareIds);
+    }
+  }
+
+  // after a user move to a new square, update the user balance
+  function caluculateUserBalance(uint _squareId) internal {
+    uint userBalance = users[msg.sender].userBalance;
+    uint squareBalance = squareIdToSquare[_squareId].squareBalance;
+    if (userBalance > squareBalance){
+      uint newUserBalance = userBalance - squareBalance;
+      users[msg.sender].userBalance = newUserBalance;
+      emit UserBalanceChanged(newUserBalance);
+    }else{
+      emit InsufficientBalance();
+      backToStart();
+    }
+  }  
+  
+  function backToStart() public {
+    users[msg.sender].squareId = 0;
+    users[msg.sender].userBalance = 1000;
+    users[msg.sender].userQuestStatus = true;
+    }
+  
   // confirm the square data
   function getSquare(uint squareId) public view returns (Square memory) {
     return squareIdToSquare[squareId];
