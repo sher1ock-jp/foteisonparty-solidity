@@ -109,9 +109,9 @@ contract FoteisonGame {
   // when user roll a dice, fetch the current squareId of the user and fetch all the connected squareIds from the squareId
   // if connected squareIds has plural squareIds, randomly choose one of them and cotinue this process until the number of dice
   // return the squareId that the user move to
-  function moveUser(uint _squareId, uint _diceNumber) public {
+  function moveUser( uint _diceNumber) public {
     // fetch the current squareId of the user
-    uint currentSquareId = users[msg.sender]._squareId;
+    uint currentSquareId = users[msg.sender].squareId;
     // fetch all the connected squareIds from the squareId
     uint[] memory connectedSquareIds = squareIdToSquare[currentSquareId].adjacentSquareIds;
     // Create an array to store the selected squareIds
@@ -154,6 +154,8 @@ contract FoteisonGame {
     users[msg.sender].userBalance = 1000;
     users[msg.sender].userQuestStatus = true;
     }
+  
+  // when a user do a designated transaction, change the userQuestStatus to false
   
   // confirm the square data
   function getSquare(uint squareId) public view returns (Square memory) {

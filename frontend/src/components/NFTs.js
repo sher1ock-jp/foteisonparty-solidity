@@ -73,9 +73,10 @@ function Nfts({ _nfts, _setNFTs, _NFTList, _setNFTList, _showNFT, _setShowNFT })
             <div className="nft-zone">
                 {_NFTList && (
                     <>
+                      <div className="nft-item">
                         <img src={_NFTList.image} width={70} alt="" /> 
-                        <br />
                         <button onClick={changeNFT}　className="nft-button">再設定</button>
+                      </div>
                     </>
                 )}
             </div>

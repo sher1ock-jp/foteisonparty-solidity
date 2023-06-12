@@ -2,13 +2,18 @@
 .background {
   overflow: scroll;
   height: 100vh;
+  width: 100vw;
   background-color: #343737;
+}
+
+.zone-wrapper{
+  padding: 8px;
 }
 
 .square-zone {
   display: grid;
-  grid-template-columns: repeat(99, 80px);
-  grid-template-rows: repeat(99, 80px);
+  grid-template-columns: repeat(50, 80px); /* 20列に変更 */
+  grid-template-rows: repeat(50, 80px); /* 50行に変更 */
   gap: 8px;
 }
 
@@ -16,13 +21,32 @@
   position: fixed;
   top: 40px;
   right: 40px;
-  width: 200px;
-  height: 250px;
-  background-color: #ffffff;
-  opacity: 0.9;
-  padding: 20px;
+  width: 250px;
+  height: 300px;
+  background-color: #fcfbf5;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.nfts-ens-container {
+  
+}
+
+.nfts {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.ens {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
 }
 
 /* Square.js */
@@ -47,13 +71,11 @@
   right: 10px;
 }
 
-/* ProfileScreen.js */
-.profile{
+/* ProfileScreen.js = ENS */
+.profile {
   color: black;
-  font-size: 30px;
-  position: absolute;
-  top: 100px;
-  right: 70px;
+  font-size: 20px;
+  right: 50px;
 }
 
 /* NFTs.js */
@@ -61,12 +83,23 @@
 .nft-zone {
   display: flex;
   overflow-x: auto;
+  padding: 10px;
 }
 
 .nft-item {
-  flex: 0 0 auto;
   margin-right: 10px;
   transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.nft-button {
+  font-size: 10px;
+  margin-top: 3px;
+  width: 70px;
 }
 
 .nft-button {
