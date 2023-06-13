@@ -63,34 +63,36 @@ const SquareCreation = ({
     return (
         // remind: if the selectedSquareId is already set, the square is not able to be selected
         <div className="square-creation">
+            <div className="square-title">Square Selection</div>
              <div className="coordinate-inputs">
                 <label htmlFor="x-coordinate" className="coordinate-label">x座標：</label>
                 <input type="number" id="x-coordinate" className="coordinate-input" value={_xCoordinate} onChange={handleXCoordinateChange}/>
                 <label htmlFor="y-coordinate" className="coordinate-label">y座標：</label>
                 <input type="number" id="y-coordinate" className="coordinate-input" value={_yCoordinate} onChange={handleYCoordinateChange}/>
             </div>
-                {! _showSquareNFT && (
-                    <div className="square-nft-zone">
+            <div className="nft-title">NFT Selection</div>
+            {! _showSquareNFT && (
+                <div className="square-nft-zone">                        
                     {_nfts &&
-                        _nfts.map((nft, index) => (
-                        <div className="square-nft-item" key={index} onClick={() => selectNFT(nft)}>
-                            <img className="nft-image" src={nft.image} width={50} alt="" />
-                        </div>
-                        ))}
+                    _nfts.map((nft, index) => (
+                    <div className="square-nft-item" key={index} onClick={() => selectNFT(nft)}>
+                        <img className="nft-image" src={nft.image} width={50} alt="" />
                     </div>
-                )}
-                { _showSquareNFT && (
-                    <div className="nft-zone">
-                        {_squareNFTList && (
-                            <>
-                            <div className="nft-item">
-                                <img src={_squareNFTList.image} width={70} alt="" /> 
-                                <button onClick={changeNFT}　className="square-nft-button">再設定</button>
-                            </div>
-                            </>
-                        )}
+                    ))}
+                </div>
+            )}
+            { _showSquareNFT && (
+                <div className="sqare-nft-zone">
+                    {_squareNFTList && (
+                    <>
+                    <div className="square-nft-item">
+                        <img src={_squareNFTList.image} width={70} alt="" /> 
+                        <button onClick={changeNFT}　className="square-nft-button">再設定</button>
                     </div>
-                )}
+                    </>
+                    )}
+                </div>
+            )}
         </div>
     );
 };

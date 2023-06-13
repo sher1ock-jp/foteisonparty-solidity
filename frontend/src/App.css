@@ -124,9 +124,18 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.square-title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5px;
+}
+
 .coordinate-inputs {
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding-bottom: 10px;
 }
 
 .coordinate-label {
@@ -141,12 +150,24 @@
   
 }
 
+.nft-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 3px;
+}
+
 .square-nft-zone {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px; /* 追加 */
-  overflow: auto; /* 追加 */
+  gap: 4px; 
+  overflow: auto; 
+}
+
+.nft-title {
+  display: flex;
+  align-items: center;
 }
 
 .square-nft-item {
