@@ -26,33 +26,33 @@ const SquareCreation = ({
     _FoteisonGameContract
     }) => {
     
-    // const createSquare = async () => {
-    //     if (!_currentAccount) {
-    //     alert("Please connect your wallet");
-    //     return;
-    //     }
-    //     if (!_description || !image || !X || !Y) {
-    //     alert("Please fill out the form");
-    //     return;
-    //     }
-    //     if (!transaction && !currency) {
-    //     alert("Please set the transaction or currency");
-    //     return;
-    //     }
-    //     if (transaction && currency) {
-    //     alert("Please set either transaction or currency");
-    //     return;
-    //     }
+    const createSquare = async () => {
+        if (!_currentAccount) {
+        alert("Please connect your wallet");
+        return;
+        }
+        if (!_description || !image || !X || !Y) {
+        alert("Please fill out the form");
+        return;
+        }
+        if (!transaction && !currency) {
+        alert("Please set the transaction or currency");
+        return;
+        }
+        if (transaction && currency) {
+        alert("Please set either transaction or currency");
+        return;
+        }
     
-    //     try {
-    //     const transaction = await _FoteisonGameContract.createSquare(description, image, X, Y, transaction, currency);
-    //     await transaction.wait();
-    //     alert("Successfully created the square");
-    //     } catch (error) {
-    //     console.log(error);
-    //     alert("Failed to create the square");
-    //     }
-    // };
+        try {
+        const transaction = await _FoteisonGameContract.createSquare(description, image, X, Y, transaction, currency);
+        await transaction.wait();
+        alert("Successfully created the square");
+        } catch (error) {
+        console.log(error);
+        alert("Failed to create the square");
+        }
+    };
 
     const handleSquareSelection = (e) => {
         const selectedCoordinates = e.target.value;
@@ -76,7 +76,7 @@ const SquareCreation = ({
                     ))}
                 </select>
             </div>
-            {/* <div className="square-creation-form">
+            <div className="square-creation-form">
                 <div className="square-creation-form-item">
                 <label htmlFor="description">Description</label>
                 <input
@@ -136,7 +136,7 @@ const SquareCreation = ({
             </div>
             <button className="square-creation-button" onClick={createSquare}>
                 Create Square
-            </button> */}
+            </button>
         </div>
     );
 };

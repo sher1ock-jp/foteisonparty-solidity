@@ -60,14 +60,17 @@ function Nfts({ _nfts, _setNFTs, _NFTList, _setNFTList, _showNFT, _setShowNFT })
     return (
         <>
           {! _showNFT && (
-            <div className="nft-zone">
-              {_nfts &&
-                _nfts.map((nft, index) => (
-                  <div className="nft-item" key={index} onClick={() => selectNFT(nft)}>
-                    <img className="nft-image" src={nft.image} width={50} alt="" />
-                  </div>
-                ))}
-            </div>
+            <>
+              {/* <div className="profile-icon">Select your NFTicon</div> */}
+              <div className="nft-zone">
+                {_nfts &&
+                  _nfts.map((nft, index) => (
+                    <div className="nft-item" key={index} onClick={() => selectNFT(nft)}>
+                      <img className="nft-image" src={nft.image} width={50} alt="" />
+                    </div>
+                  ))}
+              </div>
+            </>
           )}
           { _showNFT && (
             <div className="nft-zone">

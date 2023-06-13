@@ -17,14 +17,22 @@ const SquareCreation = ({
     _setSquareNFTList,
     _showSquareNFT,
     _setShowSquareNFT,
+    // 
     _xCoordinate,
     _setXCoordinate,
     _yCoordinate,
     _setYCoordinate,
+    //
+    _xCoordinateBackend,
+    _setXCoordinateBackend,
+    _yCoordinateBackend,
+    _setYCoordinateBackend,
     _squareDescription,
     _setSquareDescription,
     _squareBalance,
     _setSquareBalance,
+    _balanceIncrease,
+    _setBalanceIncrease,
     _transactionDescription,
     _setTransactionDescription,
     _transaction,
@@ -50,6 +58,12 @@ const SquareCreation = ({
     const handleYCoordinateChange = (e) => {
         _setYCoordinate(e.target.value);
     }
+    const handleXCoordinateBackendChange = (e) => {
+        _setXCoordinateBackend(e.target.value);
+    }
+    const handleYCoordinateBackendChange = (e) => {
+        _setYCoordinateBackend(e.target.value);
+    }
 
     const selectNFT = (nft) => {
         _setSquareNFTList(nft);
@@ -59,20 +73,39 @@ const SquareCreation = ({
     const changeNFT = () => {
         _setShowSquareNFT(false);
     };
+
+    const handleSquareDescriptionChange = (e) => {
+        _setSquareDescription(e.target.value);
+    }
+
+    const handleSquareBalanceChange = (e) => {
+        _setSquareBalance(e.target.value);
+    }
+
+    const handleBalanceIncreaseChange = (e) => {
+        _setBalanceIncrease(e.target.value === 'increase');
+    }
     
     return (
         // remind: if the selectedSquareId is already set, the square is not able to be selected
         <div className="square-creation">
             <div className="square-title">Square Selection</div>
              <div className="coordinate-inputs">
-                <label htmlFor="x-coordinate" className="coordinate-label">x座標：</label>
+                <label htmlFor="x-coordinate" className="coordinate-label">X：</label>
                 <input type="number" id="x-coordinate" className="coordinate-input" value={_xCoordinate} onChange={handleXCoordinateChange}/>
-                <label htmlFor="y-coordinate" className="coordinate-label">y座標：</label>
+                <label htmlFor="y-coordinate" className="coordinate-label">Y：</label>
                 <input type="number" id="y-coordinate" className="coordinate-input" value={_yCoordinate} onChange={handleYCoordinateChange}/>
+            </div>
+            <div className="square-title">Backend Selection</div>
+             <div className="coordinate-inputs">
+                <label htmlFor="x-coordinate" className="coordinate-label">X：</label>
+                <input type="number" id="x-coordinate" className="coordinate-input" value={_xCoordinateBackend} onChange={handleXCoordinateBackendChange}/>
+                <label htmlFor="y-coordinate" className="coordinate-label">Y：</label>
+                <input type="number" id="y-coordinate" className="coordinate-input" value={_yCoordinateBackend} onChange={handleYCoordinateBackendChange}/>
             </div>
             <div className="nft-title">NFT Selection</div>
             {! _showSquareNFT && (
-                <div className="square-nft-zone">                        
+                <div className="square-nft-zone">   
                     {_nfts &&
                     _nfts.map((nft, index) => (
                     <div className="square-nft-item" key={index} onClick={() => selectNFT(nft)}>
@@ -93,6 +126,28 @@ const SquareCreation = ({
                     )}
                 </div>
             )}
+            <div className="description-title">Square Description</div>
+            <input
+                type="text"
+                className="description-input"
+                maxLength={20}
+                value={_squareDescription}
+                onChange={handleSquareDescriptionChange}
+            />
+            <div className="balance-title">Crypulu Balance Applied to User</div>
+                <div className="balance-content">
+                    <div>
+                        <label htmlFor="amount">Amount: </label>
+                        <input type="number" id="amount" value={_squareBalance} onChange={handleSquareBalanceChange} />
+                    </div>
+                    <div>
+                        <label htmlFor="increase">Increase/Decrease: </label>
+                        <select id="increase" value={_balanceIncrease ? 'increase' : 'decrease'} onChange={handleBalanceIncreaseChange}>
+                            <option value="increase">Increase</option>
+                            <option value="decrease">Decrease</option>
+                        </select>
+                    </div>
+                </div>
         </div>
     );
 };

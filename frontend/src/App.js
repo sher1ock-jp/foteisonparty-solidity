@@ -28,11 +28,14 @@ const App = () => {
   const [currentQuestStatus, setCurrentQuestStatus] = useState(true);
   const [xCoordinate, setXCoordinate] = useState(0);
   const [yCoordinate, setYCoordinate] = useState(0);
+  const [xCoordinateBackend, setXCoordinateBackend] = useState(0);
+  const [yCoordinateBackend, setYCoordinateBackend] = useState(0);
   const [selectedSquareId, setSelectedSquareId] = useState(0);
   const [showSquareNFT, setShowSquareNFT] = useState(false);
   const [squareNFTList, setSquareNFTList] = useState(null);
   const [squareDescription, setSquareDescription] = useState("");
   const [squareBalance, setSquareBalance] = useState("");
+  const [balanceIncrease, setBalanceIncrease] = useState(true);
   const [transactionDescription, setTransactionDescription] = useState("");
   const [transaction, setTransaction] = useState("");
   const [squareStayerImage, setSquareStayerImage] = useState("");
@@ -83,29 +86,27 @@ const App = () => {
           ))}
           {currentAccount ? (
             <div className="profile-zone">
-              <div className="nfts-ens-container">
-                <div className="nfts">
-                  <Nfts
-                    cur_rentAccount={currentAccount}
-                    _nfts={allNfts}
-                    _setNFTs={setAllNFTs}
-                    _showNFT={showProfileNFT}
-                    _setShowNFT={setProfileShowNFT}
-                    _NFTList={profileNFTList}
-                    _setNFTList={setProfileNFTList}
-                  />
-                </div>
-                <div className="ens">
-                  <ProfileScreen
-                    _ENS={ENS}
-                    _setENS={setENS}
-                    // if ENS is not available, display the address
-                    _currentAccount={currentAccount}
-                    _id={currentSquare}
-                    _currentBalance={currentBalance}
-                    _currentQuestStatus={currentQuestStatus}
-                  />
-                </div>
+              <div className="nfts">
+                <Nfts
+                  cur_rentAccount={currentAccount}
+                  _nfts={allNfts}
+                  _setNFTs={setAllNFTs}
+                  _showNFT={showProfileNFT}
+                  _setShowNFT={setProfileShowNFT}
+                  _NFTList={profileNFTList}
+                  _setNFTList={setProfileNFTList}
+                />
+              </div>
+              <div className="ens">
+                <ProfileScreen
+                  _ENS={ENS}
+                  _setENS={setENS}
+                  // if ENS is not available, display the address
+                  _currentAccount={currentAccount}
+                  _id={currentSquare}
+                  _currentBalance={currentBalance}
+                  _currentQuestStatus={currentQuestStatus}
+                />
               </div>
             </div>
           ) : (
@@ -127,6 +128,10 @@ const App = () => {
                   _setXCoordinate={setXCoordinate}
                   _yCoordinate={yCoordinate}
                   _setYCoordinate={setYCoordinate}
+                  _xCoordinateBackend={xCoordinateBackend}
+                  _setXCoordinateBackend={setXCoordinateBackend}
+                  _yCoordinateBackend={yCoordinateBackend}
+                  _setYCoordinateBackend={setYCoordinateBackend}
                   _squareNFTList={squareNFTList}
                   _setSquareNFTList={setSquareNFTList}
                   _showSquareNFT={showSquareNFT}
@@ -135,6 +140,8 @@ const App = () => {
                   _setSquareDescription={setSquareDescription}
                   _squareBalance={squareBalance}
                   _setSquareBalance={setSquareBalance}
+                  _balanceIncrease={balanceIncrease}
+                  _setBalanceIncrease={setBalanceIncrease}
                   _transactionDescription={transactionDescription}
                   _setTransactionDescription={setTransactionDescription}
                   _transaction={transaction}
