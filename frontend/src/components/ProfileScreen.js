@@ -4,7 +4,14 @@
 
 import axios from "axios";
 
-const ProfileScreen = ({ _ENS, _setENS, _currentAccount }) => {
+const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _id, _currentBalance, _currentQuestStatus }) => {
+
+    const gridSize = 50;
+    const centerX = Math.floor(gridSize / 2);
+    const centerY = Math.floor(gridSize / 2);
+    const x = _id % gridSize - centerX;
+    const y = Math.floor( _id / gridSize) - centerY;
+
     const getUserENS = async () => {
       console.log("getUserENS called");
       try {
@@ -31,8 +38,13 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount }) => {
   
     return (
       <>
-        <div className="profile">
+        <div className="profile-ens">
           {_ENS}
+        </div>
+        <div className="profile-eachInformaton">
+          <p>Coordinates: {x}, {y}</p>
+          <p>Crypulu: {_currentBalance}</p>
+          <p>Quest: {_currentQuestStatus}</p>
         </div>
       </>
     );

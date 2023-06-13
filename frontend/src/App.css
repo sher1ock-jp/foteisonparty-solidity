@@ -61,7 +61,7 @@
 
 .coordinates {
   color: white;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 /* WalletConnect.js */
@@ -72,7 +72,7 @@
 }
 
 /* ProfileScreen.js = ENS */
-.profile {
+.profile-ens {
   color: black;
   font-size: 20px;
   right: 50px;

@@ -15,7 +15,6 @@ import Nfts from "./components/NFTs";
 
 const App = () => {
   const [initialFocusId, setInitialFocusId] = useState(1275);
-  const [pageInitialized, setPageInitialized] = useState(false);
   // for backend
   const [currentAccount, setCurrentAccount] = useState(null);
   const [ENS, setENS] = useState(null);
@@ -23,17 +22,15 @@ const App = () => {
   const [showNFT, setShowNFT] = useState(false);
   const [NFTList, setNFTList] = useState(null);
   // below states are for tha game
-  const [currentSquare, setCurrentSquare] = useState(null);
-  const [currentBalance, setCurrentBalance] = useState(null);
-  const [currentQuestStatus, setCurrentQuestStatus] = useState(null);
+  const [currentSquare, setCurrentSquare] = useState(1275);
+  const [currentBalance, setCurrentBalance] = useState(1000);
+  const [currentQuestStatus, setCurrentQuestStatus] = useState(true);
   const [squareDescription, setSquareDescription] = useState("");
   const [squareBalance, setSquareBalance] = useState("");
   const [transactionDescription, setTransactionDescription] = useState("");
   const [transaction, setTransaction] = useState("");
   const [squareStayerImage, setSquareStayerImage] = useState("");
   // const [profile, setProfile] = useState(null);
-    
-    
 
   const squares = [];
 
@@ -55,12 +52,6 @@ const App = () => {
     signer
   );
 
-  useEffect(() => {
-    setCurrentSquare();
-    setCurrentBalance();
-    setCurrentQuestStatus();
-  }, []);
-
   return (
     <div className="background">
       <div className="zone-wrapper">
@@ -72,9 +63,6 @@ const App = () => {
             x={square.x}
             y={square.y}
             initialFocusId={initialFocusId}
-            setInitialFocusId={setInitialFocusId}
-            pageInitialized={pageInitialized}
-            setPageInitialized={setPageInitialized}
           />
         ))}
         {currentAccount ? (
@@ -95,7 +83,11 @@ const App = () => {
                 <ProfileScreen
                   _ENS={ENS}
                   _setENS={setENS}
+                  // if ENS is not available, display the address
                   _currentAccount={currentAccount}
+                  _id={currentSquare}
+                  _currentBalance={currentBalance}
+                  _currentQuestStatus={currentQuestStatus}
                 />
               </div>
             </div>
