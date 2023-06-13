@@ -62,6 +62,7 @@ contract FoteisonGame {
     uint _squareBalance
   ) public {
     Square memory newSquare = Square(
+      // if user has ENS, use it
       msg.sender,
       _createrIcon,
       _description,

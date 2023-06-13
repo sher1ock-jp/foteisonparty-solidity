@@ -71,7 +71,7 @@
   right: 10px;
 }
 
-/* ProfileScreen.js = ENS */
+/* ProfileScreen.js */
 .profile-ens {
   color: black;
   font-size: 20px;
@@ -111,3 +111,21 @@
   transform: scale(1.3) translateZ(10px);
 }
 
+/* SquareCreation.js */
+.square-creation {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background-color: #fcfbf5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.square-creation-button {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+}
