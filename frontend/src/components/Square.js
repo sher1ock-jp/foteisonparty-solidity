@@ -6,16 +6,32 @@
 // import React from 'react'
 
 import React from 'react';
+import { useEffect, useRef } from 'react';
 
-const Square = ({ id }) => {
+const Square = ({ id, x, y,initialFocusId, pageInitialized, setPageInitialized }) => {
   const image = id === 1
     ? 'https://i.seadn.io/gcs/files/2d0323112af4b9aac8642eec4afc7179.png?auto=format&dpr=1&w=1000'
     : null;
 
+  const squareRef = useRef(null);
+
+  useEffect(() => {
+    if (id === initialFocusId) {
+      const squareElement = squareRef.current;
+      if (squareElement) {
+        squareElement.focus();
+      }
+    }
+  }, [id, initialFocusId]);
+
   return (
-    <div className="square">
-      <img src={image} alt={""} width={10}/>
-      <span className="coordinates">ID={id}</span>
+    <div
+      className="square"
+      ref={squareRef}
+      tabIndex={id === initialFocusId ? 0 : -1} // フォーカス可能にするための tabIndex
+    >
+      <img src={image} alt="" width={10} />
+      <span className="coordinates">{id},{x},{y}</span>
     </div>
   );
 };

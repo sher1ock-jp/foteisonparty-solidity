@@ -1,7 +1,7 @@
 // manage and retain all the states of the application
 
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { CONTRACT_ADDRESS } from './constants';
 import FoteisonGame from './utils/FoteisonGame.json';
@@ -14,26 +14,37 @@ import Nfts from "./components/NFTs";
 
 
 const App = () => {
+  const [initialFocusId, setInitialFocusId] = useState(1275);
+  const [pageInitialized, setPageInitialized] = useState(false);
+  // for backend
   const [currentAccount, setCurrentAccount] = useState(null);
-  // const [profile, setProfile] = useState(null);
   const [ENS, setENS] = useState(null);
   const [nfts, setNFTs] = useState(null);
   const [showNFT, setShowNFT] = useState(false);
   const [NFTList, setNFTList] = useState(null);
-  // below states are for SquareCreation
+  // below states are for tha game
+  const [currentSquare, setCurrentSquare] = useState(null);
+  const [currentBalance, setCurrentBalance] = useState(null);
+  const [currentQuestStatus, setCurrentQuestStatus] = useState(null);
   const [squareDescription, setSquareDescription] = useState("");
   const [squareBalance, setSquareBalance] = useState("");
   const [transactionDescription, setTransactionDescription] = useState("");
   const [transaction, setTransaction] = useState("");
-  // NFT image of squareStayer
-  const [squareStayer, setSquareStayer] = useState("");
+  const [squareStayerImage, setSquareStayerImage] = useState("");
+  // const [profile, setProfile] = useState(null);
     
     
 
   const squares = [];
 
+  const gridSize = 50; 
+  const centerX = Math.floor(gridSize / 2);
+  const centerY = Math.floor(gridSize / 2);
+
   for (let id = 0; id < 2500; id++) {
-    squares.push({ id });
+    const x = id % gridSize - centerX;
+    const y = Math.floor(id / gridSize) - centerY; 
+    squares.push({ id, x, y });
   }
 
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -44,13 +55,28 @@ const App = () => {
     signer
   );
 
+  useEffect(() => {
+    setCurrentSquare();
+    setCurrentBalance();
+    setCurrentQuestStatus();
+  }, []);
+
   return (
     <div className="background">
       <div className="zone-wrapper">
         <div className="square-zone">
-          {squares.map((square) => (
-            <Square key={square.id} id={square.id} />
-          ))}
+        {squares.map((square) => (
+          <Square 
+            key={square.id}
+            id={square.id}
+            x={square.x}
+            y={square.y}
+            initialFocusId={initialFocusId}
+            setInitialFocusId={setInitialFocusId}
+            pageInitialized={pageInitialized}
+            setPageInitialized={setPageInitialized}
+          />
+        ))}
         {currentAccount ? (
           <div className="profile-zone">
             <div className="nfts-ens-container">
