@@ -12,8 +12,8 @@
 
 .square-zone {
   display: grid;
-  grid-template-columns: repeat(50, 80px); /* 20列に変更 */
-  grid-template-rows: repeat(50, 80px); /* 50行に変更 */
+  grid-template-columns: repeat(50, 80px); 
+  grid-template-rows: repeat(50, 80px); 
   gap: 8px;
 }
 
@@ -122,6 +122,51 @@
   background-color: #fcfbf5;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.coordinate-inputs {
+  display: flex;
+  align-items: center;
+}
+
+.coordinate-label {
+  margin-right: 8px;
+}
+
+.coordinate-input {
+  width: 50px;
+}
+
+.coordinate-input{
+  
+}
+
+.square-nft-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px; /* 追加 */
+  overflow: auto; /* 追加 */
+}
+
+.square-nft-item {
+  margin-right: 10px;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.square-nft-button {
+  font-size: 10px;
+  margin-top: 3px;
+  width: 70px;
+}
+
+.square-nft-item:hover {
+  transform: scale(1.3) translateZ(10px);
 }
 
 .square-creation-button {

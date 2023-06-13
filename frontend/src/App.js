@@ -18,15 +18,19 @@ const App = () => {
   // for backend
   const [currentAccount, setCurrentAccount] = useState(null);
   const [ENS, setENS] = useState(null);
-  const [nfts, setNFTs] = useState(null);
-  const [showNFT, setShowNFT] = useState(false);
-  const [NFTList, setNFTList] = useState(null);
+  const [allNfts, setAllNFTs] = useState(null);
+  const [showProfileNFT, setProfileShowNFT] = useState(false);
+  const [profileNFTList, setProfileNFTList] = useState(null);
   // below states are for tha game
   const [showSquareCreation, setShowSquareCreation] = useState(false);
   const [currentSquare, setCurrentSquare] = useState(1275);
   const [currentBalance, setCurrentBalance] = useState(1000);
   const [currentQuestStatus, setCurrentQuestStatus] = useState(true);
+  const [xCoordinate, setXCoordinate] = useState(0);
+  const [yCoordinate, setYCoordinate] = useState(0);
   const [selectedSquareId, setSelectedSquareId] = useState(0);
+  const [showSquareNFT, setShowSquareNFT] = useState(false);
+  const [squareNFTList, setSquareNFTList] = useState(null);
   const [squareDescription, setSquareDescription] = useState("");
   const [squareBalance, setSquareBalance] = useState("");
   const [transactionDescription, setTransactionDescription] = useState("");
@@ -83,12 +87,12 @@ const App = () => {
                 <div className="nfts">
                   <Nfts
                     cur_rentAccount={currentAccount}
-                    _nfts={nfts}
-                    _setNFTs={setNFTs}
-                    _showNFT={showNFT}
-                    _setShowNFT={setShowNFT}
-                    _NFTList={NFTList}
-                    _setNFTList={setNFTList}
+                    _nfts={allNfts}
+                    _setNFTs={setAllNFTs}
+                    _showNFT={showProfileNFT}
+                    _setShowNFT={setProfileShowNFT}
+                    _NFTList={profileNFTList}
+                    _setNFTList={setProfileNFTList}
                   />
                 </div>
                 <div className="ens">
@@ -112,14 +116,21 @@ const App = () => {
           )}
             {showSquareCreation ? (
               <>
-              <div className="square-creation">
                 <SquareCreation
                   squares={squares}
                   _currentAccount={currentAccount}
                   _ENS={ENS}
-                  _NFTList={NFTList}          
+                  _nfts={allNfts}          
                   _selectedSquareId={selectedSquareId}
                   _setSelectedSquareId={setSelectedSquareId}
+                  _xCoordinate={xCoordinate}
+                  _setXCoordinate={setXCoordinate}
+                  _yCoordinate={yCoordinate}
+                  _setYCoordinate={setYCoordinate}
+                  _squareNFTList={squareNFTList}
+                  _setSquareNFTList={setSquareNFTList}
+                  _showSquareNFT={showSquareNFT}
+                  _setShowSquareNFT={setShowSquareNFT}
                   _squareDescription={squareDescription}
                   _setSquareDescription={setSquareDescription}
                   _squareBalance={squareBalance}
@@ -133,7 +144,6 @@ const App = () => {
                   _setSquareStayerImage={setSquareStayerImage}    
                   _FoteisonGameContract={FoteisonGameContract}
                 />
-              </div>
               <button className="square-creation-button" onClick={handleSquareCreationButtonClick}>
                 Create Square
               </button>
