@@ -9,7 +9,7 @@ pragma solidity ^0.8.9;
 
 // import "@openzeppelin/contracts/utils/Counters.sol";
 // import "@openzeppelin/contracts/utils/Strings.sol";
-import "hardhat/console.sol";xz
+import "hardhat/console.sol";
 
 contract FoteisonGame {
   //

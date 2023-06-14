@@ -166,8 +166,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 3px;
   font-size: 20px;
+}
+
+.nft-sub-title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  padding-bottom: 5px;
 }
 
 .square-nft-zone {
@@ -186,6 +193,7 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding-bottom: 10px;
 }
 
 .square-nft-button {
@@ -213,6 +221,7 @@ body {
   border-radius: 4px;
   margin: 0 auto;
   display: block;
+  text-align: center;
 }
 
 .balance-title{

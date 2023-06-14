@@ -4,10 +4,6 @@
 // Automatically, user's(creator's) ENS(or address) is set as the owner of the square
 // if user decide to create the square, write the datas to the blockchain
 import React, { useState, useEffect } from 'react';
-import { ethers } from "ethers";
-import { CONTRACT_ADDRESS } from '../constants';
-import FoteisonGame from '../utils/FoteisonGame.json';
-
 
 const SquareCreation = ({ 
     squares,
@@ -46,15 +42,49 @@ const SquareCreation = ({
     }) => {
 
     const createSquare = async () => {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const FoteisonGameContract = new ethers.Contract(
-            CONTRACT_ADDRESS,
-            FoteisonGame.abi,
-            signer
-        );
+
+        const createId = getCreateIdFromCoordinates(_xCoordinate, _yCoordinate);
+        const createStruct = await _FoteisonGameContract.getSquare(createId);
+
+        const backendId = getBackendIdFromCoordinates(_xCoordinateBackend, _yCoordinateBackend);
+        const backendStruct = await _FoteisonGameContract.getSquare(backendId);
+
+        if(_xCoordinate === null || _yCoordinate === null){
+            console.log(typeof _xCoordinate);
+            console.log(typeof _yCoordinate);
+            alert("Please set the coordinatesAAA");
+            return;
+        }
+
+        if(createStruct.squareDescription !== "" ){
+            console.log(createStruct.squareDescription);
+            alert("The square is already created");
+            return;
+        }
+
+        if(!_xCoordinateBackend === null || !_yCoordinateBackend === null){
+            alert("Please set the backend coordinates");
+            return;
+        }
+
+        if(backendStruct.squareDescription === "" ){
+            console.log(backendStruct.squareDescription);
+            alert("The square doesn't exist");
+            return;
+        }
+
+        if(!_squareDescription){
+            alert("Please set the square description");
+            return;
+        }
+
+        if(_squareBalance > 500) {
+            alert("Please set the square balance less than 500");
+            return;
+        }
+
         try{
-            const transaction = await FoteisonGameContract.getSquare(1275);
+            const transaction = await _FoteisonGameContract.getSquare(1275);
             console.log(transaction);
         } catch (error) {
             console.log(error);
@@ -62,17 +92,37 @@ const SquareCreation = ({
         }
     }
 
+    const getCreateIdFromCoordinates = (x,y) => {
+        const gridSize = 50;
+        const centerX = Math.floor(gridSize / 2);
+        const centerY = Math.floor(gridSize / 2);
+        const id = (y + centerY) * 50 + (x + centerX);
+        return id;
+      }
+    
+    const getBackendIdFromCoordinates = (x,y) => {
+        const gridSize = 50;
+        const centerX = Math.floor(gridSize / 2);
+        const centerY = Math.floor(gridSize / 2);
+        const id = (y + centerY) * 50 + (x + centerX);
+        return id;
+    }
+      
     const handleXCoordinateChange = (e) => {
-        _setXCoordinate(e.target.value);
+        const x = parseInt(e.target.value);
+        _setXCoordinate(x);
     }
     const handleYCoordinateChange = (e) => {
-        _setYCoordinate(e.target.value);
+        const y = parseInt(e.target.value);
+        _setYCoordinate(y);
     }
     const handleXCoordinateBackendChange = (e) => {
-        _setXCoordinateBackend(e.target.value);
+        const x = parseInt(e.target.value);
+        _setXCoordinateBackend(x);
     }
     const handleYCoordinateBackendChange = (e) => {
-        _setYCoordinateBackend(e.target.value);
+        const y = parseInt(e.target.value);
+        _setYCoordinateBackend(y);
     }
 
     const selectNFT = (nft) => {
@@ -107,21 +157,22 @@ const SquareCreation = ({
     return (
         // remind: if the selectedSquareId is already set, the square is not able to be selected
         <div className="square-creation">
-            <div className="square-title">Square Selection</div>
+            <div className="square-title">where to create</div>
              <div className="coordinate-inputs">
                 <label htmlFor="x-coordinate" className="coordinate-label">X：</label>
                 <input type="number" id="x-coordinate" className="coordinate-input" value={_xCoordinate} onChange={handleXCoordinateChange}/>
                 <label htmlFor="y-coordinate" className="coordinate-label">Y：</label>
                 <input type="number" id="y-coordinate" className="coordinate-input" value={_yCoordinate} onChange={handleYCoordinateChange}/>
             </div>
-            <div className="square-title">Backend Selection</div>
+            <div className="square-title">which to connect</div>
              <div className="coordinate-inputs">
                 <label htmlFor="x-coordinate" className="coordinate-label">X：</label>
                 <input type="number" id="x-coordinate" className="coordinate-input" value={_xCoordinateBackend} onChange={handleXCoordinateBackendChange}/>
                 <label htmlFor="y-coordinate" className="coordinate-label">Y：</label>
                 <input type="number" id="y-coordinate" className="coordinate-input" value={_yCoordinateBackend} onChange={handleYCoordinateBackendChange}/>
             </div>
-            <div className="nft-title">NFT Selection</div>
+            <div className="nft-title">which to embed</div>
+            <div className="nft-sub-title">if you don't choose your NFT, default image is used</div>
             {! _showSquareNFT && (
                 <div className="square-nft-zone">   
                     {_nfts &&
@@ -138,7 +189,7 @@ const SquareCreation = ({
                     <>
                     <div className="square-nft-item">
                         <img src={_squareNFTList.image} width={70} alt="" /> 
-                        <button onClick={changeNFT}　className="square-nft-button">再設定</button>
+                        <button onClick={changeNFT}　className="square-nft-button">reset</button>
                     </div>
                     </>
                     )}
