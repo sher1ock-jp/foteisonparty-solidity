@@ -15,8 +15,9 @@ const Square = ({ id, x, y,initialFocusId }) => {
 
   const squareRef = useRef(null);
 
+  // initialFocusId is 1275 and id is given by the map function in App.js
   useEffect(() => {
-    if (id === initialFocusId) {
+    if ( initialFocusId === id) {
       const squareElement = squareRef.current;
       if (squareElement) {
         squareElement.focus();
@@ -28,7 +29,7 @@ const Square = ({ id, x, y,initialFocusId }) => {
     <div
       className="square"
       ref={squareRef}
-      tabIndex={id === initialFocusId ? 0 : -1} // フォーカス可能にするための tabIndex
+      tabIndex={id === initialFocusId ? 0 : -1} // tabIndex is used to make the square focusable
     >
       <img src={image} alt="" width={50} />
       <span className="coordinates">{x},{y}</span>

@@ -99,6 +99,10 @@ const SquareCreation = ({
                 return;
             }
 
+            if(_transactionDescription === ""){
+                alert("Please set the transaction description");
+                return;
+            }
         }
 
         try{
@@ -251,7 +255,7 @@ const SquareCreation = ({
                 onChange={handleSquareTransactionChange}
             />
             <button className="square-creation-transmit-button" onClick={createSquare}>
-                Create Square
+                Complete
             </button>
         </div>
     );
