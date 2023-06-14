@@ -72,97 +72,99 @@ const App = () => {
   );
 
   return (
-    <div className="background">
-      <div className="zone-wrapper">
-        <div className="square-zone">
-          {squares.map((square) => (
-            <Square 
-              key={square.id}
-              id={square.id}
-              x={square.x}
-              y={square.y}
-              initialFocusId={initialFocusId}
-            />
-          ))}
-          {currentAccount ? (
-            <div className="profile-zone">
-              <div className="nfts">
-                <Nfts
-                  cur_rentAccount={currentAccount}
-                  _nfts={allNfts}
-                  _setNFTs={setAllNFTs}
-                  _showNFT={showProfileNFT}
-                  _setShowNFT={setProfileShowNFT}
-                  _NFTList={profileNFTList}
-                  _setNFTList={setProfileNFTList}
-                />
-              </div>
-              <div className="ens">
-                <ProfileScreen
-                  _ENS={ENS}
-                  _setENS={setENS}
-                  // if ENS is not available, display the address
-                  _currentAccount={currentAccount}
-                  _id={currentSquare}
-                  _currentBalance={currentBalance}
-                  _currentQuestStatus={currentQuestStatus}
-                />
-              </div>
-            </div>
-          ) : (
-              <WalletConnect
-                _currentAccount={currentAccount}
-                _setCurrentAccount={setCurrentAccount}
+    <body>
+      <div className="background">
+        <div className="zone-wrapper">
+          <div className="square-zone">
+            {squares.map((square) => (
+              <Square 
+                key={square.id}
+                id={square.id}
+                x={square.x}
+                y={square.y}
+                initialFocusId={initialFocusId}
               />
-          )}
-            {showSquareCreation ? (
-              <>
-                <SquareCreation
-                  squares={squares}
-                  _currentAccount={currentAccount}
-                  _ENS={ENS}
-                  _nfts={allNfts}          
-                  _selectedSquareId={selectedSquareId}
-                  _setSelectedSquareId={setSelectedSquareId}
-                  _xCoordinate={xCoordinate}
-                  _setXCoordinate={setXCoordinate}
-                  _yCoordinate={yCoordinate}
-                  _setYCoordinate={setYCoordinate}
-                  _xCoordinateBackend={xCoordinateBackend}
-                  _setXCoordinateBackend={setXCoordinateBackend}
-                  _yCoordinateBackend={yCoordinateBackend}
-                  _setYCoordinateBackend={setYCoordinateBackend}
-                  _squareNFTList={squareNFTList}
-                  _setSquareNFTList={setSquareNFTList}
-                  _showSquareNFT={showSquareNFT}
-                  _setShowSquareNFT={setShowSquareNFT}
-                  _squareDescription={squareDescription}
-                  _setSquareDescription={setSquareDescription}
-                  _squareBalance={squareBalance}
-                  _setSquareBalance={setSquareBalance}
-                  _balanceIncrease={balanceIncrease}
-                  _setBalanceIncrease={setBalanceIncrease}
-                  _transactionDescription={transactionDescription}
-                  _setTransactionDescription={setTransactionDescription}
-                  _transaction={transaction}
-                  _setTransaction={setTransaction}
-                  // NFT image of squareStayer
-                  _squareStayerImage={squareStayerImage}
-                  _setSquareStayerImage={setSquareStayerImage}    
-                  _FoteisonGameContract={FoteisonGameContract}
-                />
-              <button className="square-creation-button" onClick={handleSquareCreationButtonClick}>
-                Create Square
-              </button>
-              </>
+            ))}
+            {currentAccount ? (
+              <div className="profile-zone">
+                <div className="nfts">
+                  <Nfts
+                    cur_rentAccount={currentAccount}
+                    _nfts={allNfts}
+                    _setNFTs={setAllNFTs}
+                    _showNFT={showProfileNFT}
+                    _setShowNFT={setProfileShowNFT}
+                    _NFTList={profileNFTList}
+                    _setNFTList={setProfileNFTList}
+                  />
+                </div>
+                <div className="ens">
+                  <ProfileScreen
+                    _ENS={ENS}
+                    _setENS={setENS}
+                    // if ENS is not available, display the address
+                    _currentAccount={currentAccount}
+                    _id={currentSquare}
+                    _currentBalance={currentBalance}
+                    _currentQuestStatus={currentQuestStatus}
+                  />
+                </div>
+              </div>
             ) : (
-              <button className="square-creation-button" onClick={handleSquareCreationButtonClick}>
-                Create Square
-              </button>
+                <WalletConnect
+                  _currentAccount={currentAccount}
+                  _setCurrentAccount={setCurrentAccount}
+                />
             )}
+              {showSquareCreation ? (
+                <>
+                  <SquareCreation
+                    squares={squares}
+                    _currentAccount={currentAccount}
+                    _ENS={ENS}
+                    _nfts={allNfts}          
+                    _selectedSquareId={selectedSquareId}
+                    _setSelectedSquareId={setSelectedSquareId}
+                    _xCoordinate={xCoordinate}
+                    _setXCoordinate={setXCoordinate}
+                    _yCoordinate={yCoordinate}
+                    _setYCoordinate={setYCoordinate}
+                    _xCoordinateBackend={xCoordinateBackend}
+                    _setXCoordinateBackend={setXCoordinateBackend}
+                    _yCoordinateBackend={yCoordinateBackend}
+                    _setYCoordinateBackend={setYCoordinateBackend}
+                    _squareNFTList={squareNFTList}
+                    _setSquareNFTList={setSquareNFTList}
+                    _showSquareNFT={showSquareNFT}
+                    _setShowSquareNFT={setShowSquareNFT}
+                    _squareDescription={squareDescription}
+                    _setSquareDescription={setSquareDescription}
+                    _squareBalance={squareBalance}
+                    _setSquareBalance={setSquareBalance}
+                    _balanceIncrease={balanceIncrease}
+                    _setBalanceIncrease={setBalanceIncrease}
+                    _transactionDescription={transactionDescription}
+                    _setTransactionDescription={setTransactionDescription}
+                    _transaction={transaction}
+                    _setTransaction={setTransaction}
+                    // NFT image of squareStayer
+                    _squareStayerImage={squareStayerImage}
+                    _setSquareStayerImage={setSquareStayerImage}    
+                    _FoteisonGameContract={FoteisonGameContract}
+                  />
+                <button className="square-creation-button" onClick={handleSquareCreationButtonClick}>
+                  Create Square
+                </button>
+                </>
+              ) : (
+                <button className="square-creation-button" onClick={handleSquareCreationButtonClick}>
+                  Create Square
+                </button>
+              )}
+          </div>
         </div>
       </div>
-    </div>
+    </body>
   );
 };
 

@@ -9,68 +9,78 @@ pragma solidity ^0.8.9;
 
 // import "@openzeppelin/contracts/utils/Counters.sol";
 // import "@openzeppelin/contracts/utils/Strings.sol";
-import "hardhat/console.sol";
+import "hardhat/console.sol";xz
 
 contract FoteisonGame {
+  //
+  //structs
+  ///
   struct Square{
+    // not include squareId because it is the key of the mapping
     address createrAddress;
+    string createrENS;
     string createrIcon;
-    string description;
-    // when the a square that connects this square is created, adjacentSquareIds is updated
-    uint[] adjacentSquareIds;
-    // if the function of move the user to other square is developed, make effective
-    // uint targetSquareId;
-    string nftURL;
-    string questDescription;
-    address questContractAddress;
+    string squareDescription;
+    string squareNftURL;
     uint squareBalance;
+    bool IsBalanceAdd;
+    string questContractAddress;
+    string questDescription;
+    uint[] adjacentSquareIds; // when the a square that connects this square is created, adjacentSquareIds is updated
   }
   struct User{
     uint squareId;
     uint userBalance;
     bool userQuestStatus;
   }
-    // retrive the sqare data from the squareId from the front-end
-  mapping(uint => Square) public squareIdToSquare;
-  // retrive the user data from the userAddress from the front-end
-  mapping(address => User) public users;
+  
+  //
+  //mapping
+  //
+  mapping(uint => Square) public squareIdToSquare; // retrive the sqare data from the squareId from the front-end
+  mapping(address => User) public users; // retrive the user data from the userAddress from the front-end
 
   Square[] public squares;
 
+  //StartSquare
   constructor() {
-    createSquare(
-      0,
-      "NEKOPULU",
-      "NEMUI",
-      0,
-      "nftURL",
-      "questDescription",
-      address(0x01d48ea6a728f91b74B0E2F36D9AE40128383569),
-      0
+    createSquare (
+      "sher1ock.eth",
+      1275,
+      1000000,
+      "omae wo taosu",
+      "",
+      500,
+      true,
+      "",
+      "",
+      "https://i.seadn.io/gae/LPMevOz9OE7OT-HhskCJ3h6fAIWGmD_a7VI8xU5cY6Vb_ai3llrGbae4kZ4yV02KnZOM-xcjQob4EkjaGhnereZBzYJ_7aGbHjTwSQ?w=500&auto=format"
     );
   }
 
   function createSquare(
+    string memory _createrENS,
     uint _squareId,
-    string memory _createrIcon,
-    string memory _description,
-    // give _backendSquareId to the function of updateAdjacentSquareIds
-    uint _backendSquareId,
-    string memory _nftURL,
+    uint _backendSquareId, // give _backendSquareId to the function of updateAdjacentSquareIds
+    string memory _squareDescription,
+    string memory _squareNftURL,
+    uint _squareBalance,
+    bool _IsBalanceAdd,
+    string _questContractAddress,
     string memory _questDescription,
-    address _questContractAddress,
-    uint _squareBalance
+    string memory _createrIcon 
   ) public {
     Square memory newSquare = Square(
-      // if user has ENS, use it
       msg.sender,
+      _createrENS,
       _createrIcon,
-      _description,
-      new uint[](0),
-      bytes(_nftURL).length > 0 ? _nftURL : "DEFAULT_NFT_URL",
-      bytes(_questDescription).length > 0 ? _questDescription : "DEFAULT_QUEST_DESCRIPTION",
-      _questContractAddress != address(0) ? _questContractAddress : address(0),
-      _squareBalance
+      _squareDescription,
+      bytes(_squareNftURL).length > 0 ? _squareNftURL : "temporary",
+      _squareBalance,
+      _IsBalanceAdd,
+      _questContractAddress .length > 0 ? _questContractAddress : "temporary",
+      bytes(_questDescription).length > 0 ? _questDescription : "temporary",
+      new uint[](0)
     );
 
     // make the struct to the array

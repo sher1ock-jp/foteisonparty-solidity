@@ -4,6 +4,9 @@
 // Automatically, user's(creator's) ENS(or address) is set as the owner of the square
 // if user decide to create the square, write the datas to the blockchain
 import React, { useState, useEffect } from 'react';
+import { ethers } from "ethers";
+import { CONTRACT_ADDRESS } from '../constants';
+import FoteisonGame from '../utils/FoteisonGame.json';
 
 
 const SquareCreation = ({ 
@@ -42,15 +45,22 @@ const SquareCreation = ({
     _FoteisonGameContract
     }) => {
 
-    // const handleSquareSelection = (e) => {
-    //     const selectedCoordinates = `${_xCoordinate},${_yCoordinate}`;
-    //     console.log("Selected Coordinates:", selectedCoordinates);
-    //     const selectedSquare = squares.find((square) => {
-    //       return `${square.x},${square.y}` === selectedCoordinates;
-    //     });
-    //     console.log("Selected Square:", selectedSquare);
-    //     _setSelectedSquareId(selectedSquare.id);
-    //   }
+    const createSquare = async () => {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const FoteisonGameContract = new ethers.Contract(
+            CONTRACT_ADDRESS,
+            FoteisonGame.abi,
+            signer
+        );
+        try{
+            const transaction = await FoteisonGameContract.getSquare(1275);
+            console.log(transaction);
+        } catch (error) {
+            console.log(error);
+            alert("Failed");
+        }
+    }
 
     const handleXCoordinateChange = (e) => {
         _setXCoordinate(e.target.value);
@@ -84,6 +94,14 @@ const SquareCreation = ({
 
     const handleBalanceIncreaseChange = (e) => {
         _setBalanceIncrease(e.target.value === 'increase');
+    }
+
+    const handleSquareTransactionChange = (e) => {
+        _setTransactionDescription(e.target.value);
+    }
+
+    const handleSquareTransactionContractChange = (e) => {
+        _setTransaction(e.target.value);
     }
     
     return (
@@ -148,6 +166,24 @@ const SquareCreation = ({
                         </select>
                     </div>
                 </div>
+            <div className="transaction-title">Transaction Contract Address</div>
+            <input
+                type="text"
+                className="transaction-contract-input"
+                value={_transaction}
+                onChange={handleSquareTransactionContractChange}
+            />
+            <div className="transaction-title">Transaction Description</div>
+            <input
+                type="text"
+                className="transaction-description-input"
+                maxLength={20}
+                value={_transactionDescription}
+                onChange={handleSquareTransactionChange}
+            />
+            <button className="square-creation-transmit-button" onClick={createSquare}>
+                Create Square
+            </button>
         </div>
     );
 };

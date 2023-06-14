@@ -10,7 +10,7 @@ import { useEffect, useRef } from 'react';
 
 const Square = ({ id, x, y,initialFocusId }) => {
   const image = id === 1
-    ? 'https://i.seadn.io/gcs/files/2d0323112af4b9aac8642eec4afc7179.png?auto=format&dpr=1&w=1000'
+    ? 'https://i.seadn.io/gae/LPMevOz9OE7OT-HhskCJ3h6fAIWGmD_a7VI8xU5cY6Vb_ai3llrGbae4kZ4yV02KnZOM-xcjQob4EkjaGhnereZBzYJ_7aGbHjTwSQ?w=500&auto=format'
     : null;
 
   const squareRef = useRef(null);
@@ -30,7 +30,7 @@ const Square = ({ id, x, y,initialFocusId }) => {
       ref={squareRef}
       tabIndex={id === initialFocusId ? 0 : -1} // フォーカス可能にするための tabIndex
     >
-      <img src={image} alt="" width={10} />
+      <img src={image} alt="" width={50} />
       <span className="coordinates">{x},{y}</span>
     </div>
   );
