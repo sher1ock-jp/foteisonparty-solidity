@@ -3,7 +3,8 @@
 // transaction and currency are not indispensable and user is able to set just one of them
 // Automatically, user's(creator's) ENS(or address) is set as the owner of the square
 // if user decide to create the square, write the datas to the blockchain
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import axios from "axios";
 
 const SquareCreation = ({ 
     squares,
@@ -32,10 +33,10 @@ const SquareCreation = ({
     _setSquareBalance,
     _balanceIncrease,
     _setBalanceIncrease,
-    _transactionDescription,
-    _setTransactionDescription,
     _transaction,
     _setTransaction,
+    _transactionDescription,
+    _setTransactionDescription,
     _squareStayerImage,
     _setSquareStayerImage,
     _FoteisonGameContract
@@ -81,6 +82,23 @@ const SquareCreation = ({
         if(_squareBalance > 500) {
             alert("Please set the square balance less than 500");
             return;
+        }
+
+        if(_transaction){
+            const response = await axios.get("http://localhost:8080/nftBalance", {
+                params: {
+                    address: _transaction,
+                    chain: "0x13881",
+                },
+            });
+
+            const data = response.data;
+            
+            if(! response.data.isMoralisError !== true){
+                alert("Please set the correct contract address on Mumbai Testnet");
+                return;
+            }
+
         }
 
         try{

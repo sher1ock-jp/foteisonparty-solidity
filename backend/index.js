@@ -58,6 +58,27 @@ app.get("/nftBalance", async (req, res) => {
       res.send(e);
     }
   });
+
+  app.get("/confirmContract", async (req, res) => {
+    try {
+      
+      // const address ="0x3608631c72fa89c27de0f703a61907bf945133b1"
+      // const chain = "0x13881"
+
+      const { address, chain } = req.query;
+
+      const response = await Moralis.EvmApi.events.getContractLogs({
+        address: address,
+        chain: chain,
+      });
+
+      const contractLogs = response.toJSON();
+
+      res.send(contractLogs);
+    } catch (e) {
+      res.send(e);
+    }
+  });
   
   app.get("/confirmTransaction", async (req, res) => {
     try {
