@@ -83,6 +83,7 @@ const App = () => {
                 x={square.x}
                 y={square.y}
                 initialFocusId={initialFocusId}
+                _FoteisonGameContract={FoteisonGameContract}
               />
             ))}
             {currentAccount ? (

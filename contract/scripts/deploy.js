@@ -9,81 +9,70 @@ const main = async () => {
 
   console.log("Contract deployed to:", foteisonGame.address);
 
-  // const squaresToCreate = [
-  //   {
-  //     squareId: 1,
-  //     createrIcon: "KABAPULL",
-  //     description: "BUSAIKU DESU",
-  //     backendSquareId: 0,
-  //     nftURL: "nft-url",
-  //     questDescription: "buy BitCoin",
-  //     questContractAddress: "0x1CA2E50Ba6E3E62f7b108BD32A6BD9e71a82cD77",
-  //     userBalanceChange: 100
-  //   },    
-  //   {
-  //     squareId: 2,
-  //     createrIcon: "KABAPULL",
-  //     description: "BUSAIKU DESU",
-  //     backendSquareId: 1,
-  //     nftURL: "nft-url",
-  //     questDescription: "buy BitCoin",
-  //     questContractAddress: "0x1CA2E50Ba6E3E62f7b108BD32A6BD9e71a82cD77",
-  //     userBalanceChange: 100
-  //   },    
-  //   {
-  //     squareId: 3,
-  //     createrIcon: "KABAPULL",
-  //     description: "BUSAIKU DESU",
-  //     backendSquareId: 1,
-  //     nftURL: "nft-url",
-  //     questDescription: "buy BitCoin",
-  //     questContractAddress: "0x1CA2E50Ba6E3E62f7b108BD32A6BD9e71a82cD77",
-  //     userBalanceChange: 100
-  //   },
-  // ]
+  const squaresToCreate = [
+    {
+      createrENS: "yusuke.eth",
+      squareId: 500,
+      backendSquareId: 0,
+      description: "temporary",
+      nftURL: "https://thumb.ac-illust.com/41/41506eee0d35c3245ed3635d8ffbd2e7_t.jpeg",
+      squareBalance: 100,
+      IsBalanceAdd: true,
+      questContractAddress: "0x1CA2E50Ba6E3E62f7b108BD32A6BD9e71a82cD77",
+      questDescription: "buy BitCoin",
+      createrIcon: "temporary",
+    },    
+    {
+      createrENS: "ikuzou.eth",
+      squareId: 1033,
+      backendSquareId: 0,
+      description: "temporary",
+      nftURL: "https://i.seadn.io/gae/29dLZ98xEbYSUSindSEBzuWGCxyWvAutR7Kb9bPziI5RWCfqtpLrLDWkaAe6I3KyDsWkP2wSwnPErMaD9dF3hUzzHy79RJvaGvET?w=500&auto=format",
+      squareBalance: 200,
+      IsBalanceAdd: false,
+      questContractAddress: "0x1CA2E50Ba6E3E62f7b108BD32A6BD9e71a82cD77",
+      questDescription: "buy ETH",
+      createrIcon: "temporary",
+    },
+    {
+      createrENS: "tanaka.eth",
+      squareId: 2040,
+      backendSquareId: 0,
+      description: "temporary",
+      nftURL: "https://i.seadn.io/gae/29dLZ98xEbYSUSindSEBzuWGCxyWvAutR7Kb9bPziI5RWCfqtpLrLDWkaAe6I3KyDsWkP2wSwnPErMaD9dF3hUzzHy79RJvaGvET?w=500&auto=format",
+      squareBalance: 10,
+      IsBalanceAdd: false,
+      questContractAddress: "0x1CA2E50Ba6E3E62f7b108BD32A6BD9e71a82cD77",
+      questDescription: "buy monacoin",
+      createrIcon: "temporary",
+    },
+  ]
     
-  // let txn;
+  let txn;
 
-  // for(const squareParams of squaresToCreate) {
-  //   txn = await foteisonGame.createSquare(
-  //     squareParams.squareId,
-  //     squareParams.createrIcon,
-  //     squareParams.description,
-  //     squareParams.backendSquareId,
-  //     squareParams.nftURL,
-  //     squareParams.questDescription,
-  //     squareParams.questContractAddress,
-  //     squareParams.userBalanceChange
-  //   );
-  //   await txn.wait();
-  // }
+  for(const squareParams of squaresToCreate) {
+    txn = await foteisonGame.createSquare(
+      squareParams.createrENS,
+      squareParams.squareId,
+      squareParams.backendSquareId,
+      squareParams.description,
+      squareParams.nftURL,
+      squareParams.squareBalance,
+      squareParams.IsBalanceAdd,
+      squareParams.questContractAddress,
+      squareParams.questDescription,
+      squareParams.createrIcon,
+    );
+    await txn.wait();
+  }
 
-  // const squareId = 1;
-  // const createrIcon = "KABAPULL";
-  // const description = "BUSAIKU DESU";
-  // const nftURL = "nft-url";
-  // const questDescription = "buy BitCoin";
-  // const questContractAddress = "0x1CA2E50Ba6E3E62f7b108BD32A6BD9e71a82cD77";
-  // const userBalanceChange = 100;
-
-  // txn = await foteisonGame.createSquare(
-  //     squareId,
-  //     createrIcon,
-  //     description,
-  //     nftURL,
-  //     questDescription,
-  //     questContractAddress,
-  //     userBalanceChange
-  // );
-  // await txn.wait();
-  
   // test createSquare
-  // const square = await foteisonGame.squareIdToSquare(0);
-  // console.log(square);
+  const square = await foteisonGame.squareIdToSquare(500);
+  console.log(square);
 
   // test getSquare
-  // txn2 = await foteisonGame.getSquare(1);
-  // console.log(txn2);
+  const txn2 = await foteisonGame.getSquareNftURL(2040);
+  console.log(txn2);
 
 };
 

@@ -6,14 +6,12 @@
 // import React from 'react'
 
 import React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect,useRef,useState } from 'react';
 
-const Square = ({ id, x, y,initialFocusId }) => {
-  const image = id === 1
-    ? 'https://i.seadn.io/gae/LPMevOz9OE7OT-HhskCJ3h6fAIWGmD_a7VI8xU5cY6Vb_ai3llrGbae4kZ4yV02KnZOM-xcjQob4EkjaGhnereZBzYJ_7aGbHjTwSQ?w=500&auto=format'
-    : null;
+const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract }) => {
 
   const squareRef = useRef(null);
+  const [image, setImage] = useState([]);
 
   // initialFocusId is 1275 and id is given by the map function in App.js
   useEffect(() => {
@@ -23,7 +21,17 @@ const Square = ({ id, x, y,initialFocusId }) => {
         squareElement.focus();
       }
     }
-  }, [id, initialFocusId]);
+  }, []);
+
+  useEffect(() => {
+    const fetchImage = async () => {
+        const image = await _FoteisonGameContract.getSquareNftURL(id);
+        setImage(image);
+        console.log(image);
+    };
+  
+    fetchImage();
+  }, []);
 
   return (
     <div
@@ -31,7 +39,7 @@ const Square = ({ id, x, y,initialFocusId }) => {
       ref={squareRef}
       tabIndex={id === initialFocusId ? 0 : -1} // tabIndex is used to make the square focusable
     >
-      <img src={image} alt="" width={50} />
+      {image && <img src={image} alt="" width={40} />}
       <span className="coordinates">{x},{y}</span>
     </div>
   );

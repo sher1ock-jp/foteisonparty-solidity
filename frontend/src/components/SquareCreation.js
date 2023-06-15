@@ -91,8 +91,6 @@ const SquareCreation = ({
                     chain: "0x13881",
                 },
             });
-
-            const data = response.data;
             
             if(! response.data.isMoralisError !== true){
                 alert("Please set the correct contract address on Mumbai Testnet");
@@ -239,14 +237,14 @@ const SquareCreation = ({
                         </select>
                     </div>
                 </div>
-            <div className="transaction-title">Transaction Contract Address</div>
+            <div className="transaction-title">Quest Contract Address</div>
             <input
                 type="text"
                 className="transaction-contract-input"
                 value={_transaction}
                 onChange={handleSquareTransactionContractChange}
             />
-            <div className="transaction-title">Transaction Description</div>
+            <div className="transaction-title">Quest Description</div>
             <input
                 type="text"
                 className="transaction-description-input"
@@ -255,7 +253,7 @@ const SquareCreation = ({
                 onChange={handleSquareTransactionChange}
             />
             <button className="square-creation-transmit-button" onClick={createSquare}>
-                Complete
+                Transmit
             </button>
         </div>
     );

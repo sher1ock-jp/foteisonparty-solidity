@@ -39,23 +39,26 @@ contract FoteisonGame {
   //
   mapping(uint => Square) public squareIdToSquare; // retrive the sqare data from the squareId from the front-end
   mapping(address => User) public users; // retrive the user data from the userAddress from the front-end
+  mapping(uint => string) public squareIdToSquareNftURL; // array of  squareId(key) and squarenftURL(value)
 
   Square[] public squares;
+
 
   //StartSquare
   constructor() {
     createSquare (
       "sher1ock.eth",
       1275,
-      1000000,
-      "omae wo taosu",
-      "",
-      500,
+      1000000000000000,
+      "Here is the start square",
+      "https://thumb.ac-illust.com/cf/cf5e80947bc873ea5ce1489467c261a2_w.jpeg",
+      0,
       true,
       "",
       "",
       "https://i.seadn.io/gae/LPMevOz9OE7OT-HhskCJ3h6fAIWGmD_a7VI8xU5cY6Vb_ai3llrGbae4kZ4yV02KnZOM-xcjQob4EkjaGhnereZBzYJ_7aGbHjTwSQ?w=500&auto=format"
     );
+    squareIdToSquareNftURL[1275] = "https://thumb.ac-illust.com/cf/cf5e80947bc873ea5ce1489467c261a2_w.jpeg";
   }
 
   function createSquare(
@@ -66,7 +69,7 @@ contract FoteisonGame {
     string memory _squareNftURL,
     uint _squareBalance,
     bool _IsBalanceAdd,
-    string _questContractAddress,
+    string memory _questContractAddress,
     string memory _questDescription,
     string memory _createrIcon 
   ) public {
@@ -75,16 +78,17 @@ contract FoteisonGame {
       _createrENS,
       _createrIcon,
       _squareDescription,
-      bytes(_squareNftURL).length > 0 ? _squareNftURL : "temporary",
+      bytes(_squareNftURL).length > 0 ? _squareNftURL : "https://thumb.ac-illust.com/f5/f5ccba4a35322a98efe3b74be7fd8422_t.jpeg",
       _squareBalance,
       _IsBalanceAdd,
-      _questContractAddress .length > 0 ? _questContractAddress : "temporary",
+      bytes(_questContractAddress).length > 0 ? _questContractAddress : "temporary",
       bytes(_questDescription).length > 0 ? _questDescription : "temporary",
       new uint[](0)
     );
 
     // make the struct to the array
     squareIdToSquare[_squareId] = newSquare;
+    squareIdToSquareNftURL[_squareId] = _squareNftURL;
     squares.push(newSquare);
     updateAdjacentSquareIds( _backendSquareId, _squareId);
   }
@@ -171,5 +175,10 @@ contract FoteisonGame {
   // confirm the square data
   function getSquare(uint squareId) public view returns (Square memory) {
     return squareIdToSquare[squareId];
+  }
+
+  // confirm the NFT URL
+  function getSquareNftURL(uint squareId) public view returns (string memory) {
+      return squareIdToSquareNftURL[squareId];
   }
 }
