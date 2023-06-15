@@ -11,8 +11,6 @@ import SquareCreation from "./components/SquareCreation";
 import Square from "./components/Square";
 import Nfts from "./components/NFTs";
 
-
-
 const App = () => {
   const [initialFocusId, setInitialFocusId] = useState(1275);
   // for backend

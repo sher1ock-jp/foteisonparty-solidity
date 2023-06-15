@@ -7,11 +7,17 @@
 
 import React from 'react';
 import { useEffect,useRef,useState } from 'react';
+import ConfirmSqaure from './ConfirmSquare';
 
 const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract }) => {
 
   const squareRef = useRef(null);
   const [image, setImage] = useState([]);
+  const [showAdditionalComponent, setShowAdditionalComponent] = useState(false);
+
+  const handleClick = () => {
+    setShowAdditionalComponent(!showAdditionalComponent);
+  };
 
   // initialFocusId is 1275 and id is given by the map function in App.js
   useEffect(() => {
@@ -36,11 +42,13 @@ const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract }) => {
   return (
     <div
       className="square"
+      onClick={handleClick}
       ref={squareRef}
       tabIndex={id === initialFocusId ? 0 : -1} // tabIndex is used to make the square focusable
     >
       {image && <img src={image} alt="" width={40} />}
       <span className="coordinates">{x},{y}</span>
+      {showAdditionalComponent && <ConfirmSqaure />}
     </div>
   );
 };
