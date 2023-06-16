@@ -22,19 +22,29 @@ const ConfirmSquare = ( {_FoteisonGameContract, _id} ) => {
 
     return (
         //display the square's information(name, icon, square's description,square's balance,square's bool, quests's contract address, quest's description)
-        <div className="confirm-square-creater">
-            <p>{squareInfo[1]}</p>
+        <div className="confirm-square">
+            <div className="creater">  
+                Creater：{squareInfo[1] ? squareInfo[1] : squareInfo[0]}
+                <img src={squareInfo[4]} alt="" width={20} /> 
+            </div>
+            <div className="square-description">
+                Description：{squareInfo[3]}
+            </div>
+            <div className="square-balance">
+                Balance：{ parseInt(squareInfo[5])}
+            </div>
+            <div className="square-balance-bool">
+                IsBalanceAdd：{squareInfo[6] ? "increase" : "decrease"}
+            </div>                
+            <div className="quest-description">
+                QuestDescription：{squareInfo[8]}
+            </div>
+            <div className="quest-contract-address">
+                QuestAddress：{squareInfo[7]}
+            </div>
         </div>
 
     );  
 };
 
 export default ConfirmSquare;
-
-{/* <p>{squareInfo[1]}</p>
-            <img src={squareInfo[2]} alt="Square Icon" />
-            <p>{squareInfo[3]}</p>
-            <p>Balance: {squareInfo[5]}</p>
-            <p>{squareInfo[6].isBool ? 'Increase' : 'Decrease'}</p>
-            <p>Quest Contract: {squareInfo[7]}</p>
-            <p>Quest Description: {squareInfo[8]}</p> */}

@@ -76,20 +76,6 @@ const App = () => {
   //
   // for nft rendering
   //
-  // useEffect(() => {
-  //   const fetchAllSquareNftURLs = async () => {
-  //     const { ids, urls } = await FoteisonGameContract.getAllSquareNftURLs();
-  //     const squareNftURLs = ids.reduce((acc, id, index) => {
-  //       if (urls[index] !== "") {
-  //         acc.push({ id, url: urls[index] });
-  //       }
-  //       return acc;
-  //     }, []);
-  //     setSquareNftURLs(squareNftURLs);
-  //   };
-  
-  //   fetchAllSquareNftURLs();
-  // }, []);
 
   useEffect(() => {
     const fetchAllSquareNftURLs = async () => {
