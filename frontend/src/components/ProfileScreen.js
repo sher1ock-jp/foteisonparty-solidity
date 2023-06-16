@@ -39,7 +39,7 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _id, _currentBalance, _
     return (
       <>
         <div className="profile-ens">
-          {_ENS}
+          {_ENS ? _ENS : _currentAccount}
         </div>
         <div className="profile-eachInformaton">
           <p>Coordinates: {x}, {y}</p>

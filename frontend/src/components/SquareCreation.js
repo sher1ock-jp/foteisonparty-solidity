@@ -51,6 +51,16 @@ const SquareCreation = ({
         const backendId = getBackendIdFromCoordinates(_xCoordinateBackend, _yCoordinateBackend);
         const backendStruct = await _FoteisonGameContract.getSquare(backendId);
 
+        // @error After user choose a _profileNFTList, if user click the reset button, the _profileNFTList is remainig
+        // if(_profileNFTList.image === ""){
+        //     alert("Please set the profile image");
+        //     return;
+        // }
+
+        if(! _ENS){
+            _ENS = _currentAccount;
+        }
+
         if(_xCoordinate === null || _yCoordinate === null){
             console.log(typeof _xCoordinate);
             console.log(typeof _yCoordinate);
@@ -66,6 +76,11 @@ const SquareCreation = ({
 
         if(!_xCoordinateBackend === null || !_yCoordinateBackend === null){
             alert("Please set the backend coordinates");
+            return;
+        }
+
+        if (!_squareNFTList.image){
+            alert("Please set the square image");
             return;
         }
 

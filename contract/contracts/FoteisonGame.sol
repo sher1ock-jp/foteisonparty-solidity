@@ -78,11 +78,11 @@ contract FoteisonGame {
       _createrENS,
       _createrIcon,
       _squareDescription,
-      bytes(_squareNftURL).length > 0 ? _squareNftURL : "",
+      _squareNftURL,
       _squareBalance,
       _IsBalanceAdd,
-      bytes(_questContractAddress).length > 0 ? _questContractAddress : "temporary",
-      bytes(_questDescription).length > 0 ? _questDescription : "temporary",
+      bytes(_questContractAddress).length > 0 ? _questContractAddress : "",
+      bytes(_questDescription).length > 0 ? _questDescription : "",
       new uint[](0)
     );
 
@@ -115,6 +115,11 @@ contract FoteisonGame {
   function updateAdjacentSquareIds(uint _backendSquareId, uint _squareId ) public {
     squareIdToSquare[_backendSquareId].adjacentSquareIds.push(_squareId);
   }
+
+  // confirm the square's adjacentSquareIds
+  function getAdjacentSquareIds(uint squareId) public view returns (uint[] memory) {
+    return squareIdToSquare[squareId].adjacentSquareIds;
+  } 
 
   event NoConnectedSquares();
   event SquareSelected(uint[] selectedSquareIds);
