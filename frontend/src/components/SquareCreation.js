@@ -61,10 +61,13 @@ const SquareCreation = ({
             _ENS = _currentAccount;
         }
 
+        if( ! _profileNFTList.image){
+            alert("Please set the profile image");
+            return;
+        }
+
         if(_xCoordinate === null || _yCoordinate === null){
-            console.log(typeof _xCoordinate);
-            console.log(typeof _yCoordinate);
-            alert("Please set the coordinatesAAA");
+            alert("Please set the coordinates");
             return;
         }
 
@@ -133,6 +136,20 @@ const SquareCreation = ({
                 _profileNFTList.image,
                 );
             console.log(transaction);
+            alert("Success");
+            // clear the inputs
+            _setXCoordinate(null);
+            _setYCoordinate(null);
+            _setXCoordinateBackend(null);
+            _setYCoordinateBackend(null);
+            _setSquareDescription("");
+            _setSquareBalance(0);
+            _setBalanceIncrease(true);
+            _setTransaction("");
+            _setTransactionDescription("");
+            _setSquareStayerImage("");
+            _setSquareNFTList("");
+            _setShowSquareNFT(false);
         } catch (error) {
             console.log(error);
             alert("Failed");
@@ -157,6 +174,8 @@ const SquareCreation = ({
       
     const handleXCoordinateChange = (e) => {
         const x = parseInt(e.target.value);
+        console.log(typeof x);
+        console.log(x);
         _setXCoordinate(x);
     }
     const handleYCoordinateChange = (e) => {
