@@ -80,21 +80,55 @@ body {
 /* ConfirmSquare.js */
 /**/
 
-.confirm-square{
+.confirm-square {
   position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   background-color: #fcfbf5;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  bottom: -300px;
-  height: 300px;
+  bottom: -280px;
+  height: 250px; /* 縦幅を調整 */
   width: 350px;
   z-index: 9999;
   font-size: 15px;
+  padding: 10px; /* 各項目の間隔を調整 */
 }
+
+.confirm-square::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #fcfbf5 transparent;
+}
+
+.confirm-square > div {
+  margin-bottom: 10px; /* 各項目の下部の余白を調整 */
+}
+
+.creater {
+  display: flex;
+  align-items: center;
+}
+
+.creater img {
+  margin-left: 10px;
+}
+
+.square-description,
+.square-balance,
+.square-balance-bool,
+.quest-description,
+.quest-contract-address {
+  width: 100%; /* 項目の幅を100%にすることで、中身を左揃えにする */
+}
+
 
 /**/
 /* WalletConnect.js */
@@ -112,10 +146,14 @@ body {
   color: black;
   font-size: 15px;
   right: 50px;
+  white-space: normal; 
+  overflow-wrap: break-word;
+  max-width: 180px;
 }
 
 .profile-eachInformaton{
   font-size: 15px;
+  padding-top: 10px;
 }
 
 /**/
