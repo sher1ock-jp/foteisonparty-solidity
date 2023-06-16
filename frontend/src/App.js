@@ -175,6 +175,7 @@ const App = () => {
                     _setTransactionDescription={setTransactionDescription}
                     _transaction={transaction}
                     _setTransaction={setTransaction}
+                    _profileNFTList={profileNFTList}
                     // NFT image of squareStayer
                     _squareStayerImage={squareStayerImage}
                     _setSquareStayerImage={setSquareStayerImage}    

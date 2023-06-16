@@ -17,6 +17,7 @@ const SquareCreation = ({
     _setSquareNFTList,
     _showSquareNFT,
     _setShowSquareNFT,
+    _profileNFTList,
     // 
     _xCoordinate,
     _setXCoordinate,
@@ -104,7 +105,18 @@ const SquareCreation = ({
         }
 
         try{
-            const transaction = await _FoteisonGameContract.getSquare(1275);
+            const transaction = await _FoteisonGameContract.createSquare(
+                _ENS,
+                createId,
+                backendId,
+                _squareDescription,
+                _squareNFTList.image,
+                _squareBalance,
+                _balanceIncrease,
+                _transaction,
+                _transactionDescription,
+                _profileNFTList.image,
+                );
             console.log(transaction);
         } catch (error) {
             console.log(error);
