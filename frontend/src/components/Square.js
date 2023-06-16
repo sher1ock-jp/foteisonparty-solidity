@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { useEffect,useRef,useState } from 'react';
-import ConfirmSqaure from './ConfirmSquare';
+import ConfirmSquare from './ConfirmSquare';
 
 const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract, _idUrlMap }) => {
 
@@ -39,12 +39,9 @@ const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract, _idUrlMap }) =
     >
       {imageUrl && <img src={imageUrl} alt="" width={40} />}
       <span className="coordinates">{x},{y}</span>
-      {/* {showAdditionalComponent && 
-        <ConfirmSqaure 
-          _FoteisonGameContract={_FoteisonGameContract}
-          _id={id} 
-        />
-      } */}
+      {showAdditionalComponent && (
+        <ConfirmSquare _FoteisonGameContract={_FoteisonGameContract} _id={id} />
+          )}
     </div>
   );
 };

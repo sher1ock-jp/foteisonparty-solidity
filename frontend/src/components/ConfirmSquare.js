@@ -8,20 +8,14 @@ import { React, useEffect, useState } from "react";
 
 const ConfirmSquare = ( {_FoteisonGameContract, _id} ) => {
     
-    const [squareInfo, setSquareInfo] = useState({
-        name: "",
-        icon: "",
-        description: "",
-        balance: "",
-        isBool: false,
-        questContractAddress: "",
-        questDescription: ""
-      });
+    console.log(_id);
+    const [squareInfo, setSquareInfo] = useState([]);
 
     useEffect(() => {
         const fetchSquare = async () => {
             const square = await _FoteisonGameContract.getSquare(_id);
             setSquareInfo(square)
+            console.log(square);
         };
         fetchSquare();    
     }, []);
@@ -30,15 +24,17 @@ const ConfirmSquare = ( {_FoteisonGameContract, _id} ) => {
         //display the square's information(name, icon, square's description,square's balance,square's bool, quests's contract address, quest's description)
         <div className="confirm-square-creater">
             <p>{squareInfo[1]}</p>
-            <img src={squareInfo[2]} alt="Square Icon" />
-            <p>{squareInfo[3]}</p>
-            <p>Balance: {squareInfo[5]}</p>
-            <p>{squareInfo[6].isBool ? 'Increase' : 'Decrease'}</p>
-            <p>Quest Contract: {squareInfo[7]}</p>
-            <p>Quest Description: {squareInfo[8]}</p>
         </div>
 
     );  
 };
 
 export default ConfirmSquare;
+
+{/* <p>{squareInfo[1]}</p>
+            <img src={squareInfo[2]} alt="Square Icon" />
+            <p>{squareInfo[3]}</p>
+            <p>Balance: {squareInfo[5]}</p>
+            <p>{squareInfo[6].isBool ? 'Increase' : 'Decrease'}</p>
+            <p>Quest Contract: {squareInfo[7]}</p>
+            <p>Quest Description: {squareInfo[8]}</p> */}

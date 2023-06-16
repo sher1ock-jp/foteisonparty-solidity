@@ -123,7 +123,7 @@ const App = () => {
                 x={square.x}
                 y={square.y}
                 initialFocusId={initialFocusId}
-                // _FoteisonGameContract={FoteisonGameContract}
+                _FoteisonGameContract={FoteisonGameContract}
                 _idUrlMap={idUrlMap}
               />
             ))}
