@@ -82,7 +82,7 @@ body {
 
 .confirm-square{
   position: absolute;
-  bottom: -210px; /* 初期位置を底辺の下に設定 */
+  bottom: -210px;
   height: 200px;
   width: 100%;
   z-index: 9999;

@@ -78,7 +78,7 @@ contract FoteisonGame {
       _createrENS,
       _createrIcon,
       _squareDescription,
-      bytes(_squareNftURL).length > 0 ? _squareNftURL : "https://thumb.ac-illust.com/f5/f5ccba4a35322a98efe3b74be7fd8422_t.jpeg",
+      bytes(_squareNftURL).length > 0 ? _squareNftURL : "",
       _squareBalance,
       _IsBalanceAdd,
       bytes(_questContractAddress).length > 0 ? _questContractAddress : "temporary",
@@ -180,5 +180,31 @@ contract FoteisonGame {
   // confirm the NFT URL
   function getSquareNftURL(uint squareId) public view returns (string memory) {
       return squareIdToSquareNftURL[squareId];
+  }
+
+  //  for rendering all the NFTs to the each square
+  function getAllSquareNftURLs() public view returns (uint[] memory, string[] memory) {
+    uint[] memory ids = new uint[](2500); 
+    string[] memory urls = new string[](2500); 
+    uint count = 0;
+
+    for (uint i = 0; i < 2500; i++) {
+        uint squareId = i;
+        string memory url = squareIdToSquareNftURL[squareId];
+        if (bytes(url).length > 0) {
+            ids[count] = squareId;
+            urls[count] = url;
+            count++;
+        }
+    }
+    
+    uint[] memory filteredIds = new uint[](count);
+    string[] memory filteredUrls = new string[](count);
+    for (uint i = 0; i < count; i++) {
+        filteredIds[i] = ids[i];
+        filteredUrls[i] = urls[i];
+    }
+
+    return (filteredIds, filteredUrls);
   }
 }

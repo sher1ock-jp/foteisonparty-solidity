@@ -37,10 +37,22 @@ const App = () => {
   const [transactionDescription, setTransactionDescription] = useState("");
   const [transaction, setTransaction] = useState("");
   const [squareStayerImage, setSquareStayerImage] = useState("");
-  // const [profile, setProfile] = useState(null);
+  // for nft rendering
+  const [idUrlMap, setIdUrlMap] = useState({});
+
+  //
+  // enalbe connection to the blockchain
+  //
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  const FoteisonGameContract = new ethers.Contract(
+    CONTRACT_ADDRESS,
+    FoteisonGame.abi,
+    signer
+  );
   
   //
-  //square
+  //square generation
   //
   const squares = [];
   const gridSize = 50; 
@@ -54,20 +66,50 @@ const App = () => {
   }
 
   //
-  //create
+  //buttons on the top of the screen
   //
   const handleSquareCreationButtonClick = () => {
     console.log("Button clicked");
     setShowSquareCreation(!showSquareCreation);
   };
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const FoteisonGameContract = new ethers.Contract(
-    CONTRACT_ADDRESS,
-    FoteisonGame.abi,
-    signer
-  );
+  //
+  // for nft rendering
+  //
+  // useEffect(() => {
+  //   const fetchAllSquareNftURLs = async () => {
+  //     const { ids, urls } = await FoteisonGameContract.getAllSquareNftURLs();
+  //     const squareNftURLs = ids.reduce((acc, id, index) => {
+  //       if (urls[index] !== "") {
+  //         acc.push({ id, url: urls[index] });
+  //       }
+  //       return acc;
+  //     }, []);
+  //     setSquareNftURLs(squareNftURLs);
+  //   };
+  
+  //   fetchAllSquareNftURLs();
+  // }, []);
+
+  useEffect(() => {
+    const fetchAllSquareNftURLs = async () => {
+      const result = await FoteisonGameContract.getAllSquareNftURLs();
+      const numericIds = result[0].map(hexValue => parseInt(hexValue));
+      const squareNftURLs = result[1]
+
+      const idUrlMap = {};
+
+      for (let i = 0; i < numericIds.length; i++) {
+        const id = numericIds[i];
+        const url = squareNftURLs[i];
+        idUrlMap[id] = url;
+      }
+      setIdUrlMap(idUrlMap);
+      console.log(idUrlMap);
+    };
+
+    fetchAllSquareNftURLs();
+  }, []);
 
   return (
     <body>
@@ -81,7 +123,8 @@ const App = () => {
                 x={square.x}
                 y={square.y}
                 initialFocusId={initialFocusId}
-                _FoteisonGameContract={FoteisonGameContract}
+                // _FoteisonGameContract={FoteisonGameContract}
+                _idUrlMap={idUrlMap}
               />
             ))}
             {currentAccount ? (

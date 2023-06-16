@@ -9,11 +9,12 @@ import React from 'react';
 import { useEffect,useRef,useState } from 'react';
 import ConfirmSqaure from './ConfirmSquare';
 
-const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract }) => {
+const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract, _idUrlMap }) => {
 
   const squareRef = useRef(null);
-  const [image, setImage] = useState([]);
   const [showAdditionalComponent, setShowAdditionalComponent] = useState(false);
+  const imageUrl = _idUrlMap[id];
+
 
   const handleClick = () => {
     setShowAdditionalComponent(!showAdditionalComponent);
@@ -29,16 +30,6 @@ const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract }) => {
     }
   }, []);
 
-  useEffect(() => {
-    const fetchImage = async () => {
-        const image = await _FoteisonGameContract.getSquareNftURL(id);
-        setImage(image);
-        console.log(image);
-    };
-  
-    fetchImage();
-  }, []);
-
   return (
     <div
       className="square"
@@ -46,9 +37,14 @@ const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract }) => {
       ref={squareRef}
       tabIndex={id === initialFocusId ? 0 : -1} // tabIndex is used to make the square focusable
     >
-      {image && <img src={image} alt="" width={40} />}
+      {imageUrl && <img src={imageUrl} alt="" width={40} />}
       <span className="coordinates">{x},{y}</span>
-      {showAdditionalComponent && <ConfirmSqaure />}
+      {/* {showAdditionalComponent && 
+        <ConfirmSqaure 
+          _FoteisonGameContract={_FoteisonGameContract}
+          _id={id} 
+        />
+      } */}
     </div>
   );
 };
