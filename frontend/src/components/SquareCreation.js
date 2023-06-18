@@ -11,8 +11,6 @@ const SquareCreation = ({
     _currentAccount,
     _ENS,
     _nfts,
-    _selectedSquareId,
-    _setSelectedSquareId,
     _squareNFTList,
     _setSquareNFTList,
     _showSquareNFT,
@@ -61,7 +59,7 @@ const SquareCreation = ({
             _ENS = _currentAccount;
         }
 
-        if( ! _profileNFTList.image){
+        if(! _profileNFTList.image === null ){
             alert("Please set the profile image");
             return;
         }
@@ -82,7 +80,7 @@ const SquareCreation = ({
             return;
         }
 
-        if (!_squareNFTList.image){
+        if (!_squareNFTList.image === null){
             alert("Please set the square image");
             return;
         }

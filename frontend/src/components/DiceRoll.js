@@ -3,3 +3,70 @@
 // if the current square has the prular connected square, romdomly choose one of them
 // if the number is over the number of the connected square, move the user to the end of the connected square
 // finally, display the information of the square that user's moved to
+
+import React, { useState } from 'react';
+
+const DiceRoll = () => {
+  const [diceValue, setDiceValue] = useState(null);
+  const [rolling, setRolling] = useState(false);
+
+  const rollDice = () => {
+    if (rolling) return;
+    setRolling(true);
+
+    // Simulate dice rolling animation
+    setTimeout(() => {
+      const value = Math.floor(Math.random() * 6) + 1;
+      setDiceValue(value);
+      setRolling(false);
+      alert(`Dice Value: ${value}`);
+    }, 2000);
+  };
+
+  return (
+    <div className='dice-roll'>
+      <div className={`dice ${rolling ? 'rolling' : ''}`} onClick={rollDice}>
+        <div className="side front">
+          <div className="dot dot-center" />
+        </div>
+        <div className="side back">
+          <div className="dot dot-center" />
+          <div className="dot dot-top-left" />
+          <div className="dot dot-bottom-right" />
+        </div>
+        <div className="side right">
+          <div className="dot dot-top-left" />
+          <div className="dot dot-bottom-right" />
+          <div className="dot dot-top-right" />
+          <div className="dot dot-bottom-left" />
+        </div>
+        <div className="side left">
+          <div className="dot dot-top-left" />
+          <div className="dot dot-bottom-right" />
+          <div className="dot dot-top-right" />
+          <div className="dot dot-bottom-left" />
+        </div>
+        <div className="side top">
+          <div className="dot dot-center" />
+          <div className="dot dot-top-left" />
+          <div className="dot dot-top-right" />
+          <div className="dot dot-bottom-left" />
+          <div className="dot dot-bottom-right" />
+        </div>
+        <div className="side bottom">
+          <div className="dot dot-center" />
+          <div className="dot dot-top-left" />
+          <div className="dot dot-top-right" />
+          <div className="dot dot-bottom-left" />
+          <div className="dot dot-bottom-right" />
+        </div>
+        {diceValue && <p className="dice-value">Dice Value: {diceValue}</p>}
+      </div>
+      <button className="roll-button" onClick={rollDice} disabled={rolling}>
+        Roll Dice
+      </button>
+    </div>
+  );
+};
+
+export default DiceRoll;

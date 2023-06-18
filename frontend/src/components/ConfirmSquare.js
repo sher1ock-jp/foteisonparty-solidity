@@ -25,7 +25,7 @@ const ConfirmSquare = ( {_FoteisonGameContract, _id} ) => {
         <div className="confirm-square">
             <div className="creater">  
                 Creater：{squareInfo[1] ? squareInfo[1] : squareInfo[0]}
-                <img src={squareInfo[4]} alt="" width={20} /> 
+                <img src={squareInfo[2]} alt="" width={30} /> 
             </div>
             <div className="square-description">
                 Description：{squareInfo[3]}

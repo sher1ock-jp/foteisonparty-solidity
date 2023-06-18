@@ -10,6 +10,7 @@ import ProfileScreen from "./components/ProfileScreen";
 import SquareCreation from "./components/SquareCreation";
 import Square from "./components/Square";
 import Nfts from "./components/NFTs";
+import DiceRoll from "./components/DiceRoll";
 
 const App = () => {
   const [initialFocusId, setInitialFocusId] = useState(1275);
@@ -20,7 +21,6 @@ const App = () => {
   const [showProfileNFT, setProfileShowNFT] = useState(false);
   const [profileNFTList, setProfileNFTList] = useState(null);
   // below states are for tha game
-  const [showSquareCreation, setShowSquareCreation] = useState(false);
   const [currentSquare, setCurrentSquare] = useState(1275);
   const [currentBalance, setCurrentBalance] = useState(1000);
   const [currentQuestStatus, setCurrentQuestStatus] = useState(true);
@@ -37,6 +37,10 @@ const App = () => {
   const [transactionDescription, setTransactionDescription] = useState("");
   const [transaction, setTransaction] = useState("");
   const [squareStayerImage, setSquareStayerImage] = useState("");
+  // for the button
+  const [showSquareCreation, setShowSquareCreation] = useState(false);
+  const [showDiceRoll, setShowDiceRoll] = useState(false);
+
   // for nft rendering
   const [idUrlMap, setIdUrlMap] = useState({});
 
@@ -73,11 +77,22 @@ const App = () => {
     setShowSquareCreation(!showSquareCreation);
   };
 
+  const handleDiceRollButtonClick = () => {
+    if (currentQuestStatus) {
+    setShowDiceRoll(!showDiceRoll);
+    }
+  };
+
+  const handleAlertButtonClick = () => {
+    alert("You have to do your quest first!");
+  };
+
   //
   // for nft rendering
   //
 
   useEffect(() => {
+
     const fetchAllSquareNftURLs = async () => {
       const result = await FoteisonGameContract.getAllSquareNftURLs();
       const numericIds = result[0].map(hexValue => parseInt(hexValue));
@@ -188,6 +203,16 @@ const App = () => {
               ) : (
                 <button className="square-creation-button" onClick={handleSquareCreationButtonClick}>
                   Create Square
+                </button>
+              )}
+              {showDiceRoll && <DiceRoll />}
+              {currentQuestStatus ? (
+                <button className="dice-roll-button" onClick={handleDiceRollButtonClick}>
+                  Roll Dice
+                </button>
+              ) : (
+                <button className="dice-roll-button" onClick={handleAlertButtonClick}>
+                  Roll Dice
                 </button>
               )}
           </div>

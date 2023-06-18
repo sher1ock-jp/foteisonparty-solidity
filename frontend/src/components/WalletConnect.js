@@ -4,7 +4,7 @@
 
 import React, { useEffect } from "react";
 
-const WalletConnect = ({ _currentAccount, _setCurrentAccount }) => {
+const WalletConnect = ({ _currentAccount, _setCurrentAccount, _FoteisonGameContract }) => {
   // manage state of the wallet
 
   // confirm that the user has MetaMask installed
@@ -61,7 +61,7 @@ const WalletConnect = ({ _currentAccount, _setCurrentAccount }) => {
         console.log(error);
       }
     }
-
+    
   }catch (error) {
     console.log(error);
   }
@@ -71,7 +71,7 @@ useEffect(() => {
   console.log('checkIfWalletIsConnected called');
   checkIfWalletIsConnected();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [_currentAccount]);
+}, [_currentAccount, _setCurrentAccount]);
 
  
   return (

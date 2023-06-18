@@ -44,7 +44,7 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _id, _currentBalance, _
         <div className="profile-eachInformaton">
           <p>Coordinates: {x}, {y}</p>
           <p>Crypulu: {_currentBalance}</p>
-          <p>Quest: {_currentQuestStatus}</p>
+          <p>Quest: {_currentQuestStatus ? "no quest" : "do quest"}</p>
         </div>
       </>
     );
