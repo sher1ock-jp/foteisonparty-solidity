@@ -11,8 +11,9 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
       // if user exists, update the user's information
       const user = await _FoteisonGameContract.confirmUser();
       console.log(user)
-      console.log(parseInt(user[1]))
-      if(parseInt(user[1]) !== 0 && user[2] !== 0 && user[3] !==false ) {
+      console.log(parseInt(user[1]));
+      console.log(parseInt(user[2]));
+      if(user[0] === true) {
         _setCurrentSquare(parseInt(user[1]));
         _setCurrentBalance(parseInt(user[2]));
         _setCurrentQuestStatus(user[3]);
@@ -62,7 +63,7 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
           <p>Coordinates: {x}, {y}</p>
           <p>Crypulu: {_currentBalance}</p>
           <p>Quest: {_currentQuestStatus ? "no quest" : "do quest"}</p>
-          {/* <button onClick={confirmUser}>confirm</button> */}
+          <button onClick={confirmUser}>confirm</button>
         </div>
       </>
     );
