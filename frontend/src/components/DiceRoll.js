@@ -22,26 +22,12 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _currentSquare} ) =>
       alert(`Dice Value: ${value}`);
     }, 2000);
 
-    console.log(_FoteisonGameContract);
-    const square = await _FoteisonGameContract.moveUser(diceValue, _currentSquare);
-    console.log(square);
-
-    _FoteisonGameContract.events.SquareSelected()
-    .on('data', (event) => {
-        console.log('SquareSelected event received:', event.returnValues);
-    })
-    .on('error', (error) => {
-        console.error('Error while listening to SquareSelected event:', error);
-    });
-
-    _FoteisonGameContract.events.NoConnectedSquares()
-    .on('data', (event) => {
-        console.log('NoConnectedSquares event received:', event.returnValues);
-    })
-    .on('error', (error) => {
-        console.error('Error while listening to NoConnectedSquares event:', error);
-    });
-
+    if (diceValue !== null && _currentSquare !== null) {
+        const square = await _FoteisonGameContract.moveUser(diceValue, _currentSquare);
+        console.log(square);
+      } else {
+        console.error('Invalid values for diceValue or _currentSquare');
+      }
   };
     
   return (
