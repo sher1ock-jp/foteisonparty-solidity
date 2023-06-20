@@ -39,6 +39,7 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
     };
     
     useEffect(() => {
+      confirmUser();
       getUserENS();
     }, []);
     // if (! _ENS) {
@@ -61,7 +62,7 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
           <p>Coordinates: {x}, {y}</p>
           <p>Crypulu: {_currentBalance}</p>
           <p>Quest: {_currentQuestStatus ? "no quest" : "do quest"}</p>
-          <button onClick={confirmUser}>confirm</button>
+          {/* <button onClick={confirmUser}>confirm</button> */}
         </div>
       </>
     );
