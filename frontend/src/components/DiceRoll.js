@@ -13,21 +13,21 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _currentSquare} ) =>
   const rollDice = async () => {
     if (rolling) return;
     setRolling(true);
-
+  
     // Simulate dice rolling animation
-    setTimeout(() => {
+    setTimeout(async () => {
       const value = Math.floor(Math.random() * 6) + 1;
       setDiceValue(value);
       setRolling(false);
       alert(`Dice Value: ${value}`);
-    }, 2000);
-
-    if (diceValue !== null && _currentSquare !== null) {
-        const square = await _FoteisonGameContract.moveUser(diceValue, _currentSquare);
-        console.log(square);
-      } else {
-        console.error('Invalid values for diceValue or _currentSquare');
+      
+      const square = await _FoteisonGameContract.moveUser(5, _currentSquare);
+      console.log(value);
+      console.log(_currentSquare);
+      for (const item of square) {
+        console.log(parseInt(item));
       }
+    }, 2000);
   };
     
   return (
