@@ -29,6 +29,7 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSq
           } else {
             for (let i = 0; i < squareIds.length; i++) {
               let targetId = parseInt(squareIds[i]);
+              console.log(targetId);
               let targetSquare = _squares.find(square => square.id === targetId);
               if (!targetSquare) {
                 console.log(`No square with id: ${targetId}`);
