@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _currentSquare, _squares} ) => {
+const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSquare, _currentBalance, _currentQuestStatus, _setCurrentSquare, _setCurrentBalance, _setCurrentQuestStatus} ) => {
   const [rolling, setRolling] = useState(false);
 
   const rollDice = async () => {
@@ -38,8 +38,33 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _currentSquare, _squ
               }
             }
           }
-          // console the last id of the square array
-          console.log(squareIds[squareIds.length - 1]);
+
+          // not set currentSquare,  this is temporary
+          const squareId = parseInt(squareIds[squareIds.length - 1]);
+
+          const updateUserInfo = async () => {
+            const user = await _FoteisonGameContract.updateUser(squareId, _currentBalance, _currentQuestStatus);
+            return user;
+          }
+      
+          const userUpdated = await updateUserInfo();
+      
+          // If the updateUser transaction was successful, userUpdated will be truthy. 
+          // If it was not successful (due to InsufficientBalance event being emitted, for example), it will be falsy.
+          if (!userUpdated) {
+            alert('移動先のマスの残高が不足しており、マスを移動できませんでした！');
+            return;
+          }
+      
+          const confirmUser = async () => {
+            const user = await _FoteisonGameContract.confirmUser();
+            _setCurrentSquare(parseInt(user[1]));
+            _setCurrentBalance(parseInt(user[2]));
+            _setCurrentQuestStatus(user[3]);
+            console.log(user)
+          }
+      
+          await confirmUser();
           
           if (coords.length > 0) {  // if there are coordinates
             alert(`Coordinates: ${coords.join(" -> ")}`);  // join and alert the coordinates

@@ -11,10 +11,11 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
       // if user exists, update the user's information
       const user = await _FoteisonGameContract.confirmUser();
       console.log(user)
-      if(parseInt(user[0]) !== 0 && user[1] !== 0 && user[2] !==false ) {
-        _setCurrentSquare(parseInt(user[0]));
-        _setCurrentBalance(parseInt(user[1]));
-        _setCurrentQuestStatus(user[2]);
+      console.log(parseInt(user[1]))
+      if(parseInt(user[1]) !== 0 && user[2] !== 0 && user[3] !==false ) {
+        _setCurrentSquare(parseInt(user[1]));
+        _setCurrentBalance(parseInt(user[2]));
+        _setCurrentQuestStatus(user[3]);
       }
     }
 

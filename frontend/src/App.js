@@ -209,10 +209,15 @@ const App = () => {
                   Create Square
                 </button>
               )}
-              {showDiceRoll && <DiceRoll
-                _currentSquare={currentSquare}
+              {showDiceRoll && <DiceRoll                
                 _FoteisonGameContract={FoteisonGameContract}
                 _squares={squares}
+                _currentSquare={currentSquare}
+                _setCurrentSquare={setCurrentSquare}
+                _currentBalance={currentBalance}
+                _setCurrentBalance={setCurrentBalance}
+                _currentQuestStatus={currentQuestStatus}
+                _setCurrentQuestStatus={setCurrentQuestStatus}
               />}
               {currentQuestStatus ? (
                 <button className="dice-roll-button" onClick={handleDiceRollButtonClick}>
