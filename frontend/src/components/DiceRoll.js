@@ -6,11 +6,11 @@
 
 import React, { useState } from 'react';
 
-const DiceRoll = () => {
+const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _currentSquare} ) => {
   const [diceValue, setDiceValue] = useState(null);
   const [rolling, setRolling] = useState(false);
 
-  const rollDice = () => {
+  const rollDice = async () => {
     if (rolling) return;
     setRolling(true);
 
@@ -21,8 +21,29 @@ const DiceRoll = () => {
       setRolling(false);
       alert(`Dice Value: ${value}`);
     }, 2000);
-  };
 
+    console.log(_FoteisonGameContract);
+    const square = await _FoteisonGameContract.moveUser(diceValue, _currentSquare);
+    console.log(square);
+
+    _FoteisonGameContract.events.SquareSelected()
+    .on('data', (event) => {
+        console.log('SquareSelected event received:', event.returnValues);
+    })
+    .on('error', (error) => {
+        console.error('Error while listening to SquareSelected event:', error);
+    });
+
+    _FoteisonGameContract.events.NoConnectedSquares()
+    .on('data', (event) => {
+        console.log('NoConnectedSquares event received:', event.returnValues);
+    })
+    .on('error', (error) => {
+        console.error('Error while listening to NoConnectedSquares event:', error);
+    });
+
+  };
+    
   return (
     <div className='dice-roll'>
       <div className={`dice ${rolling ? 'rolling' : ''}`} onClick={rollDice}>

@@ -147,9 +147,13 @@ const App = () => {
                     _setENS={setENS}
                     // if ENS is not available, display the address
                     _currentAccount={currentAccount}
-                    _id={currentSquare}
+                    _currentSquare={currentSquare}
+                    _setCurrentSquare={setCurrentSquare}
                     _currentBalance={currentBalance}
+                    _setCurrentBalance={setCurrentBalance}
                     _currentQuestStatus={currentQuestStatus}
+                    _setCurrentQuestStatus={setCurrentQuestStatus}
+                    _FoteisonGameContract={FoteisonGameContract}
                   />
                 </div>
               </div>
@@ -205,7 +209,10 @@ const App = () => {
                   Create Square
                 </button>
               )}
-              {showDiceRoll && <DiceRoll />}
+              {showDiceRoll && <DiceRoll
+                _currentSquare={currentSquare}
+                _FoteisonGameContract={FoteisonGameContract}
+              />}
               {currentQuestStatus ? (
                 <button className="dice-roll-button" onClick={handleDiceRollButtonClick}>
                   Roll Dice

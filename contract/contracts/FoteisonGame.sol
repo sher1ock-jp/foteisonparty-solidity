@@ -43,7 +43,6 @@ contract FoteisonGame {
 
   Square[] public squares;
 
-
   //StartSquare
   constructor() {
     createSquare (
@@ -94,22 +93,16 @@ contract FoteisonGame {
   }
 
   // when user login, return the user data to the front-end 
-  function createUser() public returns (uint squareId, uint userBalance, bool userQuestStatus){
-    if (users[msg.sender].squareId != 0){
-      return(
-        users[msg.sender].squareId,
-        users[msg.sender].userBalance,
-        users[msg.sender].userQuestStatus
-      );
-      }else{
-        User memory newUser = User(
-          0,
-          0,
-          true
-        );
-        users[msg.sender] = newUser;
-    }
+  function confirmUser() public view returns (User memory) {
+    return users[msg.sender];
   }
+
+  function backToStart() public {
+    users[msg.sender].squareId = 1275;
+    users[msg.sender].userBalance = 1000;
+    users[msg.sender].userQuestStatus = true;
+  }
+  
 
   // update the adjacentSquareIds of the square when a square is created
   function updateAdjacentSquareIds(uint _backendSquareId, uint _squareId ) public {
@@ -129,21 +122,22 @@ contract FoteisonGame {
   // when user roll a dice, fetch the current squareId of the user and fetch all the connected squareIds from the squareId
   // if connected squareIds has plural squareIds, randomly choose one of them and cotinue this process until the number of dice
   // return the squareId that the user move to
-  function moveUser( uint _diceNumber) public {
-    // fetch the current squareId of the user
-    uint currentSquareId = users[msg.sender].squareId;
+  function moveUser( uint _diceNumber, uint _currentSquareId) public view returns (uint[] memory){
     // fetch all the connected squareIds from the squareId
-    uint[] memory connectedSquareIds = squareIdToSquare[currentSquareId].adjacentSquareIds;
+    uint[] memory connectedSquareIds = squareIdToSquare[_currentSquareId].adjacentSquareIds;
     // Create an array to store the selected squareIds
     uint[] memory selectedSquareIds = new uint[](_diceNumber);
     
     // if connected squareIds has plural squareIds, randomly choose one of them and cotinue this process until the number of dice
     if (connectedSquareIds.length == 0){
-      emit NoConnectedSquares();
+      // if the number of connected squareIds is 0 at beginning, emit an event
+      // emit NoConnectedSquares();
+      return selectedSquareIds;
     }else{
       for(uint i = 0; i < _diceNumber; i++){
+        // if the number of connected squareIds is 0, emit an event
         if (connectedSquareIds.length == 0){
-          emit SquareSelected(selectedSquareIds);
+          return selectedSquareIds;
         }else{
         uint randomSquareIndex = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, i))) % connectedSquareIds.length;
         uint randomSquareId = connectedSquareIds[randomSquareIndex];
@@ -151,7 +145,7 @@ contract FoteisonGame {
         connectedSquareIds = squareIdToSquare[randomSquareId].adjacentSquareIds;
         }
       }
-      emit SquareSelected(selectedSquareIds);
+      return selectedSquareIds;
     }
   }
 
@@ -168,13 +162,6 @@ contract FoteisonGame {
       backToStart();
     }
   }  
-  
-  function backToStart() public {
-    users[msg.sender].squareId = 0;
-    users[msg.sender].userBalance = 1000;
-    users[msg.sender].userQuestStatus = true;
-    }
-  
   // when a user do a designated transaction, change the userQuestStatus to false
   
   // confirm the square data

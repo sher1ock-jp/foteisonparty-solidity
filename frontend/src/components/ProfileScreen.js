@@ -3,14 +3,20 @@
 // if user do their quest, render the quest's status
 
 import axios from "axios";
+import { useEffect } from "react";
 
-const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _id, _currentBalance, _currentQuestStatus }) => {
+const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCurrentSquare, _currentBalance, _setCurrentBalance, _currentQuestStatus, _setCurrentQuestStatus, _FoteisonGameContract }) => {
 
-    const gridSize = 50;
-    const centerX = Math.floor(gridSize / 2);
-    const centerY = Math.floor(gridSize / 2);
-    const x = _id % gridSize - centerX;
-    const y = Math.floor( _id / gridSize) - centerY;
+    const confirmUser = async () => {
+      // if user exists, update the user's information
+      const user = await _FoteisonGameContract.confirmUser();
+      console.log(user)
+      if(parseInt(user[0]) !== 0 && user[1] !== 0 && user[2] !==false ) {
+        _setCurrentSquare(parseInt(user[0]));
+        _setCurrentBalance(parseInt(user[1]));
+        _setCurrentQuestStatus(user[2]);
+      }
+    }
 
     const getUserENS = async () => {
       console.log("getUserENS called");
@@ -30,11 +36,20 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _id, _currentBalance, _
         console.log(e);
       }
     };
-  
-    if (! _ENS) {
-      console.log("getUserENS called");
+    
+    useEffect(() => {
       getUserENS();
-    }
+    }, []);
+    // if (! _ENS) {
+    //   console.log("getUserENS called");
+    //   getUserENS();
+    // }
+
+    const gridSize = 50;
+    const centerX = Math.floor(gridSize / 2);
+    const centerY = Math.floor(gridSize / 2);
+    const x = _currentSquare %  gridSize - centerX;
+    const y = Math.floor( _currentSquare / gridSize) - centerY;
   
     return (
       <>
@@ -45,12 +60,13 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _id, _currentBalance, _
           <p>Coordinates: {x}, {y}</p>
           <p>Crypulu: {_currentBalance}</p>
           <p>Quest: {_currentQuestStatus ? "no quest" : "do quest"}</p>
+          <button onClick={confirmUser}>confirm</button>
         </div>
       </>
     );
   };
   
-  export default ProfileScreen;
+export default ProfileScreen;
 
 
 // import React, { useEffect } from "react";
