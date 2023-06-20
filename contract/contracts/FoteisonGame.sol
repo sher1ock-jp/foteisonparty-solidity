@@ -92,6 +92,20 @@ contract FoteisonGame {
     updateAdjacentSquareIds( _backendSquareId, _squareId);
   }
 
+  // create a user data when user roll a dice
+  function updateUser(
+    uint _squareId,
+    uint _userBalance,
+    bool _userQuestStatus
+  ) public {
+    User memory newUser = User(
+      _squareId,
+      _userBalance,
+      _userQuestStatus
+    );
+    users[msg.sender] = newUser;
+  }
+
   // when user login, return the user data to the front-end 
   function confirmUser() public view returns (User memory) {
     return users[msg.sender];
@@ -114,10 +128,6 @@ contract FoteisonGame {
     return squareIdToSquare[squareId].adjacentSquareIds;
   } 
 
-  event NoConnectedSquares();
-  event SquareSelected(uint[] selectedSquareIds);
-  event UserBalanceChanged(uint newUserBalance);
-  event InsufficientBalance();
 
   // when user roll a dice, fetch the current squareId of the user and fetch all the connected squareIds from the squareId
   // if connected squareIds has plural squareIds, randomly choose one of them and cotinue this process until the number of dice
@@ -131,7 +141,6 @@ contract FoteisonGame {
     // if connected squareIds has plural squareIds, randomly choose one of them and cotinue this process until the number of dice
     if (connectedSquareIds.length == 0){
       // if the number of connected squareIds is 0 at beginning, emit an event
-      // emit NoConnectedSquares();
       return selectedSquareIds;
     }else{
       for(uint i = 0; i < _diceNumber; i++){
@@ -148,6 +157,9 @@ contract FoteisonGame {
       return selectedSquareIds;
     }
   }
+
+  event UserBalanceChanged(uint newUserBalance);
+  event InsufficientBalance();
 
   // after a user move to a new square, update the user balance
   function caluculateUserBalance(uint _squareId) internal {

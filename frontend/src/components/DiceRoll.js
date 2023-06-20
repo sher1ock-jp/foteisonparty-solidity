@@ -6,30 +6,40 @@
 
 import React, { useState } from 'react';
 
-const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _currentSquare} ) => {
-  const [diceValue, setDiceValue] = useState(null);
+const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _currentSquare, _squares} ) => {
   const [rolling, setRolling] = useState(false);
 
   const rollDice = async () => {
     if (rolling) return;
     setRolling(true);
   
-    // Simulate dice rolling animation
     setTimeout(async () => {
-      const value = Math.floor(Math.random() * 6) + 1;
-      setDiceValue(value);
-      setRolling(false);
-      alert(`Dice Value: ${value}`);
-      
-      const square = await _FoteisonGameContract.moveUser(5, _currentSquare);
-      console.log(value);
-      console.log(_currentSquare);
-      // if square array is empty, console.log("There is no square connected to this square")
-      if (square.length === 0) {
-        console.log("There is no square connected to this square");
-      }
-      for (const item of square) {
-        console.log(parseInt(item));
+      try {
+        const value = Math.floor(Math.random() * 6) + 1;
+        setRolling(false);
+        alert(`Dice Value: ${value}`);
+        
+        const squareIds = await _FoteisonGameContract.moveUser(value, _currentSquare);
+        console.log(value);
+        console.log(_currentSquare);
+        // if square array is empty, console.log("There is no square connected to this square")
+        if (squareIds.length === 0) {
+          console.log("There is no square connected to this square");
+        } else {
+          for (let i = 0; i < squareIds.length; i++) {
+              let targetId = parseInt(squareIds[i]);
+              let targetSquare = _squares.find(square => square.id === targetId);
+              if (!targetSquare) {
+                console.log(`No square with id: ${targetId}`);
+              } else {
+                console.log(targetSquare.x, targetSquare.y); 
+              }
+          }
+        }
+        // console the last id of the square array
+        console.log(squareIds[squareIds.length - 1]);
+      } catch (error) {
+        console.log(`Error: ${error}`);
       }
     }, 2000);
   };
@@ -71,7 +81,6 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _currentSquare} ) =>
           <div className="dot dot-bottom-left" />
           <div className="dot dot-bottom-right" />
         </div>
-        {diceValue && <p className="dice-value">Dice Value: {diceValue}</p>}
       </div>
       <button className="roll-button" onClick={rollDice} disabled={rolling}>
         Roll Dice

@@ -20,16 +20,19 @@ const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract, _idUrlMap }) =
     setShowAdditionalComponent(!showAdditionalComponent);
   };
 
+  // id is given by the map function in App.js
   // initialFocusId is 1275 and id is given by the map function in App.js
+  // if  initialFocusId === id, then the square is focused
   useEffect(() => {
     if ( initialFocusId === id) {
-      const squareElement = squareRef.current;
+      const squareElement = squareRef.current; // squareRef is the reference of the square
       if (squareElement) {
         squareElement.focus();
       }
     }
   }, []);
 
+  // 
   return (
     <div
       className="square"

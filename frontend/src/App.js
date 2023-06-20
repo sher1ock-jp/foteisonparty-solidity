@@ -212,6 +212,7 @@ const App = () => {
               {showDiceRoll && <DiceRoll
                 _currentSquare={currentSquare}
                 _FoteisonGameContract={FoteisonGameContract}
+                _squares={squares}
               />}
               {currentQuestStatus ? (
                 <button className="dice-roll-button" onClick={handleDiceRollButtonClick}>
