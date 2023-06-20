@@ -24,6 +24,10 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _currentSquare} ) =>
       const square = await _FoteisonGameContract.moveUser(5, _currentSquare);
       console.log(value);
       console.log(_currentSquare);
+      // if square array is empty, console.log("There is no square connected to this square")
+      if (square.length === 0) {
+        console.log("There is no square connected to this square");
+      }
       for (const item of square) {
         console.log(parseInt(item));
       }
