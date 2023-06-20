@@ -174,30 +174,28 @@ contract FoteisonGame {
   // if connected squareIds has plural squareIds, randomly choose one of them and cotinue this process until the number of dice
   // return the squareId that the user move to
   function moveUser( uint _diceNumber, uint _currentSquareId) public view returns (uint[] memory){
-    // fetch all the connected squareIds from the squareId
-    uint[] memory connectedSquareIds = squareIdToSquare[_currentSquareId].adjacentSquareIds;
-    // Create an array to store the selected squareIds
-    uint[] memory selectedSquareIds = new uint[](_diceNumber);
-    
-    // if connected squareIds has plural squareIds, randomly choose one of them and cotinue this process until the number of dice
-    if (connectedSquareIds.length == 0){
-      // if the number of connected squareIds is 0 at beginning, emit an event
-      return selectedSquareIds;
-    }else{
-      for(uint i = 0; i < _diceNumber; i++){
-        // if the number of connected squareIds is 0, emit an event
-        if (connectedSquareIds.length == 0){
-          return selectedSquareIds;
-        }else{
-        uint randomSquareIndex = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, i))) % connectedSquareIds.length;
-        uint randomSquareId = connectedSquareIds[randomSquareIndex];
-        selectedSquareIds[i] = randomSquareId;
-        connectedSquareIds = squareIdToSquare[randomSquareId].adjacentSquareIds;
-        }
-      }
-      return selectedSquareIds;
-    }
+  uint[] memory connectedSquareIds = squareIdToSquare[_currentSquareId].adjacentSquareIds;
+  
+  // Check if there are connected squares at the beginning
+  if (connectedSquareIds.length == 0){
+    return new uint[](0); // return an empty array
   }
+
+  uint[] memory selectedSquareIds = new uint[](_diceNumber);
+    
+  for(uint i = 0; i < _diceNumber; i++){
+    if (connectedSquareIds.length == 0){
+      break; // break the loop if no more connected squares
+    }
+
+    uint randomSquareIndex = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, i))) % connectedSquareIds.length;
+    uint randomSquareId = connectedSquareIds[randomSquareIndex];
+    selectedSquareIds[i] = randomSquareId;
+    connectedSquareIds = squareIdToSquare[randomSquareId].adjacentSquareIds;
+  }
+
+  return selectedSquareIds;
+}
 
   // when user login, return the user data to the front-end 
   function confirmUser() public view returns (User memory) {
