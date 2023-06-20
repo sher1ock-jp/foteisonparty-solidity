@@ -29,6 +29,7 @@ contract FoteisonGame {
     uint[] adjacentSquareIds; // when the a square that connects this square is created, adjacentSquareIds is updated
   }
   struct User{
+    bool initialized;
     uint squareId;
     uint userBalance;
     bool userQuestStatus;
@@ -92,13 +93,13 @@ contract FoteisonGame {
     updateAdjacentSquareIds( _backendSquareId, _squareId);
   }
 
-  // create a user data when user roll a dice
-  function updateUser(
+  function createUser(
     uint _squareId,
     uint _userBalance,
     bool _userQuestStatus
   ) public {
     User memory newUser = User(
+      true,
       _squareId,
       _userBalance,
       _userQuestStatus
@@ -106,9 +107,49 @@ contract FoteisonGame {
     users[msg.sender] = newUser;
   }
 
-  // when user login, return the user data to the front-end 
-  function confirmUser() public view returns (User memory) {
-    return users[msg.sender];
+  // // create a user data when user roll a dice
+  function updateUser(
+    uint _squareId,
+    uint _userBalance,
+    bool _userQuestStatus
+  ) public {
+    // if the user is new, create a user data
+    if (!users[msg.sender].initialized){
+      createUser(_squareId, _userBalance, _userQuestStatus);
+    }
+
+    if (squareIdToSquare[_squareId].squareBalance > 0){
+      bool sufficientBalance = calculateUserBalance(_squareId);
+      if (!sufficientBalance) {
+        return;  // If balance is insufficient, stop processing
+      }
+    }
+
+    if (keccak256(abi.encodePacked(squareIdToSquare[_squareId].questContractAddress)) != keccak256(abi.encodePacked(""))) {
+      users[msg.sender].userQuestStatus = false;
+    }
+  }
+
+  event InsufficientBalance();
+
+  function calculateUserBalance(uint _squareId) internal returns(bool) {
+    uint userBalance = users[msg.sender].userBalance;
+    uint squareBalance = squareIdToSquare[_squareId].squareBalance;
+
+    if (squareIdToSquare[_squareId].IsBalanceAdd){
+      uint newUserBalance = userBalance + squareBalance;
+      users[msg.sender].userBalance = newUserBalance;
+      return true;
+    }else{
+      if (userBalance > squareBalance){
+        uint newUserBalance = userBalance - squareBalance;
+        users[msg.sender].userBalance = newUserBalance;
+        return true;
+      }else{
+        emit InsufficientBalance();
+        return false;
+      }
+    }
   }
 
   function backToStart() public {
@@ -158,24 +199,11 @@ contract FoteisonGame {
     }
   }
 
-  event UserBalanceChanged(uint newUserBalance);
-  event InsufficientBalance();
+  // when user login, return the user data to the front-end 
+  function confirmUser() public view returns (User memory) {
+    return users[msg.sender];
+  }
 
-  // after a user move to a new square, update the user balance
-  function caluculateUserBalance(uint _squareId) internal {
-    uint userBalance = users[msg.sender].userBalance;
-    uint squareBalance = squareIdToSquare[_squareId].squareBalance;
-    if (userBalance > squareBalance){
-      uint newUserBalance = userBalance - squareBalance;
-      users[msg.sender].userBalance = newUserBalance;
-      emit UserBalanceChanged(newUserBalance);
-    }else{
-      emit InsufficientBalance();
-      backToStart();
-    }
-  }  
-  // when a user do a designated transaction, change the userQuestStatus to false
-  
   // confirm the square data
   function getSquare(uint squareId) public view returns (Square memory) {
     return squareIdToSquare[squareId];

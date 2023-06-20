@@ -94,6 +94,9 @@ const main = async () => {
     const userMoveTxn = await foteisonGame.moveUser(6, 1275);
     console.log(userMoveTxn);
 
+    const user = await foteisonGame.confirmUser();
+    console.log(user);
+
 }
 
   const runMain = async () => {
