@@ -56,6 +56,18 @@ body {
   flex: 1;
 }
 
+.back-to-start-button {
+  position: fixed;
+  height: 50px;
+  width: 200px;
+  bottom: 100px;
+  left: 70%;
+  font-size: 17px;
+  background-color: #fcfbf5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 25px; 
+}
+
 /**/
 /* Square.js */
 /**/
@@ -90,11 +102,11 @@ body {
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   bottom: -280px;
-  height: 250px; /* 縦幅を調整 */
+  height: 250px; 
   width: 350px;
   z-index: 9999;
   font-size: 15px;
-  padding: 10px; /* 各項目の間隔を調整 */
+  padding: 10px; 
 }
 
 .confirm-square::before {
@@ -109,7 +121,7 @@ body {
 }
 
 .confirm-square > div {
-  margin-bottom: 10px; /* 各項目の下部の余白を調整 */
+  margin-bottom: 10px; 
 }
 
 .creater {
@@ -126,7 +138,7 @@ body {
 .square-balance-bool,
 .quest-description,
 .quest-contract-address {
-  width: 100%; /* 項目の幅を100%にすることで、中身を左揃えにする */
+  width: 100%; 
 }
 
 
@@ -345,6 +357,7 @@ body {
   width: 250px;
   background-color: #fcfbf5;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 25px; 
 }
 
 .square-creation-button {
@@ -356,6 +369,7 @@ body {
   font-size: 17px;
   background-color: #fcfbf5;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 25px; 
 }
 
 /**/
@@ -369,6 +383,7 @@ body {
   left: 50%;
   font-size: 17px;
   background-color: #fcfbf5;
+  border-radius: 25px; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -381,16 +396,17 @@ body {
   top: 75%;
   left: 55.5%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   border-radius: 8px;
+  background-color: #fcfbf5;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .dice {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 60px; 
+  height: 60px; 
   transform-style: preserve-3d;
   animation: roll-animation 2s infinite;
   cursor: pointer;
@@ -409,33 +425,33 @@ body {
 }
 
 .front {
-  transform: translateZ(60px);
+  transform: translateZ(30px); 
 }
 
 .back {
-  transform: rotateY(180deg) translateZ(60px);
+  transform: rotateY(180deg) translateZ(30px); 
 }
 
 .right {
-  transform: rotateY(90deg) translateZ(60px);
+  transform: rotateY(90deg) translateZ(30px); 
 }
 
 .left {
-  transform: rotateY(-90deg) translateZ(60px);
+  transform: rotateY(-90deg) translateZ(30px); 
 }
 
 .top {
-  transform: rotateX(90deg) translateZ(60px);
+  transform: rotateX(90deg) translateZ(30px); 
 }
 
 .bottom {
-  transform: rotateX(-90deg) translateZ(60px);
+  transform: rotateX(-90deg) translateZ(30px); 
 }
 
 .dot {
   position: absolute;
-  width: 12px;
-  height: 12px;
+  width: 6px; 
+  height: 6px; 
   background-color: black;
   border-radius: 50%;
 }
@@ -476,7 +492,7 @@ body {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #007bff;
+  background-color: #343737;
   color: white;
   border: none;
   border-radius: 4px;

@@ -13,6 +13,8 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
       console.log(user)
       console.log(parseInt(user[1]));
       console.log(parseInt(user[2]));
+      console.log(user[3]);
+
       if(user[0] === true) {
         _setCurrentSquare(parseInt(user[1]));
         _setCurrentBalance(parseInt(user[2]));
@@ -43,6 +45,7 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
       confirmUser();
       getUserENS();
     }, []);
+    
     // if (! _ENS) {
     //   console.log("getUserENS called");
     //   getUserENS();

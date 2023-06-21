@@ -87,6 +87,16 @@ const App = () => {
     alert("You have to do your quest first!");
   };
 
+  const handleBackToStart = () => {
+    const backToStart = async () => {
+      await FoteisonGameContract.backToStart();
+      setCurrentSquare(1275);
+      setCurrentBalance(1000);
+      setCurrentQuestStatus(true);
+    }
+    backToStart();
+  };
+
   //
   // for nft rendering
   //
@@ -228,6 +238,9 @@ const App = () => {
                   Roll Dice
                 </button>
               )}
+              <button className="back-to-start-button" onClick={handleBackToStart}>
+                Reset Game
+              </button>
           </div>
         </div>
       </div>

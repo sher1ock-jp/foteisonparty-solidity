@@ -153,6 +153,7 @@ contract FoteisonGame {
   }
 
   function backToStart() public {
+    users[msg.sender].initialized = false;
     users[msg.sender].squareId = 1275;
     users[msg.sender].userBalance = 1000;
     users[msg.sender].userQuestStatus = true;
@@ -173,28 +174,60 @@ contract FoteisonGame {
   // when user roll a dice, fetch the current squareId of the user and fetch all the connected squareIds from the squareId
   // if connected squareIds has plural squareIds, randomly choose one of them and cotinue this process until the number of dice
   // return the squareId that the user move to
-  function moveUser( uint _diceNumber, uint _currentSquareId) public view returns (uint[] memory){
-  uint[] memory connectedSquareIds = squareIdToSquare[_currentSquareId].adjacentSquareIds;
+//   function moveUser( uint _diceNumber, uint _currentSquareId) public view returns (uint[] memory){
+//   uint[] memory connectedSquareIds = squareIdToSquare[_currentSquareId].adjacentSquareIds;
   
-  // Check if there are connected squares at the beginning
-  if (connectedSquareIds.length == 0){
-    return new uint[](0); // return an empty array
-  }
+//   // Check if there are connected squares at the beginning
+//   if (connectedSquareIds.length == 0){
+//     return new uint[](0); // return an empty array
+//   }
 
-  uint[] memory selectedSquareIds = new uint[](_diceNumber);
+//   uint[] memory selectedSquareIds = new uint[](_diceNumber);
     
-  for(uint i = 0; i < _diceNumber; i++){
-    if (connectedSquareIds.length == 0){
-      break; // break the loop if no more connected squares
+//   for(uint i = 0; i < _diceNumber; i++){
+//     if (connectedSquareIds.length == 0){
+//       break; // break the loop if no more connected squares
+//     }
+
+//     uint randomSquareIndex = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, i))) % connectedSquareIds.length;
+//     uint randomSquareId = connectedSquareIds[randomSquareIndex];
+//     selectedSquareIds[i] = randomSquareId;
+//     connectedSquareIds = squareIdToSquare[randomSquareId].adjacentSquareIds;
+//   }
+
+//   return selectedSquareIds;
+// }
+
+  function moveUser(uint _diceNumber, uint _currentSquareId) public view returns (uint[] memory) {
+    uint[] memory connectedSquareIds = squareIdToSquare[_currentSquareId].adjacentSquareIds;
+
+    if (connectedSquareIds.length == 0) {
+        return new uint[](0);
     }
 
-    uint randomSquareIndex = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, i))) % connectedSquareIds.length;
-    uint randomSquareId = connectedSquareIds[randomSquareIndex];
-    selectedSquareIds[i] = randomSquareId;
-    connectedSquareIds = squareIdToSquare[randomSquareId].adjacentSquareIds;
-  }
+    uint[] memory selectedSquareIds = new uint[](_diceNumber);
+    uint actualMoves = 0; // track actual number of moves made
 
-  return selectedSquareIds;
+    for (uint i = 0; i < _diceNumber; i++) {
+        if (connectedSquareIds.length == 0) {
+            break;
+        }
+
+        uint randomSquareIndex = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, i))) % connectedSquareIds.length;
+        uint randomSquareId = connectedSquareIds[randomSquareIndex];
+        selectedSquareIds[i] = randomSquareId;
+        actualMoves++; // increment actualMoves
+
+        connectedSquareIds = squareIdToSquare[randomSquareId].adjacentSquareIds;
+    }
+
+    // Create a new array with actual size
+    uint[] memory actualSelectedSquareIds = new uint[](actualMoves);
+    for (uint i = 0; i < actualMoves; i++) {
+        actualSelectedSquareIds[i] = selectedSquareIds[i];
+    }
+
+    return actualSelectedSquareIds;
 }
 
   // when user login, return the user data to the front-end 

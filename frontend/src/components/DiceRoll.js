@@ -20,12 +20,10 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSq
           alert(`Dice Value: ${value}`);
     
           const squareIds = await _FoteisonGameContract.moveUser(value, _currentSquare);
-          console.log(value);
-          console.log(_currentSquare);
           // if square array is empty, console.log("There is no square connected to this square")
           let coords = [];  // to store coordinates
           if (squareIds.length === 0) {
-            console.log("There is no square connected to this square");
+            alert("There is no square connected to this square");
           } else {
             for (let i = 0; i < squareIds.length; i++) {
               let targetId = parseInt(squareIds[i]);
@@ -42,10 +40,17 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSq
 
           // not set currentSquare,  this is temporary
           const squareId = parseInt(squareIds[squareIds.length - 1]);
+          // Id：squareId
+          console.log(`ID：${squareId}`);
 
           const updateUserInfo = async () => {
-            const user = await _FoteisonGameContract.updateUser(squareId, _currentBalance, _currentQuestStatus);
-            return user;
+            try {
+              const user = await _FoteisonGameContract.updateUser(squareId, _currentBalance, _currentQuestStatus);
+              return user;
+            } catch (error) {
+              console.error(`Error during updateUser: ${error}`);
+              return null;
+            }
           }
       
           const userUpdated = await updateUserInfo();
@@ -57,15 +62,14 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSq
             return;
           }
       
-          const confirmUser = async () => {
-            const user = await _FoteisonGameContract.confirmUser();
-            _setCurrentSquare(parseInt(user[1]));
-            _setCurrentBalance(parseInt(user[2]));
-            _setCurrentQuestStatus(user[3]);
-            console.log(user)
-          }
+          // const confirmUser = async () => {
+          //   const user = await _FoteisonGameContract.confirmUser();
+          //   _setCurrentSquare(parseInt(user[1]));
+          //   _setCurrentBalance(parseInt(user[2]));
+          //   _setCurrentQuestStatus(user[3]);
+          // }
       
-          await confirmUser();
+          // await confirmUser();
           
           if (coords.length > 0) {  // if there are coordinates
             alert(`Coordinates: ${coords.join(" -> ")}`);  // join and alert the coordinates
@@ -115,7 +119,7 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSq
         </div>
       </div>
       <button className="roll-button" onClick={rollDice} disabled={rolling}>
-        Roll Dice
+        GO
       </button>
     </div>
   );

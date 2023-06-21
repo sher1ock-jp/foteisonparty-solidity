@@ -102,7 +102,7 @@ const SquareCreation = ({
         }
 
         if(_transaction){
-            const response = await axios.get("http://localhost:8080/nftBalance", {
+            const response = await axios.get("http://localhost:8080/confirmContract", {
                 params: {
                     address: _transaction,
                     chain: "0x13881",
