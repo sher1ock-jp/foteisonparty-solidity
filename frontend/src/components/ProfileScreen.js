@@ -3,11 +3,14 @@
 // if user do their quest, render the quest's status
 
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCurrentSquare, _currentBalance, _setCurrentBalance, _currentQuestStatus, _setCurrentQuestStatus, _FoteisonGameContract }) => {
 
-    const confirmUser = async () => {
+    const [transactionHash, setTransactionHash] = useState('');
+    const [showInput, setShowInput] = useState(false);
+
+    const renewInfo = async () => {
       // if user exists, update the user's information
       const user = await _FoteisonGameContract.confirmUser();
       console.log(user)
@@ -40,12 +43,48 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
         console.log(e);
       }
     };
+
+    const verifyTxn = async ( _transactionHash ) => {
+      try {
+        const response = await axios.get("http://localhost:8080/confirmTransaction", {
+          params: {
+            transactionHash: _transactionHash
+      },
+      });
+      
+      console.log(response.data);
+
+      if (response.data) {
+        console.log("Verified. You can roll the dice!");
+        _setCurrentQuestStatus(true);
+      }else{
+        console.log("Not verified. You can't roll the dice!");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleShowInput = () => {
+    setShowInput(true);
+  };
+
+  const handleInputChange = (e) => {
+    setTransactionHash(e.target.value);
+  };
+
+  const handleInputSubmit = async () => {
+    await verifyTxn(transactionHash);
+    setShowInput(false);
+  };
+
+
     
     useEffect(() => {
-      confirmUser();
+      renewInfo();
       getUserENS();
     }, []);
-    
+
     // if (! _ENS) {
     //   console.log("getUserENS called");
     //   getUserENS();
@@ -66,7 +105,17 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
           <p>Coordinates: {x}, {y}</p>
           <p>Crypulu: {_currentBalance}</p>
           <p>Quest: {_currentQuestStatus ? "no quest" : "do quest"}</p>
-          <button onClick={confirmUser}>confirm</button>
+          <button onClick={renewInfo}>Renew Info</button>
+        <button className="verify-button" onClick={handleShowInput}>
+          Verify Transaction
+        </button>
+        {showInput && (
+          <div>
+            <input type="text" value={transactionHash} onChange={handleInputChange} />
+            <button onClick={handleInputSubmit}>OK</button>
+          </div>
+        )}
+
         </div>
       </>
     );

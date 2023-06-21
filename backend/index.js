@@ -81,10 +81,13 @@ app.get("/nftBalance", async (req, res) => {
   });
   
   app.get("/confirmTransaction", async (req, res) => {
+
+    const { transactionHash } = req.query;
+
     try {
       const response = await Moralis.EvmApi.transaction.getTransaction({
         chain: "0x5",
-        transactionHash: "0x7b6b73d83c2fbd8185b211e08edc442c53158c50da23499bbcb402906cede720",
+        transactionHash: transactionHash,
     });
 
     res.send(response.raw.logs[0].address);
