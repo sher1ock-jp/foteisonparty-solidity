@@ -132,8 +132,9 @@ const SquareCreation = ({
                 _profileIconNft.image,
                 );
             console.log(transaction);
-
-            alert("Square Created!");
+            
+            // alert("Square Created at " + _xCoordinate + ", " + _yCoordinate);
+            alert("Square Created at " + _xCoordinate + ", " + _yCoordinate + " and connected from " + _xCoordinateBackend + ", " + _yCoordinateBackend);
             
             // clear the inputs
             _setXCoordinate(null);

@@ -148,6 +148,8 @@ const App = () => {
             />
           ))}
 
+          
+
           {currentAccount ? (
             <>
               <div className="profile-zone">
@@ -256,6 +258,8 @@ const App = () => {
 
 
         </div>
+        <div className="square-zone-right"></div>
+        <div className="square-zone-bottom"></div>
       </div>
     </body>
   );
