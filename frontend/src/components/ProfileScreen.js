@@ -85,19 +85,19 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
         <div className="profile-name">
           {_ENS ? _ENS : _currentAccount}
         </div>
-        <div className="profile-eachInformaton">
+        <div className="profile-each-informaton">
           <p>Coordinates: {x}, {y}</p>
           <p>Crypulu: {_currentBalance}</p>
           <p>Quest: {_currentQuestStatus ? "no quest" : "do quest"}</p>
-          <button onClick={renewInfo}>Renew Info</button>
-        <button className="verify-button" onClick={handleShowInput}>
-          Verify Transaction
-        </button>
-        {showInput && (
-          <div>
-            <input type="text" value={transactionHash} onChange={handleInputChange} />
-            <button onClick={handleInputSubmit}>OK</button>
-          </div>
+           {/* <button onClick={renewInfo}>Renew Profile</button> */}
+          <button className="verify-button" onClick={handleShowInput}>
+            Verify Transaction
+          </button>
+          {showInput && (
+            <div>
+              <input type="text" value={transactionHash} onChange={handleInputChange} placeholder="input hash value"/>
+              <button onClick={handleInputSubmit}>verify</button>
+            </div>
         )}
 
         </div>

@@ -30,7 +30,9 @@ const Square = ({ _currentAccount, _squareId, _coordinateX, _coordinateY, _initi
       ref={squareRef}
       tabIndex={_squareId === _initialFocusId ? 0 : -1} // tabIndex is used to make the square focusable
     >
-      {imageUrl && <img src={imageUrl} alt="" width={40} />}
+      <div className="floating-nft">
+        {imageUrl && <img src={imageUrl} alt="" width={37} />}
+      </div>
       <span className="coordinates">{_coordinateX},{_coordinateY}</span>
       {showSquareDescription && (
         <ConfirmSquare _FoteisonGameContract={_FoteisonGameContract} _squareId={_squareId} _currentAccount={_currentAccount} />
