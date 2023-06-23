@@ -3,7 +3,6 @@
 /* to delete the default margin and padding */
 body {
   margin: 0;
-  padding: 0;
   font-family: 'DotGothic16', sans-serif;
 }
 
@@ -15,7 +14,8 @@ body {
   height: 100vh;
   width: 100vw;
   background-color: #343737;
-  padding: 10px;
+  padding: 50px;
+  box-sizing: border-box;
 }
 
 .square-zone {
@@ -37,7 +37,7 @@ body {
 }
 
 
-.nfts {
+.nfts-zone {
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -46,7 +46,7 @@ body {
   flex: 1;
 }
 
-.ens {
+.except-nfts-zone {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -93,60 +93,6 @@ body {
 }
 
 /**/
-/* ConfirmSquare.js */
-/**/
-
-.confirm-square {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  background-color: #fcfbf5;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  bottom: -280px;
-  height: 250px; 
-  width: 350px;
-  z-index: 9999;
-  font-size: 15px;
-  padding: 10px; 
-}
-
-.confirm-square::before {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 10px;
-  border-style: solid;
-  border-color: transparent transparent #fcfbf5 transparent;
-}
-
-.confirm-square > div {
-  margin-bottom: 10px; 
-}
-
-.creater {
-  display: flex;
-  align-items: center;
-}
-
-.creater img {
-  margin-left: 10px;
-}
-
-.square-description,
-.square-balance,
-.square-balance-bool,
-.quest-description,
-.quest-contract-address {
-  width: 100%; 
-}
-
-
-/**/
 /* WalletConnect.js */
 /**/
 .wallet-container {
@@ -168,9 +114,6 @@ body {
 }
 
 .profile-each-informaton{
-  font-size: 15px;
-  display: flex;
-  flex-direction: column;
   align-items: flex-start;
   justify-content: center;
 }
@@ -188,10 +131,6 @@ body {
   overflow-x: auto;
   padding: 10px;
 }
-
-/* .profile-icon{
-  padding-top: 5px;
-} */
 
 .nft-item {
   margin-right: 10px;
@@ -382,6 +321,59 @@ body {
   background-color: #fcfbf5;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 25px; 
+}
+
+/**/
+/* ConfirmSquare.js */
+/**/
+
+.confirm-square {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: #fcfbf5;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  bottom: -280px;
+  height: 250px; 
+  width: 350px;
+  z-index: 9999;
+  font-size: 15px;
+  padding: 10px; 
+}
+
+.confirm-square::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #fcfbf5 transparent;
+}
+
+.confirm-square > div {
+  margin-bottom: 10px; 
+}
+
+.creater {
+  display: flex;
+  align-items: center;
+}
+
+.creater img {
+  margin-left: 10px;
+}
+
+.square-description,
+.square-balance,
+.square-balance-bool,
+.quest-description,
+.quest-contract-address {
+  width: 100%; 
 }
 
 /**/

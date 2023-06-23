@@ -126,6 +126,7 @@ const App = () => {
       setCurrentSquare(1275);
       setCurrentBalance(1000);
       setCurrentQuestStatus(true);
+      alert("Game has been reset!");
     }
     backToStart();
   };
@@ -150,7 +151,7 @@ const App = () => {
           {currentAccount ? (
             <>
               <div className="profile-zone">
-                <div className="nfts">
+                <div className="nfts-zone">
                   <Nfts
                     _currentAccount={currentAccount}
                     _allNfts={allNfts}
@@ -161,7 +162,7 @@ const App = () => {
                     _setProfileIconNft={setProfileIconNft}
                   />
                 </div>
-                <div className="ens">
+                <div className="except-nfts-zone">
                   <ProfileScreen
                     _ENS={ENS}
                     _setENS={setENS}
@@ -227,11 +228,9 @@ const App = () => {
                   _FoteisonGameContract={FoteisonGameContract}
                   _squares={squares}
                   _currentSquare={currentSquare}
-                  _setCurrentSquare={setCurrentSquare}
                   _currentBalance={currentBalance}
-                  _setCurrentBalance={setCurrentBalance}
                   _currentQuestStatus={currentQuestStatus}
-                  _setCurrentQuestStatus={setCurrentQuestStatus}
+                  _setShowDiceRoll={setShowDiceRoll}
                 />}
                 {currentQuestStatus ? (
                   <button className="dice-roll-button" onClick={handleDiceRollButtonClick}>

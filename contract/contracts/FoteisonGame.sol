@@ -94,7 +94,7 @@ contract FoteisonGame {
     users[msg.sender] = newUser;
   }
 
-  // // create a user data when user roll a dice
+  // reate a user data when user roll a dice
   function updateUser(
     uint _squareId,
     uint _userBalance,
@@ -115,6 +115,11 @@ contract FoteisonGame {
     if (keccak256(abi.encodePacked(squareIdToSquare[_squareId].questContractAddress)) != keccak256(abi.encodePacked(""))) {
       users[msg.sender].userQuestStatus = false;
     }
+  }
+
+  // for after verify the Txn
+  function QuestStatusToTrue() public {
+    users[msg.sender].userQuestStatus = true;
   }
 
   event InsufficientBalance();

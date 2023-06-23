@@ -24,7 +24,7 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
       }
     };
 
-    const renewInfo = async () => {
+    const getProfileInfo = async () => {
       const user = await _FoteisonGameContract.confirmUser();
       
       // if user[0] is false, it means that the user is not registered yet. Use default values that are set in the frontend/src/App.js.
@@ -36,6 +36,10 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
       }
     }
 
+    useEffect(() => {
+      getProfileInfo(); 
+      getUserENS();
+    }, [_currentAccount, _currentSquare, _currentBalance, _currentQuestStatus]);
 
     const verifyTxn = async ( _transactionHash ) => {
       try {
@@ -46,10 +50,13 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
       });
       
       if (response.data) {
-        console.log("Verified. You can roll the dice!");
+        alert("Verified. You can roll the dice!");
+        await _FoteisonGameContract.QuestStatusToTrue();
         _setCurrentQuestStatus(true);
+        setShowInput(false);
+        setTransactionHash('');
       }else{
-        console.log("Not verified. You can't roll the dice!");
+        alert("Not verified. You can't roll the dice!");
       }
     } catch (e) {
       console.log(e);
@@ -57,7 +64,11 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
   };
 
   const handleShowInput = () => {
+    if(showInput === true){
+    setShowInput(false);
+    }else{
     setShowInput(true);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -68,11 +79,6 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
     await verifyTxn(transactionHash);
     setShowInput(false);
   };
-    
-    useEffect(() => {
-      renewInfo();
-      getUserENS();
-    }, [_currentAccount, _currentSquare, _currentBalance, _currentQuestStatus]);
 
     const gridSize = 50;
     const centerX = Math.floor(gridSize / 2);
@@ -88,7 +94,7 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
         <div className="profile-each-informaton">
           <p>Coordinates: {x}, {y}</p>
           <p>Crypulu: {_currentBalance}</p>
-          <p>Quest: {_currentQuestStatus ? "no quest" : "do quest"}</p>
+          <p>Quest: {_currentQuestStatus ? "No quest" : "Do quest"}</p>
            {/* <button onClick={renewInfo}>Renew Profile</button> */}
           <button className="verify-button" onClick={handleShowInput}>
             Verify Transaction

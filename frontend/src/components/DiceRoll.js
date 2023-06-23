@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSquare, _currentBalance, _currentQuestStatus, _setCurrentSquare, _setCurrentBalance, _setCurrentQuestStatus} ) => {
+const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSquare, _currentBalance, _currentQuestStatus, _setShowDiceRoll} ) => {
   const [rolling, setRolling] = useState(false);
 
   const rollDice = async () => {
@@ -54,6 +54,7 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSq
           // If it was not successful (due to InsufficientBalance event being emitted, for example), it will be falsy.
           if (!userUpdated) {
             alert('移動先のマスの残高が不足しており、マスを移動できませんでした！');
+            _setShowDiceRoll(false);
             return;
           }
       
@@ -68,6 +69,8 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSq
           
           if (coords.length > 0) {  // if there are coordinates
             alert(`Coordinates: ${coords.join(" -> ")}`);  // join and alert the coordinates
+            _setShowDiceRoll(false);
+            setRolling(false);
           }
         } catch (error) {
           console.log(`Error: ${error}`);
