@@ -9,7 +9,7 @@ const SquareCreation = ({
     _setSquareNft,
     _IsSquareNft,
     _setIsSquareNft,
-    _profileNFTList,
+    _profileIconNft,
     _xCoordinate,
     _setXCoordinate,
     _yCoordinate,
@@ -55,17 +55,12 @@ const SquareCreation = ({
         const backendId = getBackendIdFromCoordinates(_xCoordinateBackend, _yCoordinateBackend);
         const backendStruct = await _FoteisonGameContract.getSquare(backendId);
 
-        // @error After user choose a _profileNFTList, if user click the reset button, the _profileNFTList is remainig
-        // if(_profileNFTList.image === ""){
-        //     alert("Please set the profile image");
-        //     return;
-        // }
-
         if(! _ENS){
             _ENS = _currentAccount;
         }
 
-        if(! _profileNFTList.image === null ){
+        // @error After user choose a _profileNFTList more than once, the _profileNFTList is not able to be set to null
+        if(_profileIconNft === null ){
             alert("Please set the profile image");
             return;
         }
@@ -86,7 +81,8 @@ const SquareCreation = ({
             return;
         }
 
-        if (!_squareNft.image === null){
+        // @error After user choose a _profileNFTList more than once, the _profileNFTList is not able to be set to null
+        if (_squareNft === null){
             alert("Please set the square image");
             return;
         }
@@ -99,11 +95,6 @@ const SquareCreation = ({
 
         if(!_squareDescription){
             alert("Please set the square description");
-            return;
-        }
-
-        if(_squareBalance > 100) {
-            alert("Please set the square balance less than 100");
             return;
         }
 
@@ -129,7 +120,7 @@ const SquareCreation = ({
         try{
             
             const transaction = await _FoteisonGameContract.createSquare(
-                _ENS,
+                _ENS,  // if ens is not set, the currentAccount(Address) is set
                 createId,
                 backendId,
                 _squareDescription,
@@ -138,9 +129,10 @@ const SquareCreation = ({
                 _balanceIncrease,
                 _transaction,
                 _transactionDescription,
-                _profileNFTList.image,
+                _profileIconNft.image,
                 );
             console.log(transaction);
+
             alert("Square Created!");
             
             // clear the inputs
@@ -218,16 +210,17 @@ const SquareCreation = ({
             <div className="square-title">where to create</div>
              <div className="coordinate-inputs">
                 <label htmlFor="x-coordinate" className="coordinate-label">X：</label>
-                <input type="number" id="x-coordinate" className="coordinate-input" value={_xCoordinate} onChange={handleXCoordinateChange}/>
+                <input type="number" id="x-coordinate" className="coordinate-input" value={_xCoordinate} onChange={handleXCoordinateChange} placeholder="-25~25"/>
                 <label htmlFor="y-coordinate" className="coordinate-label">Y：</label>
-                <input type="number" id="y-coordinate" className="coordinate-input" value={_yCoordinate} onChange={handleYCoordinateChange}/>
+                <input type="number" id="y-coordinate" className="coordinate-input" value={_yCoordinate} onChange={handleYCoordinateChange}　placeholder="-25~25"/>
+                
             </div>
             <div className="square-title">which to connect</div>
              <div className="coordinate-inputs">
                 <label htmlFor="x-coordinate" className="coordinate-label">X：</label>
-                <input type="number" id="x-coordinate" className="coordinate-input" value={_xCoordinateBackend} onChange={handleXCoordinateBackendChange}/>
+                <input type="number" id="x-coordinate" className="coordinate-input" value={_xCoordinateBackend} onChange={handleXCoordinateBackendChange} placeholder="-25~25"/>
                 <label htmlFor="y-coordinate" className="coordinate-label">Y：</label>
-                <input type="number" id="y-coordinate" className="coordinate-input" value={_yCoordinateBackend} onChange={handleYCoordinateBackendChange}/>
+                <input type="number" id="y-coordinate" className="coordinate-input" value={_yCoordinateBackend} onChange={handleYCoordinateBackendChange} placeholder="-25~25"/>
             </div>
             <div className="nft-title">which to embed</div>
             <div className="nft-sub-title">if you don't choose your NFT, default image is used</div>
@@ -260,12 +253,13 @@ const SquareCreation = ({
                 maxLength={20}
                 value={_squareDescription}
                 onChange={handleSquareDescriptionChange}
+                placeholder="This game is very long. Write youe meme here."
             />
             <div className="balance-title">Crypulu Balance Applied to User</div>
                 <div className="balance-content">
                     <div>
                         <label htmlFor="amount">Amount: </label>
-                        <input type="number" id="amount" value={_squareBalance} onChange={handleSquareBalanceChange} />
+                        <input type="number" id="amount" value={_squareBalance} onChange={handleSquareBalanceChange} placeholder="0~300"/>
                     </div>
                     <div>
                         <label htmlFor="increase">Increase/Decrease: </label>
@@ -281,6 +275,7 @@ const SquareCreation = ({
                 className="transaction-contract-input"
                 value={_transaction}
                 onChange={handleSquareTransactionContractChange}
+                placeholder="optional"
             />
             <div className="transaction-title">Quest Description</div>
             <input
@@ -289,6 +284,7 @@ const SquareCreation = ({
                 maxLength={20}
                 value={_transactionDescription}
                 onChange={handleSquareTransactionChange}
+                placeholder="optional"
             />
             <button className="square-creation-transmit-button" onClick={createSquare}>
                 Transmit

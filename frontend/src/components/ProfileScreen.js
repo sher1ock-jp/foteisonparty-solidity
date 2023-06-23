@@ -72,7 +72,7 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
     useEffect(() => {
       renewInfo();
       getUserENS();
-    }, []);
+    }, [_currentAccount, _currentSquare, _currentBalance, _currentQuestStatus]);
 
     const gridSize = 50;
     const centerX = Math.floor(gridSize / 2);

@@ -225,16 +225,18 @@ body {
   padding-bottom: 10px;
 }
 
+.coordinate-input {
+  width: 70px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .coordinate-label {
   margin-left: 15px;
   font-size: 12px;
 }
 
-.coordinate-input {
-  width: 50px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+
 
 .nft-title {
   display: flex;

@@ -21,10 +21,10 @@ const App = () => {
   const [currentSquare, setCurrentSquare] = useState(1275);
   const [currentBalance, setCurrentBalance] = useState(1000);
   const [currentQuestStatus, setCurrentQuestStatus] = useState(true);
-  const [xCoordinate, setXCoordinate] = useState(0);
-  const [yCoordinate, setYCoordinate] = useState(0);
-  const [xCoordinateBackend, setXCoordinateBackend] = useState(0);
-  const [yCoordinateBackend, setYCoordinateBackend] = useState(0);
+  const [xCoordinate, setXCoordinate] = useState(null);
+  const [yCoordinate, setYCoordinate] = useState(null);
+  const [xCoordinateBackend, setXCoordinateBackend] = useState(null);
+  const [yCoordinateBackend, setYCoordinateBackend] = useState(null);
   const [selectedSquareId, setSelectedSquareId] = useState(0);
   const [IsSquareNft, setIsSquareNft] = useState(false);
   const [squareNft, setSquareNft] = useState(null);
@@ -210,7 +210,7 @@ const App = () => {
                     _setTransactionDescription={setTransactionDescription}
                     _transaction={transaction}
                     _setTransaction={setTransaction}
-                    _profileNFTList={profileIconNft}
+                    _profileIconNft={profileIconNft}
                     _FoteisonGameContract={FoteisonGameContract}
                   />
                 <button className="square-creation-button" onClick={handleSquareCreationButtonClick}>

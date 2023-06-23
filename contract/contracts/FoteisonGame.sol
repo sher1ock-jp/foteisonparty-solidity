@@ -34,18 +34,18 @@ contract FoteisonGame {
   constructor() {
     createSquare (
       // start square data
-      "sher1ock.eth",
+      "Satoshi Nakamoto",
       1275,
       1000000000000000,
-      "Here is the start square",
-      "https://thumb.ac-illust.com/cf/cf5e80947bc873ea5ce1489467c261a2_w.jpeg",
+      "Genesis Block",
+      "https://thumb.ac-illust.com/14/148ae45fff7bddfbc856ba419dcfba9b_w.jpeg",
       0,
       true,
       "",
       "",
       ""
     );
-    squareIdToSquareNftURL[1275] = "https://thumb.ac-illust.com/cf/cf5e80947bc873ea5ce1489467c261a2_w.jpeg";
+    squareIdToSquareNftURL[1275] = "https://thumb.ac-illust.com/14/148ae45fff7bddfbc856ba419dcfba9b_w.jpeg";
   }
 
   function createSquare(
