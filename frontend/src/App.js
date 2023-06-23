@@ -1,5 +1,3 @@
-// manage and retain all the states of the application
-
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
@@ -13,14 +11,13 @@ import Nfts from "./components/NFTs";
 import DiceRoll from "./components/DiceRoll";
 
 const App = () => {
-  const [initialFocusId, setInitialFocusId] = useState(1275);
-  // for backend
+
+  const [initialFocusId] = useState(1275); //when user login, the initial focus is the center square
   const [currentAccount, setCurrentAccount] = useState(null);
   const [ENS, setENS] = useState(null);
-  const [allNfts, setAllNFTs] = useState(null);
-  const [showProfileNFT, setProfileShowNFT] = useState(false);
-  const [profileNFTList, setProfileNFTList] = useState(null);
-  // below states are for tha game
+  const [allNfts, setAllNfts] = useState(null);
+  const [IsProfileNft, setIsProfileNft] = useState(false);
+  const [profileIconNft, setProfileIconNft] = useState(null);
   const [currentSquare, setCurrentSquare] = useState(1275);
   const [currentBalance, setCurrentBalance] = useState(1000);
   const [currentQuestStatus, setCurrentQuestStatus] = useState(true);
@@ -29,48 +26,84 @@ const App = () => {
   const [xCoordinateBackend, setXCoordinateBackend] = useState(0);
   const [yCoordinateBackend, setYCoordinateBackend] = useState(0);
   const [selectedSquareId, setSelectedSquareId] = useState(0);
-  const [showSquareNFT, setShowSquareNFT] = useState(false);
-  const [squareNFTList, setSquareNFTList] = useState(null);
+  const [IsSquareNft, setIsSquareNft] = useState(false);
+  const [squareNft, setSquareNft] = useState(null);
   const [squareDescription, setSquareDescription] = useState("");
   const [squareBalance, setSquareBalance] = useState("");
   const [balanceIncrease, setBalanceIncrease] = useState(true);
   const [transactionDescription, setTransactionDescription] = useState("");
   const [transaction, setTransaction] = useState("");
-  const [squareStayerImage, setSquareStayerImage] = useState("");
-  // for the button
   const [showSquareCreation, setShowSquareCreation] = useState(false);
   const [showDiceRoll, setShowDiceRoll] = useState(false);
+  const [idNftMap, setIdNftMap] = useState({});
 
-  // for nft rendering
-  const [idUrlMap, setIdUrlMap] = useState({});
-
-  //
-  // enalbe connection to the blockchain
-  //
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = provider.getSigner();
-  const FoteisonGameContract = new ethers.Contract(
-    CONTRACT_ADDRESS,
-    FoteisonGame.abi,
-    signer
-  );
-  
-  //
-  //square generation
-  //
+  // because I don't know how to control infinite / mutable / dynamic id, I decided to restrict the id to 50 * 50 = 2500
   const squares = [];
   const gridSize = 50; 
   const centerX = Math.floor(gridSize / 2);
   const centerY = Math.floor(gridSize / 2);
-
+  // if id is only option to find the square, UX is not good when the user create or move the square
   for (let id = 0; id < 2500; id++) {
     const x = id % gridSize - centerX;
     const y = Math.floor(id / gridSize) - centerY; 
-    squares.push({ id, x, y });
+    squares.push({ id, x, y }); // connect id and coordinates
   }
+  
+  const [FoteisonGameContract, setFoteisonGameContract] = useState(null);
+
+  useEffect(() => {
+    const connectToBlockchain = async () => {
+      try {
+        if (typeof window.ethereum !== "undefined") {
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          const contract = new ethers.Contract(
+            CONTRACT_ADDRESS,
+            FoteisonGame.abi,
+            signer
+          );
+          setFoteisonGameContract(contract);
+        } else {
+          console.log("Please connect to MetaMask.");
+        }
+      } catch (error) {
+        console.error("Failed to connect to the blockchain:", error);
+      }
+    };
+
+    connectToBlockchain();
+  }, []);
+
+  useEffect(() => {
+    const fetchAllSquareNftURLs = async () => {
+      if (FoteisonGameContract && currentAccount) {
+        const result = await FoteisonGameContract.getAllSquareNftURLs();
+        const squareIds = result[0].map(hexValue => parseInt(hexValue));
+        const squareNftURLs = result[1];
+  
+        const idNftMap = {};
+  
+        for (let i = 0; i < squareIds.length; i++) {
+          const id = squareIds[i];
+          const url = squareNftURLs[i];
+          idNftMap[id] = url;
+        }
+
+        setIdNftMap(idNftMap); 
+  
+      }else{
+        console.log("Please connect to MetaMask.");
+      } 
+    };
+    if (currentAccount) {
+      fetchAllSquareNftURLs();
+    }
+  }, [FoteisonGameContract, currentAccount]);
+
+
 
   //
-  //buttons on the top of the screen
+  // button Area
   //
   const handleSquareCreationButtonClick = () => {
     console.log("Button clicked");
@@ -97,58 +130,35 @@ const App = () => {
     backToStart();
   };
 
-  //
-  // for nft rendering
-  //
-
-  useEffect(() => {
-
-    const fetchAllSquareNftURLs = async () => {
-      const result = await FoteisonGameContract.getAllSquareNftURLs();
-      const numericIds = result[0].map(hexValue => parseInt(hexValue));
-      const squareNftURLs = result[1]
-
-      const idUrlMap = {};
-
-      for (let i = 0; i < numericIds.length; i++) {
-        const id = numericIds[i];
-        const url = squareNftURLs[i];
-        idUrlMap[id] = url;
-      }
-      setIdUrlMap(idUrlMap);
-      console.log(idUrlMap);
-    };
-
-    fetchAllSquareNftURLs();
-  }, []);
-
   return (
     <body>
       <div className="background">
-        <div className="zone-wrapper">
-          <div className="square-zone">
-            {squares.map((square) => (
-              <Square 
-                key={square.id}
-                id={square.id}
-                x={square.x}
-                y={square.y}
-                initialFocusId={initialFocusId}
-                _FoteisonGameContract={FoteisonGameContract}
-                _idUrlMap={idUrlMap}
-              />
-            ))}
-            {currentAccount ? (
+        <div className="square-zone">
+          
+          {squares.map((square) => (
+            <Square 
+              _currentAccount={currentAccount}
+              _squareId={square.id}
+              _coordinateX={square.x}
+              _coordinateY={square.y}
+              _initialFocusId={initialFocusId}
+              _idNftMap={idNftMap}
+              _FoteisonGameContract={FoteisonGameContract}
+            />
+          ))}
+
+          {currentAccount ? (
+            <>
               <div className="profile-zone">
                 <div className="nfts">
                   <Nfts
-                    cur_rentAccount={currentAccount}
-                    _nfts={allNfts}
-                    _setNFTs={setAllNFTs}
-                    _showNFT={showProfileNFT}
-                    _setShowNFT={setProfileShowNFT}
-                    _NFTList={profileNFTList}
-                    _setNFTList={setProfileNFTList}
+                    _currentAccount={currentAccount}
+                    _allNfts={allNfts}
+                    _setAllNfts={setAllNfts}
+                    _IsProfileNft={IsProfileNft}
+                    _setIsProfileNft={setIsProfileNft}
+                    _profileIconNft={profileIconNft}
+                    _setProfileIconNft={setProfileIconNft}
                   />
                 </div>
                 <div className="ens">
@@ -167,14 +177,10 @@ const App = () => {
                   />
                 </div>
               </div>
-            ) : (
-                <WalletConnect
-                  _currentAccount={currentAccount}
-                  _setCurrentAccount={setCurrentAccount}
-                />
-            )}
-              {showSquareCreation ? (
-                <>
+
+              <div className="after-login">
+                {showSquareCreation ? (
+                  <>
                   <SquareCreation
                     squares={squares}
                     _currentAccount={currentAccount}
@@ -190,10 +196,10 @@ const App = () => {
                     _setXCoordinateBackend={setXCoordinateBackend}
                     _yCoordinateBackend={yCoordinateBackend}
                     _setYCoordinateBackend={setYCoordinateBackend}
-                    _squareNFTList={squareNFTList}
-                    _setSquareNFTList={setSquareNFTList}
-                    _showSquareNFT={showSquareNFT}
-                    _setShowSquareNFT={setShowSquareNFT}
+                    _squareNft={squareNft}
+                    _setSquareNft={setSquareNft}
+                    _IsSquareNft={IsSquareNft}
+                    _setIsSquareNft={setIsSquareNft}
                     _squareDescription={squareDescription}
                     _setSquareDescription={setSquareDescription}
                     _squareBalance={squareBalance}
@@ -204,44 +210,52 @@ const App = () => {
                     _setTransactionDescription={setTransactionDescription}
                     _transaction={transaction}
                     _setTransaction={setTransaction}
-                    _profileNFTList={profileNFTList}
-                    // NFT image of squareStayer
-                    _squareStayerImage={squareStayerImage}
-                    _setSquareStayerImage={setSquareStayerImage}    
+                    _profileNFTList={profileIconNft}
                     _FoteisonGameContract={FoteisonGameContract}
                   />
                 <button className="square-creation-button" onClick={handleSquareCreationButtonClick}>
                   Create Square
                 </button>
                 </>
-              ) : (
-                <button className="square-creation-button" onClick={handleSquareCreationButtonClick}>
-                  Create Square
+                ) : (
+                  <button className="square-creation-button" onClick={handleSquareCreationButtonClick}>
+                    Create Square
+                  </button>
+                )}
+
+                {showDiceRoll && <DiceRoll                
+                  _FoteisonGameContract={FoteisonGameContract}
+                  _squares={squares}
+                  _currentSquare={currentSquare}
+                  _setCurrentSquare={setCurrentSquare}
+                  _currentBalance={currentBalance}
+                  _setCurrentBalance={setCurrentBalance}
+                  _currentQuestStatus={currentQuestStatus}
+                  _setCurrentQuestStatus={setCurrentQuestStatus}
+                />}
+                {currentQuestStatus ? (
+                  <button className="dice-roll-button" onClick={handleDiceRollButtonClick}>
+                    Roll Dice
+                  </button>
+                ) : (
+                  <button className="dice-roll-button" onClick={handleAlertButtonClick}>
+                    Roll Dice
+                  </button>
+                )}
+
+                <button className="back-to-start-button" onClick={handleBackToStart}>
+                  Reset Game
                 </button>
-              )}
-              {showDiceRoll && <DiceRoll                
-                _FoteisonGameContract={FoteisonGameContract}
-                _squares={squares}
-                _currentSquare={currentSquare}
-                _setCurrentSquare={setCurrentSquare}
-                _currentBalance={currentBalance}
-                _setCurrentBalance={setCurrentBalance}
-                _currentQuestStatus={currentQuestStatus}
-                _setCurrentQuestStatus={setCurrentQuestStatus}
-              />}
-              {currentQuestStatus ? (
-                <button className="dice-roll-button" onClick={handleDiceRollButtonClick}>
-                  Roll Dice
-                </button>
-              ) : (
-                <button className="dice-roll-button" onClick={handleAlertButtonClick}>
-                  Roll Dice
-                </button>
-              )}
-              <button className="back-to-start-button" onClick={handleBackToStart}>
-                Reset Game
-              </button>
-          </div>
+                  </div>
+            </>
+          ) : (
+              <WalletConnect
+                _currentAccount={currentAccount}
+                _setCurrentAccount={setCurrentAccount}
+              />
+          )}
+
+
         </div>
       </div>
     </body>

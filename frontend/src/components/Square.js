@@ -1,36 +1,26 @@
-// always show all squares by viewing the square struct of the smart contract
-// As for CSS, this(UI) component is the bottom layer
-// when user access the page, this component is the first component that is rendered
-// each square displays creater's icon and coordinate of the square using view function of the smart contract
-
-// import React from 'react'
-
 import React from 'react';
 import { useEffect,useRef,useState } from 'react';
 import ConfirmSquare from './ConfirmSquare';
 
-const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract, _idUrlMap }) => {
+const Square = ({ _currentAccount, _squareId, _coordinateX, _coordinateY, _initialFocusId, _FoteisonGameContract, _idNftMap }) => {
 
   const squareRef = useRef(null);
-  const [showAdditionalComponent, setShowAdditionalComponent] = useState(false);
-  const imageUrl = _idUrlMap[id];
+  const [showSquareDescription, setShowSquareDescription] = useState(false);
+  const imageUrl = _idNftMap[_squareId];
 
 
   const handleClick = () => {
-    setShowAdditionalComponent(!showAdditionalComponent);
+    setShowSquareDescription(!showSquareDescription);
   };
 
-  // id is given by the map function in App.js
-  // initialFocusId is 1275 and id is given by the map function in App.js
-  // if  initialFocusId === id, then the square is focused
   useEffect(() => {
-    if ( initialFocusId === id) {
+    if ( _initialFocusId === _squareId) {
       const squareElement = squareRef.current; // squareRef is the reference of the square
       if (squareElement) {
         squareElement.focus();
       }
     }
-  }, []);
+  }, [_currentAccount]);
 
   // 
   return (
@@ -38,12 +28,12 @@ const Square = ({ id, x, y,initialFocusId, _FoteisonGameContract, _idUrlMap }) =
       className="square"
       onClick={handleClick}
       ref={squareRef}
-      tabIndex={id === initialFocusId ? 0 : -1} // tabIndex is used to make the square focusable
+      tabIndex={_squareId === _initialFocusId ? 0 : -1} // tabIndex is used to make the square focusable
     >
       {imageUrl && <img src={imageUrl} alt="" width={40} />}
-      <span className="coordinates">{x},{y}</span>
-      {showAdditionalComponent && (
-        <ConfirmSquare _FoteisonGameContract={_FoteisonGameContract} _id={id} />
+      <span className="coordinates">{_coordinateX},{_coordinateY}</span>
+      {showSquareDescription && (
+        <ConfirmSquare _FoteisonGameContract={_FoteisonGameContract} _squareId={_squareId} _currentAccount={_currentAccount} />
           )}
     </div>
   );

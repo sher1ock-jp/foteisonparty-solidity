@@ -1,27 +1,19 @@
-// if user click the button of square creation, display the inputs of the square'description, the square's image(user is able to choose it from the user's NFTs), and the square's coordinates(X and Y) that is needed for connecting the current square, destination square's coordinates(X and Y), and the transaction event
-// transaction event are first: have the user's staying in this square not be allowed to proceed unless they make a designated transaction(creater is able to set the transaction). secondly: A specified amount of in-game currency can be added to or subtracted from the user's staying in this square(create isn't able to recieve the in-game currency)
-// transaction and currency are not indispensable and user is able to set just one of them
-// Automatically, user's(creator's) ENS(or address) is set as the owner of the square
-// if user decide to create the square, write the datas to the blockchain
 import React from 'react';
 import axios from "axios";
 
 const SquareCreation = ({ 
-    squares,
     _currentAccount,
     _ENS,
     _nfts,
-    _squareNFTList,
-    _setSquareNFTList,
-    _showSquareNFT,
-    _setShowSquareNFT,
+    _squareNft,
+    _setSquareNft,
+    _IsSquareNft,
+    _setIsSquareNft,
     _profileNFTList,
-    // 
     _xCoordinate,
     _setXCoordinate,
     _yCoordinate,
     _setYCoordinate,
-    //
     _xCoordinateBackend,
     _setXCoordinateBackend,
     _yCoordinateBackend,
@@ -36,14 +28,28 @@ const SquareCreation = ({
     _setTransaction,
     _transactionDescription,
     _setTransactionDescription,
-    _squareStayerImage,
-    _setSquareStayerImage,
     _FoteisonGameContract
     }) => {
 
     const createSquare = async () => {
 
-        const createId = getCreateIdFromCoordinates(_xCoordinate, _yCoordinate);
+        const getIdFromCoordinates = (x,y) => {
+            const gridSize = 50;
+            const centerX = Math.floor(gridSize / 2);
+            const centerY = Math.floor(gridSize / 2);
+            const id = (y + centerY) * 50 + (x + centerX);
+            return id;
+          }
+        
+        const getBackendIdFromCoordinates = (x,y) => {
+            const gridSize = 50;
+            const centerX = Math.floor(gridSize / 2);
+            const centerY = Math.floor(gridSize / 2);
+            const id = (y + centerY) * 50 + (x + centerX);
+            return id;
+        }    
+
+        const createId = getIdFromCoordinates(_xCoordinate, _yCoordinate);
         const createStruct = await _FoteisonGameContract.getSquare(createId);
 
         const backendId = getBackendIdFromCoordinates(_xCoordinateBackend, _yCoordinateBackend);
@@ -80,7 +86,7 @@ const SquareCreation = ({
             return;
         }
 
-        if (!_squareNFTList.image === null){
+        if (!_squareNft.image === null){
             alert("Please set the square image");
             return;
         }
@@ -96,8 +102,8 @@ const SquareCreation = ({
             return;
         }
 
-        if(_squareBalance > 500) {
-            alert("Please set the square balance less than 500");
+        if(_squareBalance > 100) {
+            alert("Please set the square balance less than 100");
             return;
         }
 
@@ -121,12 +127,13 @@ const SquareCreation = ({
         }
 
         try{
+            
             const transaction = await _FoteisonGameContract.createSquare(
                 _ENS,
                 createId,
                 backendId,
                 _squareDescription,
-                _squareNFTList.image,
+                _squareNft.image,
                 _squareBalance,
                 _balanceIncrease,
                 _transaction,
@@ -134,7 +141,8 @@ const SquareCreation = ({
                 _profileNFTList.image,
                 );
             console.log(transaction);
-            alert("Success");
+            alert("Square Created!");
+            
             // clear the inputs
             _setXCoordinate(null);
             _setYCoordinate(null);
@@ -145,35 +153,21 @@ const SquareCreation = ({
             _setBalanceIncrease(true);
             _setTransaction("");
             _setTransactionDescription("");
-            _setSquareStayerImage("");
-            _setSquareNFTList("");
-            _setShowSquareNFT(false);
+            _setSquareNft("");
+            _setIsSquareNft(false);
+
         } catch (error) {
             console.log(error);
-            alert("Failed");
+            alert("Square Creation Failed");
         }
     }
 
-    const getCreateIdFromCoordinates = (x,y) => {
-        const gridSize = 50;
-        const centerX = Math.floor(gridSize / 2);
-        const centerY = Math.floor(gridSize / 2);
-        const id = (y + centerY) * 50 + (x + centerX);
-        return id;
-      }
-    
-    const getBackendIdFromCoordinates = (x,y) => {
-        const gridSize = 50;
-        const centerX = Math.floor(gridSize / 2);
-        const centerY = Math.floor(gridSize / 2);
-        const id = (y + centerY) * 50 + (x + centerX);
-        return id;
-    }
-      
+    //
+    // handle input changes
+    //
     const handleXCoordinateChange = (e) => {
         const x = parseInt(e.target.value);
         console.log(typeof x);
-        console.log(x);
         _setXCoordinate(x);
     }
     const handleYCoordinateChange = (e) => {
@@ -190,12 +184,12 @@ const SquareCreation = ({
     }
 
     const selectNFT = (nft) => {
-        _setSquareNFTList(nft);
-        _setShowSquareNFT(true);
+        _setSquareNft(nft);
+        _setIsSquareNft(true);
     };
 
     const changeNFT = () => {
-        _setShowSquareNFT(false);
+        _setIsSquareNft(false);
     };
 
     const handleSquareDescriptionChange = (e) => {
@@ -237,7 +231,7 @@ const SquareCreation = ({
             </div>
             <div className="nft-title">which to embed</div>
             <div className="nft-sub-title">if you don't choose your NFT, default image is used</div>
-            {! _showSquareNFT && (
+            {! _IsSquareNft && (
                 <div className="square-nft-zone">   
                     {_nfts &&
                     _nfts.map((nft, index) => (
@@ -247,12 +241,12 @@ const SquareCreation = ({
                     ))}
                 </div>
             )}
-            { _showSquareNFT && (
+            { _IsSquareNft && (
                 <div className="sqare-nft-zone">
-                    {_squareNFTList && (
+                    {_squareNft && (
                     <>
                     <div className="square-nft-item">
-                        <img src={_squareNFTList.image} width={70} alt="" /> 
+                        <img src={_squareNft.image} width={70} alt="" /> 
                         <button onClick={changeNFT}　className="square-nft-button">reset</button>
                     </div>
                     </>

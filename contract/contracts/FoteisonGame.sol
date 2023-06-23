@@ -1,20 +1,10 @@
-// write the user data to the contract
-// fetch the square data from the contract
-// write the new square data to the contract and emit an event
-// when a user move to a new square, if the square has the events that move the user to another square or change the user's balance, then do it and emit an event(renew front-end data)
-// if user move to a square that force the user to do the designated transaction, prohibit the user to roll the dice until the transaction is don
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-// import "@openzeppelin/contracts/utils/Counters.sol";
-// import "@openzeppelin/contracts/utils/Strings.sol";
 import "hardhat/console.sol";
 
 contract FoteisonGame {
-  //
-  //structs
-  ///
+ 
   struct Square{
     // not include squareId because it is the key of the mapping
     address createrAddress;
@@ -34,19 +24,16 @@ contract FoteisonGame {
     uint userBalance;
     bool userQuestStatus;
   }
-  
-  //
-  //mapping
-  //
-  mapping(uint => Square) public squareIdToSquare; // retrive the sqare data from the squareId from the front-end
-  mapping(address => User) public users; // retrive the user data from the userAddress from the front-end
-  mapping(uint => string) public squareIdToSquareNftURL; // array of  squareId(key) and squarenftURL(value)
+
+  mapping(uint => Square) public squareIdToSquare; 
+  mapping(address => User) public users; 
+  mapping(uint => string) public squareIdToSquareNftURL; // for rendering all the NFTs to the each square
 
   Square[] public squares;
 
-  //StartSquare
   constructor() {
     createSquare (
+      // start square data
       "sher1ock.eth",
       1275,
       1000000000000000,
@@ -169,34 +156,6 @@ contract FoteisonGame {
   function getAdjacentSquareIds(uint squareId) public view returns (uint[] memory) {
     return squareIdToSquare[squareId].adjacentSquareIds;
   } 
-
-
-  // when user roll a dice, fetch the current squareId of the user and fetch all the connected squareIds from the squareId
-  // if connected squareIds has plural squareIds, randomly choose one of them and cotinue this process until the number of dice
-  // return the squareId that the user move to
-//   function moveUser( uint _diceNumber, uint _currentSquareId) public view returns (uint[] memory){
-//   uint[] memory connectedSquareIds = squareIdToSquare[_currentSquareId].adjacentSquareIds;
-  
-//   // Check if there are connected squares at the beginning
-//   if (connectedSquareIds.length == 0){
-//     return new uint[](0); // return an empty array
-//   }
-
-//   uint[] memory selectedSquareIds = new uint[](_diceNumber);
-    
-//   for(uint i = 0; i < _diceNumber; i++){
-//     if (connectedSquareIds.length == 0){
-//       break; // break the loop if no more connected squares
-//     }
-
-//     uint randomSquareIndex = uint(keccak256(abi.encodePacked(block.timestamp, msg.sender, i))) % connectedSquareIds.length;
-//     uint randomSquareId = connectedSquareIds[randomSquareIndex];
-//     selectedSquareIds[i] = randomSquareId;
-//     connectedSquareIds = squareIdToSquare[randomSquareId].adjacentSquareIds;
-//   }
-
-//   return selectedSquareIds;
-// }
 
   function moveUser(uint _diceNumber, uint _currentSquareId) public view returns (uint[] memory) {
     uint[] memory connectedSquareIds = squareIdToSquare[_currentSquareId].adjacentSquareIds;

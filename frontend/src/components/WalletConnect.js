@@ -1,11 +1,6 @@
-// wallet connect
-// change the network to Mumbai Testnet
-// if wallet is not connected, display wallet connect button
-
 import React, { useEffect } from "react";
 
 const WalletConnect = ({ _currentAccount, _setCurrentAccount, _FoteisonGameContract }) => {
-  // manage state of the wallet
 
   // confirm that the user has MetaMask installed
   const checkIfWalletIsConnected = async () => {
