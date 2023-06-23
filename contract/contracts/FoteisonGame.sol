@@ -105,6 +105,8 @@ contract FoteisonGame {
       createUser(_squareId, _userBalance, _userQuestStatus);
     }
 
+    users[msg.sender].squareId = _squareId;
+
     if (squareIdToSquare[_squareId].squareBalance > 0){
       bool sufficientBalance = calculateUserBalance(_squareId);
       if (!sufficientBalance) {

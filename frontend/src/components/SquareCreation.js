@@ -142,7 +142,7 @@ const SquareCreation = ({
             _setXCoordinateBackend(null);
             _setYCoordinateBackend(null);
             _setSquareDescription("");
-            _setSquareBalance(0);
+            _setSquareBalance(null);
             _setBalanceIncrease(true);
             _setTransaction("");
             _setTransactionDescription("");
