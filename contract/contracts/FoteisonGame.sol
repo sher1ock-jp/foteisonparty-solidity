@@ -109,8 +109,12 @@ contract FoteisonGame {
 
     if (squareIdToSquare[_squareId].squareBalance > 0){
       bool sufficientBalance = calculateUserBalance(_squareId);
+      // if (!sufficientBalance) {
+      //   emit InsufficientBalance();
+      //   return;  // If balance is insufficient, stop processing
+      // }
       if (!sufficientBalance) {
-        return;  // If balance is insufficient, stop processing
+          revert("Insufficient Balance");  // Revert the transaction if balance is insufficient
       }
     }
 

@@ -71,7 +71,9 @@ useEffect(() => {
  
   return (
     <div className="wallet-container">
-      <button onClick={connectWalletAction}>Connect Wallet</button>
+      <button className="wallet-button" onClick={connectWalletAction}>
+        Connect MetaMask
+      </button>
     </div>  
   );
 };

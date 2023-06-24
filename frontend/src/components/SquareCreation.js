@@ -98,6 +98,16 @@ const SquareCreation = ({
             return;
         }
 
+        if(!_squareBalance){
+            alert("Please set the square balance");
+            return;
+        }
+
+        if( _squareBalance < 0 || _squareBalance > 300){
+            alert("Please set the square balance between 0 and 300");
+            return;
+        }
+
         if(_transaction){
             const response = await axios.get("http://localhost:8080/confirmContract", {
                 params: {

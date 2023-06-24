@@ -232,6 +232,9 @@ const App = () => {
                   _currentSquare={currentSquare}
                   _currentBalance={currentBalance}
                   _currentQuestStatus={currentQuestStatus}
+                  _setCurrentSquare={setCurrentSquare}
+                  _setCurrentBalance={setCurrentBalance}
+                  _setCurrentQuestStatus={setCurrentQuestStatus}
                   _setShowDiceRoll={setShowDiceRoll}
                 />}
                 {currentQuestStatus ? (

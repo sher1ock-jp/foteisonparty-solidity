@@ -31,8 +31,11 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
       // if default values are set in the frontend/src/App.js, the user must register using the contract function wth gas fee before playing the game.
       if(user[0] === true) {
         _setCurrentSquare(parseInt(user[1]));
+        console.log(parseInt(user[1]));
         _setCurrentBalance(parseInt(user[2]));
+        console.log(parseInt(user[2]));
         _setCurrentQuestStatus(user[3]);
+        console.log(user[3]);
       }
     }
 
@@ -59,7 +62,7 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
         alert("Not verified. You can't roll the dice!");
       }
     } catch (e) {
-      console.log(e);
+      alert("Not verified. You can't roll the dice!");
     }
   };
 
@@ -95,7 +98,7 @@ const ProfileScreen = ({ _ENS, _setENS, _currentAccount, _currentSquare, _setCur
           <p>Coordinates: {x}, {y}</p>
           <p>Crypulu: {_currentBalance}</p>
           <p>Quest: {_currentQuestStatus ? "No quest" : "Do quest"}</p>
-           {/* <button onClick={renewInfo}>Renew Profile</button> */}
+          <button className="verify-button" onClick={getProfileInfo}>Renew ProfileInfo</button>
           <button className="verify-button" onClick={handleShowInput}>
             Verify Transaction
           </button>

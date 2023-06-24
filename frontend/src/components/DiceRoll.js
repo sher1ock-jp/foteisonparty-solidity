@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSquare, _currentBalance, _currentQuestStatus, _setShowDiceRoll} ) => {
+const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSquare, _currentBalance, _currentQuestStatus, _setShowDiceRoll, _setCurrentSquare, _setCurrentBalance, _setCurrentQuestStatus} ) => {
   const [rolling, setRolling] = useState(false);
 
   const rollDice = async () => {
@@ -22,7 +22,7 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSq
           } else {
             for (let i = 0; i < squareIds.length; i++) {
               let targetId = parseInt(squareIds[i]);
-              console.log(targetId);
+              console.log(`there is id: ${targetId}`);
               let targetSquare = _squares.find(square => square.id === targetId);
               if (!targetSquare) {
                 console.log(`No square with id: ${targetId}`);
@@ -43,29 +43,20 @@ const DiceRoll = ( {_currentAccount, _FoteisonGameContract, _squares, _currentSq
               const user = await _FoteisonGameContract.updateUser(squareId, _currentBalance, _currentQuestStatus);
               return user;
             } catch (error) {
-              console.error(`Error during updateUser: ${error}`);
-              return null;
+              // console.error(`Error during updateUser: ${error}`);
+              alert("Insufficient Balance to move to next square");
             }
           }
       
           const userUpdated = await updateUserInfo();
       
-          // If the updateUser transaction was successful, userUpdated will be truthy. 
-          // If it was not successful (due to InsufficientBalance event being emitted, for example), it will be falsy.
-          if (!userUpdated) {
-            alert('移動先のマスの残高が不足しており、マスを移動できませんでした！');
-            _setShowDiceRoll(false);
-            return;
-          }
-      
-          // const confirmUser = async () => {
-          //   const user = await _FoteisonGameContract.confirmUser();
-          //   _setCurrentSquare(parseInt(user[1]));
-          //   _setCurrentBalance(parseInt(user[2]));
-          //   _setCurrentQuestStatus(user[3]);
+          // // If the updateUser transaction was successful, userUpdated will be truthy. 
+          // // If it was not successful (due to InsufficientBalance event being emitted, for example), it will be falsy.
+          // if (!userUpdated) {
+          //   alert('Insufficient Balance to move to next square');
+          //   _setShowDiceRoll(false);
+          //   return;
           // }
-      
-          // await confirmUser();
           
           if (coords.length > 0) {  // if there are coordinates
             alert(`Coordinates: ${coords.join(" -> ")}`);  // join and alert the coordinates
